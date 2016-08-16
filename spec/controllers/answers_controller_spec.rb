@@ -35,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
     context "create with invalid attributes" do
 
       it "doesn't save a new answer into the database" do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(question.answers, :count)
+        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
       end
 
       it "re-renders new view" do

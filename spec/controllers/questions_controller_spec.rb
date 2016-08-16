@@ -60,6 +60,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context "create with valid attributes" do
 
+
       it "saves a new question to the database" do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
       end
@@ -105,15 +106,17 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context "with invalid attributes" do
+      
+      before do
+        patch :update, id: question, question: attributes_for(:invalid_question)
+      end
 
       it "doesn't change attributes" do
-        patch :update, id: question, question: { title: "new title", body: nil }
         expect(question.title).to eq "MyString"
         expect(question.body).to eq "MyText"
       end
 
       it "re-renders edit view" do
-        patch :update, id: question, question: attributes_for(:invalid_question)
         expect(response).to render_template :edit
       end
     end
