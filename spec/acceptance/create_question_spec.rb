@@ -6,26 +6,25 @@ feature "Create question", %q{
   I whant to be able to ask question
 } do
 
-  scenario 'Authenticated user creates question' do
-    User.create!(email: "user@test.com", password: "12345678")
+  let(:user) { create(:user) }
 
-    visit new_user_session_path
-    fill_in "Email", with: "user@test.com"
-    fill_in "Password", with: "12345678"
-    click_on "Sign in"
+  scenario 'Authenticated user creates question' do
+    sign_in(user)
 
     visit questions_path
     click_on 'Ask question'
-    fill_in "Title", with: "Test question"
-    fill_in "Body", with: "text text"
-    click_on "Create"
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'text text'
+    click_on 'Create'
+    # save_and_open_page
 
     expect(page).to have_content "Your question successfuly created."
   end
 
-  scenario 'Non-authenticated user ties to create question' do
+  scenario 'Non-authenticatees user ties create question' do
     visit questions_path
-    click_on 'Ask question'
+    click_on "Ask question"
+    # save_and_open_page
 
     expect(page).to have_content "You need to sign in or sign up before continuing."
   end
