@@ -12,29 +12,24 @@ feature "Create answer", %q{
   scenario 'Authenticated user builds answer' do
     sign_in(user)
     visit question_path(question)
-    
-    # save_and_open_page
 
     fill_in 'Body', with: 'Answer text'
     click_on 'Post'
 
-    save_and_open_page
+    # save_and_open_page
 
     expect(page).to have_content "Your answer successfuly posted."
     expect(current_path).to eq question_path(question)
   end
 
 
-
-  scenario 'Authenticated user builds answer with empty body'
-
-
-
-  scenario 'Non-authenticated user tries to build answer' do
+  scenario 'Authenticated user builds answer with empty body' do
+    sign_in(user)
     visit question_path(question)
-    click_on 'Post'
-    # save_and_open_page
 
-    expect(page).to have_content "You need to sign in or sign up before continuing."
+    fill_in 'Body', with: ''
+    click_on 'Post'
+
+    expect(current_path).to eq question_answers_path(question)
   end
 end
