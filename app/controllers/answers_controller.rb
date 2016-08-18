@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_question, only: [:new, :create]
 
   def new
@@ -8,6 +9,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.build(answer_params)
     if @answer.save
+      flash[:notice] = "You are successfuly answered the question"
       redirect_to @question
     else
       render :new
