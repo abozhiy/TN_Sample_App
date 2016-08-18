@@ -5,7 +5,11 @@ p
   - if user_signed_in?
     = form_for [ @question, @answer ] do |f|
 
-      = f.label :body
+      = f.label :body, "Write your answer:"
       = f.text_field :body
 
       = f.submit 'Post'
+
+- @question.answers.each do |a|
+  ul
+    li= a.body

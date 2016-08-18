@@ -13,12 +13,13 @@ feature "Create answer", %q{
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: 'Answer text'
+    fill_in 'Write your answer:', with: 'Answer text'
     click_on 'Post'
 
-    # save_and_open_page
+    save_and_open_page
 
     expect(page).to have_content "Your answer successfuly posted."
+    expect(page).to have_content "Answer text"
     expect(current_path).to eq question_path(question)
   end
 
@@ -27,7 +28,7 @@ feature "Create answer", %q{
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: ''
+    fill_in 'Write your answer:', with: ''
     click_on 'Post'
 
     expect(current_path).to eq question_answers_path(question)
