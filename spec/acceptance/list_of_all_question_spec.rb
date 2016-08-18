@@ -13,8 +13,10 @@ feature 'List of all questions', %q{
     sign_in(user)
     visit questions_path
     
-    save_and_open_page
-    pry
+    # save_and_open_page
+
+    questions.each do |q|
+      expect(page).to have_content q.title
     end
   end
 end
