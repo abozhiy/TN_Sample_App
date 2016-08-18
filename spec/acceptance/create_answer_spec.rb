@@ -7,7 +7,7 @@ feature "Create answer", %q{
 } do
 
   let(:user) { create(:user) }
-  let!(:question) { create(:question) }
+  let!(:question) { create(:question, user: user) }
 
   scenario 'Authenticated user builds answer' do
     sign_in(user)
@@ -18,13 +18,15 @@ feature "Create answer", %q{
     fill_in 'Body', with: 'Answer text'
     click_on 'Post'
 
-    expect(page).to have_content "You are successfuly answered the question"
+    save_and_open_page
+
+    expect(page).to have_content "Your answer successfuly posted."
     expect(current_path).to eq question_path(question)
   end
 
 
 
-  scenario 'Authenticated user create answer with empty body'
+  scenario 'Authenticated user builds answer with empty body'
 
 
 

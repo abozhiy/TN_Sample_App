@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @answer = @question.answers.build
+    @answers = @question.answers
   end
 
   def new
@@ -18,6 +20,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    @question.user = current_user
     if @question.save
       flash[:notice] = "Your question successfuly created."
       redirect_to @question
