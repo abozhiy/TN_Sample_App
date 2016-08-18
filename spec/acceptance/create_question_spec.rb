@@ -26,9 +26,9 @@ feature "Create question", %q{
 
   scenario 'Non-authenticated user ties create question' do
     visit questions_path
-    click_on "Ask question"
+
     # save_and_open_page
 
-    expect(page).to have_content "You need to sign in or sign up before continuing."
+    expect(page).to_not have_link "Ask question"
   end
 end
