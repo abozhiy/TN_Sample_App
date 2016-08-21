@@ -1,25 +1,21 @@
 .center.hero-unit
-  h2= @question.title
-  p= @question.body 
+  .row
+    aside.span4
+      section
+        h2 = @question.title
+        p = @question.body
+          - if signed_in? && current_user.author_of?(@question)
+            ul
+              li= link_to 'Edit', edit_question_path(@question)
+              li= link_to 'Delete', @question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
+      section
+        - if user_signed_in?
+            = form_for [ @question, @answer ] do |f|
 
-  - if signed_in? && current_user.author_of?(@question)
-    ul
-      li= link_to 'Edit', edit_question_path(@question)
-      li= link_to 'Delete', @question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
+              = f.label :body, "Write your answer:"
+              = f.text_field :body
 
-  p 
-    - if user_signed_in?
-      = form_for [ @question, @answer ] do |f|
-
-        = f.label :body, "Write your answer:"
-        = f.text_field :body
-
-        = f.submit 'Post'
+              = f.submit 'Post'
 
 
-  - @question.answers.each do |a|
-    p= a.body
-      - if current_user.author_of?(a)
-        ul
-          li= link_to 'edit answer', '#'
-          li= link_to 'delete answer', @answer, method: :delete, data: { confirm: "Are you sure, that you want to delete your answer?" }
+   
