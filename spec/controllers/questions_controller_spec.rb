@@ -91,6 +91,8 @@ RSpec.describe QuestionsController, type: :controller do
   describe "PATCH #update" do
     sign_in_user
 
+    before { question.update_attribute(:user, @user) }
+
     context "update with valid attributes" do
 
       it "assigns a requested question to the variable @question" do
@@ -129,15 +131,28 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe "DELETE #destroy" do
     sign_in_user
-    before { question }
 
-    it "deletes question" do
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+    context 'Delete own question' do
+
+      before { question.update_attribute(:user, @user) }
+      
+      it "deletes question" do
+        expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      end
+
+      it "redirects to index view" do
+        delete :destroy, id: question
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it "redirects to index view" do
-      delete :destroy, id: question
-      expect(response).to redirect_to questions_path
+    context 'Delete other question' do
+      let(:another_user) { create(:user) }
+      let(:another_question) { create(:question, user: another_user) }
+
+      it 'cannot delete other question' do
+        expect { delete :destroy, id: another_question }.to_not change(Question, :count)
+      end
     end
   end
 end

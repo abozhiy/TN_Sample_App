@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [ :new, :create ]
+  before_action :authenticate_user!, only: [:new, :create, :update, :destroy]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -30,16 +30,28 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
+    if current_user.author_of?(@question)
+      if @question.update(question_params)
+        flash[:notice] = "Your question successfuly updated."
+        redirect_to @question
+      else
+        render :edit
+      end
     else
-      render :edit
+      flash[:error] = "You cannot update alien questions."
+      redirect_to @question
     end
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
+    if current_user.author_of?(@question)
+      @question.destroy
+      flash[:notice] = "Your question successfuly deleted."
+      redirect_to questions_path
+    else
+      flash[:error] = "You cannot delete alien questions."
+      redirect_to @question
+    end
   end
 
 
