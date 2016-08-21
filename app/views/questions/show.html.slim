@@ -1,21 +1,28 @@
-.center.hero-unit
-  .row
-    aside.span4
-      section
-        h2 = @question.title
-        p = @question.body
-          - if signed_in? && current_user.author_of?(@question)
-            ul
-              li= link_to 'Edit', edit_question_path(@question)
-              li= link_to 'Delete', @question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
-      section
-        - if user_signed_in?
-            = form_for [ @question, @answer ] do |f|
+h2 = @question.title
+p = @question.body
 
-              = f.label :body, "Write your answer:"
-              = f.text_field :body
+- if signed_in? && current_user.author_of?(@question)
+  ul
+    li= link_to 'Edit', edit_question_path(@question)
+    li= link_to 'Delete', @question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
 
-              = f.submit 'Post'
+          
+- if user_signed_in?
+= form_for [ @question, @answer ] do |f|
+
+  = f.label :body, "Write your answer: "
+  = f.text_field :body
+
+  = f.submit 'Post'
 
 
-   
+
+- if signed_in? && current_user.author_of?(@answer)
+  ul
+    li= link_to 'edit answer', '#'
+    li= link_to 'delete answer', @answer, method: :delete, data: { confirm: "Are you sure, that you want to delete your answer?" }
+        
+
+- @question.answers.each do |a|
+  ul
+    li = a.body
