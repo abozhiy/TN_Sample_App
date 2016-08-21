@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
@@ -28,7 +30,7 @@ textarea {
 }
 
 .center {
-  text-align: center;
+  text-align: left;
   h1 {
   margin-bottom: 10px;
   }
@@ -51,7 +53,7 @@ h2 {
   font-size: 1.1em;
   letter-spacing: 0,7px;
   margin-bottom: 30px;
-  text-align: center;
+  text-align: left;
   font-weight: normal;
   color: #D3D3D3;
 }
@@ -68,14 +70,14 @@ p {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
-  color: #F8F8FF;
+  color: #FFFAF0;
   text-transform: uppercase;
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
   line-height: 1;
   &:hover {
-    color: #F8F8FF;
+    color: #FFFAF0;
     text-decoration: none;
   }
 }
