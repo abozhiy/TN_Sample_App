@@ -1,5 +1,6 @@
 .center.hero-unit
   h1 All questions
 
-- @questions.each do |q|
-  h2= link_to q.title, q
+.span6
+  - @questions.each do |q|
+    h4= link_to q.title, q

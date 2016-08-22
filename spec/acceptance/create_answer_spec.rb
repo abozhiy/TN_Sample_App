@@ -13,7 +13,7 @@ feature "Create answer", %q{
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Write your answer:', with: 'Answer text'
+    fill_in 'Answer the question...', with: 'Answer text'
     click_on 'Post'
 
     # save_and_open_page
@@ -28,7 +28,7 @@ feature "Create answer", %q{
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Write your answer:', with: ''
+    fill_in 'Answer the question...', with: ''
     click_on 'Post'
 
     expect(current_path).to eq question_answers_path(question)

@@ -1,4 +1,4 @@
-<header class="navbar navbar-default navbar-inverse">
+<header class="navbar navbar-default navbar color: #C0C0C0">
   <div class="navbar-inner">
     <div class="container-fluid">
       <%= link_to "tn sample app", questions_path, id: "logo" %>
@@ -6,11 +6,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav pull-right">
             <li><%= link_to "All questions", questions_path %></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <% if signed_in? %>
-                  <li><%= link_to "Ask question!", new_question_path %></li>
+            <% if signed_in? %>
+                  <li><%= link_to "Ask question", new_question_path %></li>
                   <li><%= link_to "Sign out!", destroy_user_session_path, method: "delete" %></li>
                 <% else %>
                   <li><%= link_to "Sign in!", new_user_session_path %></li>

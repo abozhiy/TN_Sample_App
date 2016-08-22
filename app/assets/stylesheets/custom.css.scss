@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  padding-top: 10px;
+  padding-top: 7px;
 }
 
 section {
@@ -26,7 +26,7 @@ section {
 }
 
 textarea {
-  resize: vertical;
+  resize: both;
 }
 
 .center {
@@ -43,26 +43,53 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 2em;
+  font-size: 3em;
   letter-spacing: 0,5px;
   margin-bottom: 30px;
   text-align: center;
-}
+  }
 
 h2 {
-  font-size: 1.5em;
+  font-size: 2.5em;
+  letter-spacing: 0,5px;
+  margin-bottom: 30px;
+  text-align: center;
+  color:  #808080;
+  }
+
+h3 {
+  font-size: 2em;
   letter-spacing: 0,7px;
-  margin-left: 40px;
+  margin-left: 15px;
   margin-bottom: 15px;
   text-align: left;
   font-weight: normal;
   color: #2F4F4F;
 }
 
+h4 {
+  font-size: 1.5em;
+  letter-spacing: 0,7px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  text-align: left;
+  font-weight: normal;
+  color: #2F4F4F;
+}
+
+
 p {
   font-size: 1.1em;
   line-height: 1.7em;
-  margin-left: 40px;
+  margin-left: 30px;
+  text-align: left;
+}
+
+p2 {
+  font-size: 1.1em;
+  line-height: 1.7em;
+  margin-left: 30px;
+  text-align: center;
 }
 
 
@@ -72,14 +99,23 @@ p {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
-  color: #FFFAF0;
+  color: #A9A9A9;
   text-transform: uppercase;
-  letter-spacing: -1px;
-  padding-top: 9px;
+  letter-spacing: 0.1px;
+  padding-top: 15px;
   font-weight: bold;
   line-height: 1;
   &:hover {
-    color: #FFFAF0;
+    color: #808080;
     text-decoration: none;
   }
+}
+
+/* FOOTER */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #D3D3D3;
 }

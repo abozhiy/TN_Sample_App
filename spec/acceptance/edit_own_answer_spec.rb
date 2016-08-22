@@ -15,7 +15,7 @@ feature 'Update own answer', %q{
   scenario 'Authenticated user might to update his own answer' do
     sign_in(user)
     visit question_path(question)
-    click_on "edit answer"
+    click_on "edit"
 
     expect(page).to have_content "Your answer successfuly updated."
     expect(current_path).to eq question_path(question)
@@ -24,13 +24,13 @@ feature 'Update own answer', %q{
   scenario 'Non-authenticated user wants to update answer' do
     visit question_path(question)
 
-    expect(page).to_not have_link "edit answer"
+    expect(page).to_not have_link "edit"
   end
 
   scenario 'Authenticated user cannot update answer of another user' do
     sign_in(user)
     visit question_path(another_question)
 
-    expect(page).to_not have_link "edit answer"
+    expect(page).to_not have_link "edit"
   end
 end
