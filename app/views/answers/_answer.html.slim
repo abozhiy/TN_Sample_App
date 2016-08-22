@@ -2,7 +2,7 @@
 - @answers.each do |answer|
   h4= answer.body
 
-  - if signed_in? && current_user.author_of?(answer)
+  - if user_signed_in? && current_user.author_of?(answer)
     
       = link_to 'edit', '#'
       br/

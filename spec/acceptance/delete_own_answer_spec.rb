@@ -15,9 +15,8 @@ feature 'Delete own answer', %q{
   scenario 'Authenticated user might to delete his own answer' do
     sign_in(user)
     visit question_path(question)
-    within('.answers') do
-      click_on "delete"
-    end
+    click_on "delete"
+    
 
     expect(page).to have_content "Your answer successfuly deleted."
     expect(current_path).to eq question_path(question)
