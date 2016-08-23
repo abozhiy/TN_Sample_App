@@ -91,8 +91,6 @@ RSpec.describe QuestionsController, type: :controller do
   describe "PATCH #update" do
     sign_in_user
 
-    before { question.update_attribute(:user, @user) }
-
     context "update with valid attributes" do
 
       it "assigns a requested question to the variable @question" do
@@ -133,8 +131,8 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
 
     context 'Delete own question' do
+      let!(:question) { create(:question, user: user) }
 
-      before { question.update_attribute(:user, @user) }
       
       it "deletes question" do
         expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
@@ -147,8 +145,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Delete other question' do
-      let(:another_user) { create(:user) }
-      let(:another_question) { create(:question, user: another_user) }
+      let!(:another_user) { create(:user) }
+      let!(:another_question) { create(:question, user: another_user) }
 
       it 'cannot delete other question' do
         expect { delete :destroy, id: another_question }.to_not change(Question, :count)

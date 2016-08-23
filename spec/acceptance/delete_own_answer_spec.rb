@@ -5,9 +5,9 @@ feature 'Delete own answer', %q{
   As an authenticated user
   I want to be able delete my own answer 
 } do
-  let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, question: question, user: user) }
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
   let(:another_user) { create(:user) }
   let(:another_question) { create(:question, user: another_user) }
   let(:another_answer) { create(:answer, question: another_question, user: another_user) }
@@ -15,6 +15,7 @@ feature 'Delete own answer', %q{
   scenario 'Authenticated user might to delete his own answer' do
     sign_in(user)
     visit question_path(question)
+    # save_and_open_page
     click_on "delete"
     
 

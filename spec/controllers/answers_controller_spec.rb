@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
 
-  let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
-  let(:answer) { build(:answer, question: question, user: user) }
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question, user: user) }
+  let!(:answer) { create(:answer, question: question, user: user) }
 
 
   describe "POST #create" do
@@ -39,8 +39,6 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     context 'Update own answer' do
-
-      before { answer.update_attribute(:user, @user) }
 
       context "update with valid attributes" do
 
@@ -88,27 +86,30 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     context 'Delete own answer' do
-
-      before { answer }
       
       it "deletes answer" do
+        expect(answer.user_id).to eq subject.current_user.id
         expect { delete :destroy, id: answer }.to change(Answer, :count).by(-1)
       end
 
       it "redirects to question show" do
         delete :destroy, id: answer
-        expect(response).to redirect_to question_path
+        expect(response).to redirect_to question
       end
     end
 
     context 'Delete other answer' do
-      let(:another_user) { create(:user) }
-      let(:another_question) { create(:question, user: another_user) }
-      let(:another_answer) { create(:answer, question: another_question, user: another_user) }
+      let!(:another_user) { create(:user) }
+      let!(:another_question) { create(:question, user: another_user) }
+      let!(:another_answer) { create(:answer, question: another_question, user: another_user) }
 
       it 'cannot delete other answer' do
         expect { delete :destroy, id: another_answer }.to_not change(Answer, :count)
-        expect(response).to redirect_to question_path
+      end
+
+      it 'redirects to another question' do
+        delete :destroy, id: another_answer
+        expect(response).to redirect_to another_question
       end
     end
   end
