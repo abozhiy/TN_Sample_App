@@ -10,7 +10,7 @@ feature 'Read all answers to question', %q{
   let(:question) { create(:question, user: user) }
   let!(:answers) { create_list(:answer, 3, question: question, user: user) }
 
-  scenario 'Authenticate user read answers to question' do
+  scenario 'User read answers to question' do
   
     visit question_path(question)
 

@@ -15,8 +15,7 @@ feature "Create question", %q{
     fill_in 'Type title...', with: 'Test question'
     fill_in 'Ask your question...', with: 'text text'
     click_on 'Create'
-    # save_and_open_page
-
+    
     expect(page).to have_content "Your question successfuly created."
     expect(page).to have_content "Test question"
     expect(page).to have_content "text text"
@@ -25,8 +24,6 @@ feature "Create question", %q{
 
   scenario 'Non-authenticated user ties create question' do
     visit questions_path
-
-    # save_and_open_page
 
     expect(page).to_not have_link "Ask question"
   end

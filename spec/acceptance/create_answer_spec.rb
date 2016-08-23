@@ -16,8 +16,6 @@ feature "Create answer", %q{
     fill_in 'Answer the question...', with: 'Answer text'
     click_on 'Post'
 
-    # save_and_open_page
-
     expect(page).to have_content "Your answer successfuly posted."
     expect(page).to have_content "Answer text"
     expect(current_path).to eq question_path(question)

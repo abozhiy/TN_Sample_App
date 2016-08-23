@@ -15,7 +15,6 @@ feature 'Delete own answer', %q{
   scenario 'Authenticated user might to delete his own answer' do
     sign_in(user)
     visit question_path(question)
-    # save_and_open_page
     click_on "delete"
     
 

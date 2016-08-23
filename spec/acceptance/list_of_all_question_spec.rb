@@ -12,8 +12,6 @@ feature 'List of all questions', %q{
   scenario 'Authenticate user looks a list of all questions' do
     sign_in(user)
     visit questions_path
-    
-    # save_and_open_page
 
     questions.each do |q|
       expect(page).to have_content q.title
