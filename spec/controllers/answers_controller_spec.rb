@@ -17,8 +17,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'has associat with created answer' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(assigns(:answer).user_id).to eq subject.current_user.id
+        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(user.answers, :count).by(1)
       end
 
       it "redirects to question path" do

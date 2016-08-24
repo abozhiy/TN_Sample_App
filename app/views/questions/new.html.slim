@@ -2,5 +2,5 @@
   .row
     .span6.offset1
     section
-      h1 Create question
-      = render 'form'
+      - @title = "Create question"
+      = render partial: 'form', locals: { title: @title }
