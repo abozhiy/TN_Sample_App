@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TNSampleApp</title>
+    <title><%= title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,9 +9,9 @@
   </head>
 
   <body>
+    <%= render 'layouts/header' %>
 
     <div class="container">
-    <%= render 'layouts/header' %>
     <br />
     <br />
     <p class="notice"><%= notice %></p>

@@ -21,8 +21,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params.merge(user_id: current_user.id))
     if @question.save
-      flash[:notice] = "Your question successfuly created."
-      redirect_to @question
+      redirect_to @question, notice: "Your question successfuly created."
     else
       render :new
     end
@@ -31,25 +30,21 @@ class QuestionsController < ApplicationController
   def update
     if current_user.author_of?(@question)
       if @question.update(question_params)
-        flash[:notice] = "Your question successfuly updated."
-        redirect_to @question
+        redirect_to @question, notice: "Your question successfuly updated."
       else
         render :edit
       end
     else
-      flash[:error] = "You cannot update alien questions."
-      redirect_to @question
+      redirect_to @question, notice: "You cannot update alien questions."
     end
   end
 
   def destroy
     if current_user.author_of?(@question)
       @question.destroy
-      flash[:notice] = "Your question successfuly deleted."
-      redirect_to questions_path
+      redirect_to questions_path, notice: "Your question successfuly deleted."
     else
-      flash[:error] = "You cannot delete alien questions."
-      redirect_to @question
+      redirect_to @question, notice: "You cannot delete alien questions."
     end
   end
 

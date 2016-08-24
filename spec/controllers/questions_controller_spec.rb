@@ -71,7 +71,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'has associat with created question' do
         post :create, question: attributes_for(:question)
-        expect(question.user_id).to eq subject.current_user.id
+        expect(assigns(:question).user_id).to eq subject.current_user.id
       end
 
       it "redirects to show view" do

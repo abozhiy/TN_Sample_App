@@ -7,8 +7,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
     if @answer.save
-      flash[:notice] = "Your answer successfuly posted."
-      redirect_to @question
+      redirect_to @question, notice: "Your answer successfuly posted."
     else
       render :new
     end
