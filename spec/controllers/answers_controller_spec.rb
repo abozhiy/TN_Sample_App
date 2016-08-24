@@ -10,7 +10,7 @@ RSpec.describe AnswersController, type: :controller do
   describe "POST #create" do
     sign_in_user
 
-    context "create with valid attributes" do
+    context "Authenticated user creates answer with valid attributes" do
 
       it "saves a new answer into the database" do
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
@@ -22,7 +22,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context "create with invalid attributes" do
+    context "Authenticated user tries to create answer with invalid attributes" do
 
       it "doesn't save a new answer into the database" do
         expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
@@ -31,6 +31,14 @@ RSpec.describe AnswersController, type: :controller do
       it "re-renders new view" do
         post :create, question_id: question, answer: attributes_for(:invalid_answer)
         expect(response).to render_template :new
+      end
+    end
+
+    context "Authenticated user has associat with created answer" do
+      
+      it 'has associate' do
+        post :create, question_id: question, answer: attributes_for(:answer)
+        expect(answer.user_id).to eq subject.current_user.id
       end
     end
   end
@@ -65,7 +73,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it "doesn't change attributes" do
-          expect(answer.body).to eq "Answer body text..."
+          expect(answer.body).to eq answer.body
         end
       end
     end
@@ -76,8 +84,8 @@ RSpec.describe AnswersController, type: :controller do
       let(:another_answer) { create(:answer, question: another_question, user: another_user) }
 
       it 'cannot update other answer' do
-        patch :update, id: another_answer, answer: { body: 'new body' }
-        expect(another_answer.body).to eq another_answer.body
+        patch :update, id: another_answer, answer: { body: "new body" }
+        expect(another_answer.reload.body).to_not eq "new body"
       end
     end
   end
@@ -88,7 +96,6 @@ RSpec.describe AnswersController, type: :controller do
     context 'Delete own answer' do
       
       it "deletes answer" do
-        expect(answer.user_id).to eq subject.current_user.id
         expect { delete :destroy, id: answer }.to change(Answer, :count).by(-1)
       end
 

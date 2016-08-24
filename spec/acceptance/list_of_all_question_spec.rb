@@ -2,20 +2,16 @@ require 'rails_helper'
 
 feature 'List of all questions', %q{
   In order to find question from the list
-  As an authenticate user
+  As an user
   I want to be able to find all questions
 } do
 
   let(:user) { create(:user) }
-  let!(:questions) { create_list(:questions, 5, user: user) }
+  let!(:questions) { 5.times { create(:question, user: user) } }
 
   scenario 'Authenticate user looks a list of all questions' do
-    sign_in(user)
     visit questions_path
-    save_and_open_page
-
   
-    expect(page).to have_content q.title
-    
+    expect(page).to have_selector('h4', text: questions)
   end
 end

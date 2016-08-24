@@ -8,7 +8,7 @@ feature 'Read all answers to question', %q{
 
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let!(:answers) { create_list(:answer, 3, question: question, user: user) }
+  let!(:answers) { 5.times { create(:answer, question: question, user: user) } }
 
   scenario 'User read answers to question' do
   
@@ -17,8 +17,6 @@ feature 'Read all answers to question', %q{
     expect(page).to have_content question.title
     expect(page).to have_content question.body
     
-    answers.each do |a|
-      expect(page).to have_content a.body
-    end
+    expect(page).to have_selector('h4', text: answers)
   end
 end

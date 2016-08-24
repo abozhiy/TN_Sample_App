@@ -62,7 +62,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe "POST #create" do
     sign_in_user
 
-    context "create with valid attributes" do
+    context "Authenticated user creates question with valid attributes" do
 
 
       it "saves a new question to the database" do
@@ -75,7 +75,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
-    context "create with invalid attributes" do
+    context "Authenticated user tries to create question with invalid attributes" do
 
       it "doesn't save a new question to the database" do
         expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
@@ -84,6 +84,14 @@ RSpec.describe QuestionsController, type: :controller do
       it "re-renders new view" do
         post :create, question: attributes_for(:invalid_question)
         expect(response).to render_template :new
+      end
+    end
+
+    context "Authenticated user has associat with created question" do
+      
+      it 'has associate' do
+        post :create, question: attributes_for(:question)
+        expect(question.user_id).to eq subject.current_user.id
       end
     end
   end
@@ -117,8 +125,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it "doesn't change attributes" do
-        expect(question.title).to eq "Question title text..."
-        expect(question.body).to eq "Question body text..."
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
 
       it "re-renders edit view" do
