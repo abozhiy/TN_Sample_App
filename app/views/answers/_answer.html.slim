@@ -1,9 +1,7 @@
+h4= answer.body
 
-- @answers.each do |answer|
-  h4= answer.body
-
-  - if user_signed_in? && current_user.author_of?(answer)
+- if user_signed_in? && current_user.author_of?(answer)
     
-      = link_to 'edit', '#'
-      br/
-      = link_to 'delete', answer, method: :delete, data: { confirm: "Are you sure, that you want to delete your answer?" }
+  = link_to 'edit', '#'
+  br/
+  = link_to 'delete', answer, method: :delete, data: { confirm: "Are you sure, that you want to delete your answer?" }
