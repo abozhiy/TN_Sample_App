@@ -69,6 +69,11 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
       end
 
+      it 'has associat with created question' do
+        post :create, question: attributes_for(:question)
+        expect(question.user_id).to eq subject.current_user.id
+      end
+
       it "redirects to show view" do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to assigns(:question)
@@ -84,14 +89,6 @@ RSpec.describe QuestionsController, type: :controller do
       it "re-renders new view" do
         post :create, question: attributes_for(:invalid_question)
         expect(response).to render_template :new
-      end
-    end
-
-    context "Authenticated user has associat with created question" do
-      
-      it 'has associate' do
-        post :create, question: attributes_for(:question)
-        expect(question.user_id).to eq subject.current_user.id
       end
     end
   end

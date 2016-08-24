@@ -16,6 +16,11 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
       end
 
+      it 'has associat with created answer' do
+        post :create, question_id: question, answer: attributes_for(:answer)
+        expect(answer.user_id).to eq subject.current_user.id
+      end
+
       it "redirects to question path" do
         post :create, question_id: question, answer: attributes_for(:answer)
         expect(response).to redirect_to assigns(:question)
@@ -31,14 +36,6 @@ RSpec.describe AnswersController, type: :controller do
       it "re-renders new view" do
         post :create, question_id: question, answer: attributes_for(:invalid_answer)
         expect(response).to render_template :new
-      end
-    end
-
-    context "Authenticated user has associat with created answer" do
-      
-      it 'has associate' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(answer.user_id).to eq subject.current_user.id
       end
     end
   end
