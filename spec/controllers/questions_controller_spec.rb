@@ -117,8 +117,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it "doesn't change attributes" do
-        expect(question.title).to eq "MyString"
-        expect(question.body).to eq "MyText"
+        expect(question.title).to eq "Question title text..."
+        expect(question.body).to eq "Question body text..."
       end
 
       it "re-renders edit view" do

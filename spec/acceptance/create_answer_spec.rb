@@ -31,4 +31,13 @@ feature "Create answer", %q{
 
     expect(current_path).to eq question_answers_path(question)
   end
+
+  scenario 'Non-authenticated user trying to build answer' do
+    visit question_path(question)
+
+    fill_in 'Answer the question...', with: 'Answer text'
+    click_on 'Post'
+
+    expect(current_path).to eq new_user_session_path
+  end
 end

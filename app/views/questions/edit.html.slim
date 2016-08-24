@@ -3,7 +3,4 @@
     .span6.offset1
     section
       h1 Edit question
-      = form_for @question do |f|
-        p= f.text_field :title, placeholder: "Type title..."
-        p= f.text_area :body, placeholder: "Type new question..."
-        p= f.submit "Create", class: "btn btn-large btn-primary"
+      = render 'questions/form_for_question'

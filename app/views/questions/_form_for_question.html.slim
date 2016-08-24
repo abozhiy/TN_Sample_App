@@ -1,9 +1,5 @@
 = form_for @question do |f|
-  = f.label :title, "Title"
-  = f.text_field :title
-
-  = f.label :body
-  = f.text_field :body
-  
-  = f.submit "Create"
+  p= f.text_field :title, placeholder: "Type title..."
+  p= f.text_area :body, placeholder: "Ask your question..."
+  p= f.submit "Done", class: "btn btn-large btn-primary"
   

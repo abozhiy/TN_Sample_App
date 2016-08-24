@@ -7,14 +7,15 @@ feature 'List of all questions', %q{
 } do
 
   let(:user) { create(:user) }
-  let!(:questions) { create_list(:question, 5, user: user) }
+  let!(:questions) { create_list(:questions, 5, user: user) }
 
   scenario 'Authenticate user looks a list of all questions' do
     sign_in(user)
     visit questions_path
+    save_and_open_page
 
-    questions.each do |q|
-      expect(page).to have_content q.title
-    end
+  
+    expect(page).to have_content q.title
+    
   end
 end

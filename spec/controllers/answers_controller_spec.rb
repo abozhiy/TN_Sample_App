@@ -65,7 +65,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it "doesn't change attributes" do
-          expect(answer.body).to eq "MyText"
+          expect(answer.body).to eq "Answer body text..."
         end
       end
     end

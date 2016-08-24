@@ -15,8 +15,8 @@ feature 'Edit only own question', %q{
     visit question_path(question)
     click_on "Edit"
     fill_in 'Type title...', with: 'Test question'
-    fill_in 'Type new question...', with: 'text text'
-    click_on 'Create'
+    fill_in 'Ask your question...', with: 'text text'
+    click_on 'Done'
 
     expect(page).to have_content "Your question successfuly updated."
     expect(page).to have_content "Test question"

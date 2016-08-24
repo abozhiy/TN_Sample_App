@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :edit, :update, :destroy]
   before_action :load_question, only: [:create]
+  before_action :load_answer, only: [:update, :destroy]
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -17,7 +18,6 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = Answer.find(params[:id])
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
       flash[:notice] = "Your answer successfuly updated."
@@ -28,7 +28,6 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
     if current_user.author_of?(@answer)
       @answer.destroy
       flash[:notice] = "Your answer successfuly deleted."
@@ -43,6 +42,10 @@ class AnswersController < ApplicationController
 
   def load_question
     @question = Question.find(params[:question_id])
+  end
+
+  def load_answer
+    @answer = Answer.find(params[:id])
   end
 
   def answer_params

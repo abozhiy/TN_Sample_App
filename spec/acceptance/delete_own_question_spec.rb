@@ -17,6 +17,7 @@ feature 'Delete own question', %q{
 
     expect(page).to have_content "Your question successfuly deleted."
     expect(current_path).to eq questions_path
+    expect(page).to_not have_content(question.title)
   end
 
   scenario 'Non-authenticated user wants to delete question' do

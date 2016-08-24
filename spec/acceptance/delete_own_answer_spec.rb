@@ -20,6 +20,7 @@ feature 'Delete own answer', %q{
 
     expect(page).to have_content "Your answer successfuly deleted."
     expect(current_path).to eq question_path(question)
+    expect(page).to_not have_content(answer.body)
   end
 
   scenario 'Non-authenticated user wants to delete answer' do
