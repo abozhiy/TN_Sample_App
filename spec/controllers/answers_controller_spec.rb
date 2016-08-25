@@ -16,7 +16,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
       end
 
-      it 'has associat with created answer' do
+      it 'associates with current user' do
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(user.answers, :count).by(1)
       end
 
@@ -48,7 +48,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it "assigns a requested answer to the variable @answer" do
           patch :update, id: answer, answer: attributes_for(:answer)
-          expect(response).to redirect_to answer.question
+          expect(assigns(:answer)).to eq answer
         end
 
         it "changes attributes question" do

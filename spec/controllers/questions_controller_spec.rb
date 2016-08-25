@@ -69,7 +69,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
       end
 
-      it 'has associat with created question' do
+      it 'associates with current user' do
         expect { post :create, question: attributes_for(:question) }.to change(user.questions, :count).by(1)
       end
 

@@ -23,7 +23,7 @@ class AnswersController < ApplicationController
     else
       flash[:notice] = "Your cannot edit alien answer!"
     end
-      redirect_to @answer.question
+    redirect_to @answer.question
   end
 
   def destroy
@@ -33,7 +33,7 @@ class AnswersController < ApplicationController
     else
       flash[:notice] = "Your cannot delete alien answer!"
     end
-      redirect_to @answer.question
+    redirect_to @answer.question
   end
 
 
