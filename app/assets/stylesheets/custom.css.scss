@@ -1,0 +1,146 @@
+@import "bootstrap";
+
+/* mixins, variables, etc. */
+
+$grayMediumLight: #eaeaea;
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+/* UNIVERSAL */
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  padding-top: 7px;
+}
+
+section {
+  overflow: auto;
+}
+
+textarea {
+  resize: both;
+}
+
+.center {
+  text-align: left;
+  h1 {
+  margin-bottom: 30px;
+  }
+}
+
+/* typography */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: 0,5px;
+  margin-bottom: 30px;
+  text-align: left;
+  }
+
+h2 {
+  font-size: 2.5em;
+  letter-spacing: 0,5px;
+  margin-bottom: 30px;
+  text-align: left;
+  color:  #f2f2f2;
+  }
+
+h3 {
+  font-size: 2em;
+  letter-spacing: 0,7px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  text-align: left;
+  font-weight: normal;
+  color: #2F4F4F;
+}
+
+h4 {
+  font-size: 1.5em;
+  letter-spacing: 0,7px;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  text-align: left;
+  font-weight: normal;
+  color: #2F4F4F;
+}
+
+
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+  margin-left: 30px;
+  text-align: left;
+}
+
+p2 {
+  font-size: 1.1em;
+  line-height: 1.7em;
+  margin-left: 30px;
+  text-align: center;
+}
+
+
+/* HEADER */
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #A9A9A9;
+  text-transform: uppercase;
+  letter-spacing: 0.1px;
+  padding-top: 15px;
+  font-weight: bold;
+  line-height: 1;
+  &:hover {
+    color: #808080;
+    text-decoration: none;
+  }
+}
+
+/* FOOTER */
+
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #D3D3D3;
+  color: #D3D3D3;
+}
+
+/* sidebar */
+
+aside {
+  section {
+    padding: 10px 0;
+    border-top: 1px solid #D3D3D3;
+    &:first-child {
+      border: 0;
+      padding-top: 0;
+    }
+    span {
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1;
+    }
+    h1 {
+      font-size: 1.4em;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 3px;
+      margin-top: 0px;
+    }
+  }
+}

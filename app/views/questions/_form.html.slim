@@ -1,0 +1,10 @@
+- if local_assigns[:full]
+  h1 Edit question
+- else
+  h1 Create question
+
+= form_for @question do |f|
+  p= f.text_field :title, placeholder: "Type title..."
+  p= f.text_area :body, placeholder: "Ask your question..."
+  p= f.submit "Done", class: "btn btn-large btn-primary"
+  
