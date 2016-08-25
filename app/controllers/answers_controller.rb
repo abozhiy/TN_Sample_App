@@ -4,13 +4,7 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: [:update, :destroy]
 
   def create
-    @answer = @question.answers.build(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      redirect_to @question, notice: "Your answer successfuly posted."
-    else
-      render :new
-    end
+    @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
   end
 
   def edit

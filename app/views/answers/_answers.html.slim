@@ -1,0 +1,8 @@
+- @question.answers.each do |answer|
+  br/
+  p= answer.body
+
+  - if user_signed_in? && current_user.author_of?(answer)
+    
+    li= link_to 'edit', '#'
+    li= link_to 'delete', answer, method: :delete

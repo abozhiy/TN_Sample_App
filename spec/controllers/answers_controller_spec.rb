@@ -13,28 +13,28 @@ RSpec.describe AnswersController, type: :controller do
     context "Authenticated user creates answer with valid attributes" do
 
       it "saves a new answer into the database" do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
       end
 
       it 'associates with current user' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(user.answers, :count).by(1)
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(user.answers, :count).by(1)
       end
 
-      it "redirects to question path" do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to redirect_to assigns(:question)
+      it "render create template" do
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :create
       end
     end
 
     context "Authenticated user tries to create answer with invalid attributes" do
 
       it "doesn't save a new answer into the database" do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
+        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js }.to_not change(Answer, :count)
       end
 
       it "re-renders new view" do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        expect(response).to render_template :new
+        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js 
+        expect(response).to render_template :create
       end
     end
   end
