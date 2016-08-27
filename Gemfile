@@ -35,12 +35,14 @@ group :development, :test do
   gem 'rspec-rails', '3.5.1'
   gem 'factory_girl_rails', '4.7.0'
   gem 'pry-rails'
+  gem 'database_cleaner'
+  gem 'selenium-webdriver'
+  gem 'capybara', '2.8.0'
+  gem 'launchy'
 end
 
 group :test do
   gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'launchy'
 end
 
 group :development do
