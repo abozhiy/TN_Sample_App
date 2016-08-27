@@ -1,8 +1,8 @@
-p
-  strong= answer.body
+- if answer.persisted?
+  p = answer.body
 
-- if user_signed_in? && current_user.author_of?(answer) && answer.persisted?
+  - if user_signed_in? && current_user.author_of?(answer)
     
-  li= link_to 'edit', '#'
-  li= link_to 'delete', answer, remote: true, method: :delete
-  br/
+    li= link_to 'edit', '#'
+    li= link_to 'delete', answer, remote: true, method: :delete
+    br/

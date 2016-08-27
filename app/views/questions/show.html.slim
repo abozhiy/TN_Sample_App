@@ -11,10 +11,10 @@
           li= link_to 'Delete', @question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
       br/
       
-  .aside.span4
+  .span4
     - if @answers.any?
       .answers
-        h2 id="answers_count" It has #{ pluralize(@question.answers.count, 'answer') }:
+        h2 id="answers_count" #{ pluralize(@question.answers.count, 'answer') }:
         = render @question.answers
       
     - if user_signed_in?
