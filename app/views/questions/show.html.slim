@@ -14,7 +14,7 @@
   .span4
     - if @answers.any?
       .answers
-        h2 id="answers_count" #{ pluralize(@question.answers.count, 'answer') }:
+        h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }:
         = render @question.answers
       
     - if user_signed_in?
