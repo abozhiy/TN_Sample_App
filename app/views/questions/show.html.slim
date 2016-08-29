@@ -12,13 +12,14 @@
       br/
       
   .span4
-    - if @answers.any?
-      .answers
+    .answers
+      - if @answers.any?
         h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }:
         = render @question.answers
       
     - if user_signed_in?
     = form_for [ @question, @answer ], remote: true do |f|
+      .answer-errors
       = f.text_area :body, placeholder: "Answer the question..."
       br/
       = f.submit "Post", class: "btn btn-large btn-primary"

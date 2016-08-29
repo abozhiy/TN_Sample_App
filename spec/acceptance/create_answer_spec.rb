@@ -21,14 +21,13 @@ feature "Create answer", %q{
   end
 
 
-  scenario 'Authenticated user builds answer with empty body', js: true do
+  scenario 'Authenticated user tries to create answer with empty body', js: true do
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Answer the question...', with: ''
     click_on 'Post'
 
-    expect(current_path).to eq question_path(question)
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user trying to build answer', js: true do
