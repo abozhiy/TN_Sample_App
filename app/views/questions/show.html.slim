@@ -1,26 +1,12 @@
 .center.hero-unit
   .row
-    .span4
-      section
-        h1 = @question.title
-        h3 = @question.body
+    .question
+      = render @question
       
-      - if signed_in? && current_user.author_of?(@question)
-        ul
-          li= link_to 'Edit', edit_question_path(@question)
-          li= link_to 'Delete', @question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
-      br/
-      
-  .span4
     .answers
-      - if @answers.any?
-        h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }:
+        h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }
         = render @question.answers
       
-    - if user_signed_in?
-    = form_for [ @question, @answer ], remote: true do |f|
-      .answer-errors
-      = f.text_area :body, placeholder: "Answer the question..."
-      br/
-      = f.submit "Post", class: "btn btn-large btn-primary"
-      br/
+    .new-answer
+      - if user_signed_in?
+        = render 'answers/new_answer_form'

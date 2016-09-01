@@ -1,0 +1,5 @@
+= form_for [ @question, @answer ], remote: true do |f|
+  = f.text_area :body, placeholder: "Answer the question..."
+  .answer-errors
+  = f.submit "Post", class: "btn btn-large btn-primary"
+  br/

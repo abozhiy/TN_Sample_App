@@ -8,6 +8,8 @@ class AnswersController < ApplicationController
   end
 
   def edit
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def update
@@ -27,7 +29,6 @@ class AnswersController < ApplicationController
     else
       flash[:notice] = "Your cannot delete alien answer!"
     end
-    redirect_to @answer.question
   end
 
 

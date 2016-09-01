@@ -29,11 +29,8 @@ class QuestionsController < ApplicationController
 
   def update
     if current_user.author_of?(@question)
-      if @question.update(question_params)
-        redirect_to @question, notice: "Your question successfuly updated."
-      else
-        render :edit
-      end
+      @question.update(question_params)
+      render :show, notice: "Your question successfuly updated."
     else
       redirect_to @question, notice: "You cannot update alien questions."
     end

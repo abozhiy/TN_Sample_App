@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let!(:user) { create(:user) }
+  let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   
   describe "GET #index" do
@@ -23,7 +23,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { get :show, id: question }
 
-    it "assigns a requested question to the variable @question" do
+    it "assigns a requested question to @question" do
       expect(assigns(:question)).to eq question
     end
 
@@ -37,26 +37,12 @@ RSpec.describe QuestionsController, type: :controller do
 
     before { get :new }
 
-    it "assigns a new question to the variable @question" do
+    it "assigns a new question to @question" do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
     it "renders new view" do
       expect(response).to render_template :new
-    end
-  end
-
-  describe "GET #edit" do
-    sign_in_user
-
-    before { get :edit, id: question }
-
-    it "assigns a requested question to the variable @question" do
-      expect(assigns(:question)).to eq question
-    end
-
-    it "renders edit view" do
-      expect(response).to render_template :edit
     end
   end
 
@@ -96,39 +82,20 @@ RSpec.describe QuestionsController, type: :controller do
   describe "PATCH #update" do
     sign_in_user
 
-    context "update with valid attributes" do
-
-      it "assigns a requested question to the variable @question" do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(assigns(:question)).to eq question
-      end
-
-      it "changes attributes question" do
-        patch :update, id: question, question: { title: "new title", body: "new body" }
-        expect(question.reload.title).to eq "new title"
-        expect(question.reload.body).to eq "new body"
-      end
-
-      it "redirects to updated question" do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(response).to redirect_to question
-      end
+    it "assigns the requested question to @question" do
+      patch :update, id: question, question: attributes_for(:question), format: :js
+      expect(assigns(:question)).to eq question
     end
 
-    context "with invalid attributes" do
-      
-      before do
-        patch :update, id: question, question: attributes_for(:invalid_question)
-      end
+    it "changes question attributes" do
+      patch :update, id: question, question: { title: "new title", body: "new body" }, format: :js
+      expect(question.reload.title).to eq "new title"
+      expect(question.reload.body).to eq "new body"
+    end
 
-      it "doesn't change attributes" do
-        expect(question.title).to eq question.title
-        expect(question.body).to eq question.body
-      end
-
-      it "re-renders edit view" do
-        expect(response).to render_template :edit
-      end
+    it "render show template" do
+      patch :update, id: question, question: attributes_for(:question), format: :js
+      expect(response).to render_template :show
     end
   end
 

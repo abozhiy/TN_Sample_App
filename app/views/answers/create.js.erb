@@ -4,5 +4,7 @@
   <% end %>
 <% else %>
   $('.answers').append('<%= j render @answer %>');
-  $('#answer_body').val('')
+  $(".notice").html("<%= flash[:notice] %>");
+  $('form#new_answer.new_answer > #answer_body').val('');
+  $('#answers_count').text('<%= j pluralize(@answer.question.answers.count, 'Answer') %>');
 <% end %>

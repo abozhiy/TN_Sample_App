@@ -1,0 +1,3 @@
+$('.answer-<%= @answer.id %>').remove();
+$('#answers_count').text('<%= j pluralize(@answer.question.answers.count, 'Answer') %>');
+$(".notice").html("<%= flash[:notice] %>");
