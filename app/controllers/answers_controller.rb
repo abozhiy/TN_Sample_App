@@ -7,12 +7,8 @@ class AnswersController < ApplicationController
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
   end
 
-  def edit
-    @answer.update(answer_params)
-    @question = @answer.question
-  end
-
   def update
+    @question = @answer.question
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
       flash[:notice] = "Your answer successfuly updated."

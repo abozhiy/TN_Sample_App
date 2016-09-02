@@ -29,7 +29,6 @@ feature 'Delete own answer', %q{
       within '.answers' do
         click_link "Delete"
       end
-      # save_and_open_page
 
       expect(page).to have_content "Your answer successfuly deleted."
       expect(current_path).to eq question_path(question)

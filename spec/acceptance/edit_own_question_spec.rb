@@ -28,7 +28,7 @@ feature 'Edit own question', %q{
     scenario 'tries to edit his question', js: true do
       visit question_path(question)
       click_on "Edit"
-      save_and_open_page
+      # save_and_open_page
       fill_in "Title", with: 'Test question'
       fill_in "Body", with: 'text text'
       click_on 'Edit'
