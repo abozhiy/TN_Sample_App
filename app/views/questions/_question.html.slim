@@ -1,21 +1,20 @@
-- if question.persisted?
-  div class="question-#{question.id}"
-    h1 = @question.title
-    h3 = @question.body
+div class="question-#{question.id}"
+  h1 = question.title
+  h3 = question.body
       
-    - if signed_in? && current_user.author_of?(@question)
-      | &emsp;
-      span= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id } 
-      | &emsp;
-      span= link_to 'Delete', @question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
-      br/
+  - if signed_in? && current_user.author_of?(question)
+    | &emsp;
+    span= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id } 
+    | &emsp;
+    span= link_to 'Delete', question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
+    br/
 
-    = form_for @question, remote: true, html: { id: "edit-question-#{question.id}" } do |f|
-      = f.label :title
-      .question-errors
-      p= f.text_field :title
-      = f.label :body
-      .question-errors
-      p= f.text_area :body
-      p= f.submit "Edit", class: "btn btn-sm btn-primary"
+  = form_for [ question ], remote: true, html: { id: "edit-question-#{question.id}" } do |f|
+    = f.label :title
+    .question-errors
+    p= f.text_field :title
+    = f.label :body
+    .question-errors
+    p= f.text_area :body
+    p= f.submit "Edit", class: "btn btn-sm btn-primary"
   
