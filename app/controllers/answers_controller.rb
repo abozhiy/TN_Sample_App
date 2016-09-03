@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
+    flash[:notice] = "Your answer successfuly created."
   end
 
   def update

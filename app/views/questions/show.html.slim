@@ -1,7 +1,7 @@
-.center.hero-unit
-  .row
-    .question
-      = render @question
+.row
+  .question
+    = render @question
+    hr/
       
     .answers
         h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }
@@ -9,4 +9,4 @@
       
     .new-answer
       - if user_signed_in?
-        = render 'answers/form_new'
+        = render 'answers/form_new', question: @question

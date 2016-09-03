@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :update, :destroy]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -27,9 +27,9 @@ class QuestionsController < ApplicationController
   def update
     if current_user.author_of?(@question)
       @question.update(question_params)
-      render :show, notice: "Your question successfuly updated."
+      flash[:notice] = "Your question successfuly updated."
     else
-      redirect_to @question, notice: "You cannot update alien questions."
+      flash[:notice] = "You cannot update alien questions."
     end
   end
 

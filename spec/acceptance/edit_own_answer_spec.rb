@@ -34,10 +34,12 @@ feature 'Answer editing', %q{
 
     scenario 'try to edit his answer', js: true do
       visit question_path(question)
+      
       within '.answers' do
         click_link 'Edit'
         fill_in 'Edit your answer:', with: 'edited answer'
         click_on 'Done'
+        # save_and_open_page
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content "edited answer"

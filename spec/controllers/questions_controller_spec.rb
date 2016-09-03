@@ -93,9 +93,9 @@ RSpec.describe QuestionsController, type: :controller do
       expect(question.reload.body).to eq "new body"
     end
 
-    it "render show template" do
+    it "render update template" do
       patch :update, id: question, question: attributes_for(:question), format: :js
-      expect(response).to render_template :show
+      expect(response).to render_template :update
     end
   end
 

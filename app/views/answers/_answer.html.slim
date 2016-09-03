@@ -1,20 +1,21 @@
 - if answer.persisted?
   div class="answer-#{answer.id}"
-    = answer.body
-    br/
+    h5= answer.body
 
     - if user_signed_in? && current_user.author_of?(answer)
     
       | &emsp;
-      = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
+      span= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
-      = link_to 'Delete', answer, method: :delete, remote: true
+      span= link_to 'Delete', answer, method: :delete, remote: true
       br/
     
       p
         = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-          = f.label :body, "Edit your answer:"
-          br/
-          = f.text_area :body
+          small
+            = f.label :body, "Edit your answer:"
           .answer-errors
+          = f.text_area :body
+          br/
           = f.submit "Done", class: "btn btn-xs btn-primary"
+          hr align="left" width="25%" /

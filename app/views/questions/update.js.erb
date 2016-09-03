@@ -4,4 +4,5 @@
   <% end %>
 <% else %>
   $('.question').replaceWith('<%= j render @question %>');
+  $(".notice").html("<%= flash[:notice] %>");
 <% end %>

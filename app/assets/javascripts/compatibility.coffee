@@ -28,3 +28,4 @@ handleEvent "turbolinks:load", ->
 jQuery?(document).on "ajaxSuccess", (event, xhr, settings) ->
   if jQuery.trim(xhr.responseText).length > 0
     dispatch("page:update")
+    
