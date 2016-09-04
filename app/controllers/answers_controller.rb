@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy, :best]
   before_action :load_question, only: [:create]
   before_action :load_answer, only: [:update, :destroy]
 
@@ -25,6 +25,14 @@ class AnswersController < ApplicationController
       flash[:notice] = "Your answer successfuly deleted."
     else
       flash[:notice] = "Your cannot delete alien answer!"
+    end
+  end
+
+  def best
+    if current_user.author_of?(@answer.question)
+      @answer.set_best
+    else
+      flash[:notice] = "You aren't author of question!"
     end
   end
 
