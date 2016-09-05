@@ -4,8 +4,8 @@
     hr/
       
     .answers
-        h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }
-        = render @question.answers
+      h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }
+      = render @question.answers
       
     .new-answer
       - if user_signed_in?

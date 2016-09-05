@@ -9,7 +9,7 @@ RSpec.describe Answer, type: :model do
   it { should validate_presence_of :body }
   
   let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let!(:question) { create(:question, user: user) }
   let!(:answer1) { create(:answer, question: question, user: user, best: false) }
   let!(:answer2) { create(:answer, question: question, user: user, best: true) }
 
@@ -28,8 +28,8 @@ RSpec.describe Answer, type: :model do
     end
 
     it "should assign old best-answer to false" do
-      answer1.set_best
-      expect(answer2.best).to eq false
+      answer2.set_best
+      expect(answer1.best).to eq false
     end
   end
 end

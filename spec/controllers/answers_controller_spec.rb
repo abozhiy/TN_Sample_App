@@ -60,47 +60,41 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe "PATCH #best" do
+    
     let(:another_user) { create(:user) }
-    let!(:answer2) { create(:answer, question: question, user: another_user, best: false) }
+    let!(:answer2) { create(:answer, question: question, user: another_user) }
+    
     
     context "Author of question" do
+      sign_in_user
+
       before do
         question.update_attribute(:user, @user)
       end
 
       it 'assigns the requested answer_id to @answer' do
-        patch :best, id: answer2, question_id: question, format: :js
-        answer2.reload
-        expect(assigns(:answer)).to eq answer2
+        patch :best, id: answer, question_id: question, format: :js
+        answer.reload
+        expect(assigns(:answer)).to eq answer
       end
       
       it 'choose the best answer' do
-        patch :best, id: answer2, question_id: question, format: :js
-        answer2.reload
-        expect(answer2.best).to eq true
+        patch :best, id: answer, question_id: question, format: :js
+        answer.reload
+        expect(answer.best).to eq true
       end
       
       it 'choose other best answer' do
-        patch :best, id: answer, question_id: question, format: :js
-        answer.reload
+        patch :best, id: answer2, question_id: question, format: :js
         answer2.reload
+        answer.reload
         
-        expect(answer.best).to eq true
-        expect(answer2.best).to eq false
+        expect(answer2.best).to eq true
+        expect(answer.best).to eq false
       end
       
       it 'render best template' do
         expect(response).to render_template :best
-      end
-    end
-    
-    context 'Not-author of question' do
-      
-      it 'tries to choose best answer' do
-        patch :best, id: answer, question_id: question, format: :js
-        answer.reload
-        
-        expect(answer.best).to eq false
       end
     end
   end

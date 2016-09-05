@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :edit, :update, :destroy, :best]
   before_action :load_question, only: [:create]
-  before_action :load_answer, only: [:update, :destroy]
+  before_action :load_answer, only: [:update, :destroy, :best]
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
@@ -31,8 +31,7 @@ class AnswersController < ApplicationController
   def best
     if current_user.author_of?(@answer.question)
       @answer.set_best
-    else
-      flash[:notice] = "You aren't author of question!"
+      @answer.reload
     end
   end
 

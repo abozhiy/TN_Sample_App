@@ -1,5 +1,5 @@
 - if answer.persisted?
-  div class="answer-#{answer.id}"
+  div class="answer-#{answer.id} #{'best-answer' if answer.best}"
     h5= answer.body
 
     - if user_signed_in? && current_user.author_of?(answer)
@@ -8,6 +8,10 @@
       span= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
       span= link_to 'Delete', answer, method: :delete, remote: true
+      
+    - if user_signed_in? && current_user.author_of?(answer.question) && !answer.best?
+      | &emsp;
+      span= link_to 'Best!', best_answer_path(answer), method: :patch, class: 'best-answer-link', data: { answer_id: answer.id }, remote: true
       br/
     
       p
