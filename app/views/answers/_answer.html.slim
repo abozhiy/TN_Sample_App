@@ -1,6 +1,13 @@
 - if answer.persisted?
-  div class="answer-#{answer.id} #{'best-answer' if answer.best}"
-    h5= answer.body
+  div class="answer-#{answer.id}"
+    .best-answer
+    hr align="left" width="15%" /
+    li= answer.body
+    i= answer.created_at
+    br/
+    i= answer.user.email
+    br/
+
 
     - if user_signed_in? && current_user.author_of?(answer)
     
@@ -11,8 +18,8 @@
       
     - if user_signed_in? && current_user.author_of?(answer.question) && !answer.best?
       | &emsp;
-      span= link_to 'Best!', best_answer_path(answer), method: :patch, class: 'best-answer-link', data: { answer_id: answer.id }, remote: true
-      br/
+      span= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
+      
     
       p
         = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
@@ -22,4 +29,4 @@
           = f.text_area :body
           br/
           = f.submit "Done", class: "btn btn-xs btn-primary"
-          hr align="left" width="25%" /
+          

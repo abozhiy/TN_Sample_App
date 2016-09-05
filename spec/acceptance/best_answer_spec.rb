@@ -29,7 +29,7 @@ feature "Best answer", %q{
         click_on 'Best!'
       end
       
-      within ".answer-#{answer1.id} #{'best-answer'}" do
+      within ".best-answer" do
         expect(page).to have_content(answer1.body)
         expect(page).to_not have_content(answer2.body)
       end
@@ -43,7 +43,7 @@ feature "Best answer", %q{
         click_on 'Best!'
       end
       
-      within ".answer-#{answer2.id} #{'best-answer'}" do
+      within ".best-answer" do
         expect(page).to have_content(answer2.body)
         expect(page).to_not have_content(answer1.body)
       end

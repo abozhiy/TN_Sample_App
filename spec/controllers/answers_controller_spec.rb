@@ -68,10 +68,6 @@ RSpec.describe AnswersController, type: :controller do
     context "Author of question" do
       sign_in_user
 
-      before do
-        question.update_attribute(:user, @user)
-      end
-
       it 'assigns the requested answer_id to @answer' do
         patch :best, id: answer, question_id: question, format: :js
         answer.reload
