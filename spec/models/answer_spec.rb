@@ -24,12 +24,12 @@ RSpec.describe Answer, type: :model do
     
     it "should assign best-answer to true" do
       answer1.set_best
-      expect(answer1.best).to eq true
+      expect(answer1).to be_best
     end
 
     it "should assign old best-answer to false" do
       answer2.set_best
-      expect(answer1.best).to eq false
+      expect(answer1).to_not be_best
     end
   end
 end

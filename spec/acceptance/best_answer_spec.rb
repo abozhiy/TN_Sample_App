@@ -31,13 +31,14 @@ feature "Best answer", %q{
       
       within ".best-answer" do
         expect(page).to have_content(answer1.body)
+        expect(answer1.body.first).to eq answer1.body
         expect(page).to_not have_content(answer2.body)
       end
     end
 
     scenario 'can change the best answer, if it was chosen earlier', js: true do
       visit question_path(question)
-      answer1.update_attributes(best: true)
+      answer1.update(best: true)
 
       within ".answer-#{answer2.id}" do
         click_on 'Best!'

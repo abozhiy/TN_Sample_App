@@ -8,7 +8,7 @@ class Answer < ApplicationRecord
 
   def set_best
     Answer.transaction do
-      self.question.answers.best.update_all(best: false) unless self.best?
+      self.question.answers.best.where(best: false) unless self.best?
       self.update!(best: true)
     end
   end
