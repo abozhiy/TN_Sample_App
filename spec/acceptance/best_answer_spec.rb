@@ -31,7 +31,7 @@ feature "Best answer", %q{
       
       within ".best-answer" do
         expect(page).to have_content(answer1.body)
-        expect(answer.body.first).to eq answer1.body
+        expect(Answer.first).to eq answer1
         expect(page).to_not have_content(answer2.body)
       end
     end

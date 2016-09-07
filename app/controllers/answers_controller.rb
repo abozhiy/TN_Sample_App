@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :edit, :update, :destroy, :best]
-  before_action :load_question, only: [:create, :best]
+  before_action :load_question, only: [:create]
   before_action :load_answer, only: [:update, :destroy, :best]
 
   def create
@@ -30,9 +30,9 @@ class AnswersController < ApplicationController
 
   def best
     @question = @answer.question
-    @answers = @question.answers
     if current_user.author_of?(@answer.question)
       @answer.set_best
+      @answers = @question.answers
     end
   end
 
