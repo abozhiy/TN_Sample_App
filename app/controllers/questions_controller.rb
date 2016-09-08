@@ -13,13 +13,16 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
   def create
-    @question = Question.new(question_params.merge(user_id: current_user.id))
+    @question = Question.new(question_params)
+    @question.user = current_user
     if @question.save
       redirect_to @question, notice: "Your question successfuly created."
     else
+      flash[:notice] = @question.errors.full_messages.to_s
       render :new
     end
   end
@@ -50,6 +53,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
 end

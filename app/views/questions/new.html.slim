@@ -7,4 +7,11 @@
         p= f.text_field :title, placeholder: "Type title..."
         p= f.text_area :body, placeholder: "Ask your question..."
         .question-errors
+        
+        p Attachments:
+        p= f.fields_for :attachments do |a|
+          = a.label :file
+          = a.file_field :file
+
         p= f.submit "Create", class: "btn btn-large btn-primary"
+
