@@ -34,7 +34,6 @@ class AnswersController < ApplicationController
       @answer.set_best
       @answers = @question.answers
     end
-    redirect_to @answer.question
   end
 
 
