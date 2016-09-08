@@ -8,14 +8,9 @@ class Answer < ApplicationRecord
 
   def set_best
     Answer.transaction do
-      begin
-        self.question.answers.best.update_all(best: false) unless self.best? 
-        self.update!(best: true)
-      rescue => e
-        if e.present?
-          raise ActiveRecord::Rollback
-        end
-      end
+      old_best = self.question.answers.first
+      old_best.update!(best: false) if old_best
+      update!(best: true)
     end
   end
 end
