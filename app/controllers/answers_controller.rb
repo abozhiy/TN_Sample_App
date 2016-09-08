@@ -1,16 +1,15 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :edit, :update, :destroy, :best]
   before_action :load_question, only: [:create]
-  before_action :load_answer, only: [:update, :destroy]
+  before_action :load_answer, only: [:update, :destroy, :best]
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
-  end
-
-  def edit
+    flash[:notice] = "Your answer successfuly created."
   end
 
   def update
+    @question = @answer.question
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
       flash[:notice] = "Your answer successfuly updated."
@@ -27,7 +26,14 @@ class AnswersController < ApplicationController
     else
       flash[:notice] = "Your cannot delete alien answer!"
     end
-    redirect_to @answer.question
+  end
+
+  def best
+    @question = @answer.question
+    if current_user.author_of?(@answer.question)
+      @answer.set_best
+      @answers = @question.answers
+    end
   end
 
 

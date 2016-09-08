@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Delete own answer', %q{
   In order to delete own answer
@@ -12,18 +12,7 @@ feature 'Delete own answer', %q{
   let(:another_question) { create(:question, user: another_user) }
   let(:another_answer) { create(:answer, question: another_question, user: another_user) }
 
-  scenario 'Authenticated user might to delete his own answer' do
-    sign_in(user)
-    visit question_path(question)
-    click_on "delete"
-    
-
-    expect(page).to have_content "Your answer successfuly deleted."
-    expect(current_path).to eq question_path(question)
-    expect(page).to_not have_content(answer.body)
-  end
-
-  scenario 'Non-authenticated user wants to delete answer' do
+  scenario 'Non-authenticated user tries to delete answer' do
     visit question_path(question)
 
     within('.answers') do
@@ -31,12 +20,27 @@ feature 'Delete own answer', %q{
     end
   end
 
-  scenario 'Authenticated user cannot delete answer of another user' do
-    sign_in(user)
-    visit question_path(another_question)
+  describe 'Authenticated user' do
+    before { sign_in(user) }
 
-    within('.answers') do
-      expect(page).to_not have_link "delete"
+    scenario 'tries to delete his answer', js: true do
+    
+      visit question_path(question)
+      within '.answers' do
+        click_link "Delete"
+      end
+
+      expect(page).to have_content "Your answer successfuly deleted."
+      expect(current_path).to eq question_path(question)
+      expect(page).to_not have_content(answer.body)
+    end
+  
+    scenario 'tries to delete answer of another user' do
+      visit question_path(another_question)
+
+      within('.answers') do
+        expect(page).to_not have_link "delete"
+      end
     end
   end
 end

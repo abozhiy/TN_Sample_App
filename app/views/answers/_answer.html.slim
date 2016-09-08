@@ -1,8 +1,31 @@
 - if answer.persisted?
-  p = answer.body
-
-  - if user_signed_in? && current_user.author_of?(answer)
-    
-    li= link_to 'edit', '#'
-    li= link_to 'delete', answer, remote: true, method: :delete
+  div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
+    hr align="left" width="15%" /
+    li= answer.body
+    i= answer.created_at
     br/
+    i= answer.user.email
+    br/
+
+
+    - if user_signed_in? && current_user.author_of?(answer)
+    
+      | &emsp;
+      span= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
+      | &emsp;
+      span= link_to 'Delete', answer, method: :delete, remote: true
+      
+    - if user_signed_in? && current_user.author_of?(answer.question) && !answer.best?
+      | &emsp;
+      span= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
+      
+    
+    p
+      = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+        small
+          = f.label :body, "Edit your answer:"
+        .answer-errors
+        = f.text_area :body
+        br/
+        = f.submit "Done", class: "btn btn-xs btn-primary"
+          

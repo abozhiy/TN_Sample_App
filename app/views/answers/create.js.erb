@@ -1,2 +1,10 @@
-$('.answers').append('<%= j render @answer %>');
-$('#answer_body').val('')
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.answer-errors').html('<%= j message %>');
+  <% end %>
+<% else %>
+  $('.answers').append('<%= j render @answer %>');
+  $(".notice").html("<%= flash[:notice] %>");
+  $('form#new_answer.new_answer > #answer_body').val('');
+  $('#answers_count').text('<%= j pluralize(@answer.question.answers.count, 'Answer') %>');
+<% end %>

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
 
-  let!(:user) { create(:user) }
+  let(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
 
@@ -42,46 +42,55 @@ RSpec.describe AnswersController, type: :controller do
   describe "PATCH #update" do
     sign_in_user
 
-    context 'Update own answer' do
-
-      context "update with valid attributes" do
-
-        it "assigns a requested answer to the variable @answer" do
-          patch :update, id: answer, answer: attributes_for(:answer)
-          expect(assigns(:answer)).to eq answer
-        end
-
-        it "changes attributes question" do
-          patch :update, id: answer, answer: { body: "new body" }
-          expect(answer.reload.body).to eq "new body"
-        end
-
-        it "redirects to updated answer" do
-          patch :update, id: answer, answer: attributes_for(:answer)
-          expect(response).to redirect_to answer.question
-        end
-      end
-
-      context "with invalid attributes" do
-      
-        before do
-          patch :update, id: answer, answer: attributes_for(:invalid_answer)
-        end
-
-        it "doesn't change attributes" do
-          expect(answer.body).to eq answer.body
-        end
-      end
+    it "assigns the requested answer to @answer" do
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+      expect(assigns(:answer)).to eq answer
     end
 
-    context 'Update other answer' do
-      let(:another_user) { create(:user) }
-      let(:another_question) { create(:question, user: another_user) }
-      let(:another_answer) { create(:answer, question: another_question, user: another_user) }
+    it "changes answer attributes" do
+      patch :update, id: answer, question_id: question, answer: { body: "new body" }, format: :js
+      answer.reload
+      expect(answer.body).to eq "new body"
+    end
 
-      it 'cannot update other answer' do
-        patch :update, id: another_answer, answer: { body: "new body" }
-        expect(another_answer.reload.body).to_not eq "new body"
+    it "redirect to question" do
+      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+      expect(response).to redirect_to question
+    end
+  end
+
+  describe "PATCH #best" do
+    
+    let(:another_user) { create(:user) }
+    let!(:answer2) { create(:answer, question: question, user: another_user) }
+    
+    
+    context "Author of question" do
+      sign_in_user
+
+      it 'assigns the requested answer_id to @answer' do
+        patch :best, id: answer, question_id: question, format: :js
+        answer.reload
+        expect(assigns(:answer)).to eq answer
+      end
+      
+      it 'choose the best answer' do
+        patch :best, id: answer, question_id: question, format: :js
+        answer.reload
+        expect(answer.best).to eq true
+      end
+      
+      it 'choose other best answer' do
+        patch :best, id: answer2, question_id: question, format: :js
+        answer2.reload
+        answer.reload
+        
+        expect(answer2.best).to eq true
+        expect(answer.best).to eq false
+      end
+      
+      it 'render best template' do
+        expect(response).to render_template :best
       end
     end
   end
@@ -92,12 +101,12 @@ RSpec.describe AnswersController, type: :controller do
     context 'Delete own answer' do
       
       it "deletes answer" do
-        expect { delete :destroy, id: answer }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, id: answer, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it "redirects to question show" do
-        delete :destroy, id: answer
-        expect(response).to redirect_to question
+      it "renders destroy template" do
+        delete :destroy, id: answer, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -107,12 +116,12 @@ RSpec.describe AnswersController, type: :controller do
       let!(:another_answer) { create(:answer, question: another_question, user: another_user) }
 
       it 'cannot delete other answer' do
-        expect { delete :destroy, id: another_answer }.to_not change(Answer, :count)
+        expect { delete :destroy, id: another_answer, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'redirects to another question' do
-        delete :destroy, id: another_answer
-        expect(response).to redirect_to another_question
+      it 'renders destroy template' do
+        delete :destroy, id: another_answer, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

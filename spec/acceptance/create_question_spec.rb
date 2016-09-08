@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature "Create question", %q{
   In order to get answer from community
@@ -14,7 +14,7 @@ feature "Create question", %q{
     click_on 'Ask question'
     fill_in 'Type title...', with: 'Test question'
     fill_in 'Ask your question...', with: 'text text'
-    click_on 'Done'
+    click_on 'Create'
     
     expect(page).to have_content "Your question successfuly created."
     expect(page).to have_content "Test question"

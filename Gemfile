@@ -10,6 +10,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'bootstrap-will_paginate'
+gem 'jquery-turbolinks'
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
@@ -36,9 +37,9 @@ group :development, :test do
   gem 'factory_girl_rails', '4.7.0'
   gem 'pry-rails'
   gem 'database_cleaner'
-  gem 'selenium-webdriver'
-  gem 'capybara', '2.8.0'
+  gem 'capybara'
   gem 'launchy'
+  gem 'capybara-webkit'
 end
 
 group :test do

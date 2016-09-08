@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :update, :destroy]
-  before_action :load_question, except: [:index, :new, :create]
+  before_action :load_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -15,9 +15,6 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def edit
-  end
-
   def create
     @question = Question.new(question_params.merge(user_id: current_user.id))
     if @question.save
@@ -29,13 +26,10 @@ class QuestionsController < ApplicationController
 
   def update
     if current_user.author_of?(@question)
-      if @question.update(question_params)
-        redirect_to @question, notice: "Your question successfuly updated."
-      else
-        render :edit
-      end
+      @question.update(question_params)
+      flash[:notice] = "Your question successfuly updated."
     else
-      redirect_to @question, notice: "You cannot update alien questions."
+      flash[:notice] = "You cannot update alien questions."
     end
   end
 
