@@ -11,6 +11,7 @@ gem 'devise'
 gem 'bootstrap-sass'
 gem 'bootstrap-will_paginate'
 gem 'jquery-turbolinks'
+gem 'carrierwave'
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
