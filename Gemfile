@@ -12,6 +12,9 @@ gem 'bootstrap-sass'
 gem 'bootstrap-will_paginate'
 gem 'jquery-turbolinks'
 gem 'carrierwave'
+gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7d'
+gem "cocoon"
+
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library

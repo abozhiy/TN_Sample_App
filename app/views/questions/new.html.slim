@@ -8,10 +8,7 @@
         p= f.text_area :body, placeholder: "Ask your question..."
         .question-errors
         
-        p Attachments:
-        p= f.fields_for :attachments do |a|
-          = a.label :file
-          = a.file_field :file
+        p= render 'attachments/attachment_form', f: f
 
         p= f.submit "Create", class: "btn btn-large btn-primary"
 

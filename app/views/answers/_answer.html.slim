@@ -9,16 +9,17 @@
 
 
     - if user_signed_in? && current_user.author_of?(answer)
-    
+  
       | &emsp;
       span= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
       span= link_to 'Delete', answer, method: :delete, remote: true
-      
+    
     - if user_signed_in? && current_user.author_of?(answer.question) && !answer.best?
       | &emsp;
       span= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
-      
+    
+    
     
     p
       = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
@@ -28,4 +29,10 @@
         = f.text_area :body
         br/
         = f.submit "Done", class: "btn btn-xs btn-primary"
-          
+
+    .answer-attachments
+      - answer.attachments.each do |attachment|
+        div class="attachment-#{attachment.id}"
+          li= link_to attachment.file.filename, attachment.file.url
+          - if current_user && current_user.author_of?(answer)
+            = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true

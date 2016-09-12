@@ -17,12 +17,13 @@ div class="question-#{question.id}"
     = f.label :body
     .question-errors
     p= f.text_area :body
+    p= render 'attachments/attachment_form', f: f
     p= f.submit "Edit", class: "btn btn-sm btn-primary"
 
-  .attachments
-    p Attachments:
-    ul
-      = @question.attachments.each do |a|
-        li= link_to a.file.filename, a.file.url
-    
+  .question-attachments
+    - question.attachments.each do |attachment|
+      div class="attachment-#{attachment.id}"
+        li= link_to attachment.file.filename, attachment.file.url
+        - if current_user && current_user.author_of?(question)
+          = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
   

@@ -4,7 +4,7 @@ class Answer < ApplicationRecord
   has_many :attachments, as: :attachable, dependent: :destroy
   validates :question_id, :user_id, :body, presence: true
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
   default_scope { order(best: :desc, created_at: :asc) }
   scope :best, -> { where(best: true) }
