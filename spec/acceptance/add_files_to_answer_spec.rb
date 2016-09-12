@@ -24,7 +24,7 @@ feature "Add files to answer", %q{
     end
   end
 
-  scenario 'User can add a few files when create question' do
+  scenario 'User can add a few files when create answer' do
     fill_in 'Answer the question...', with: 'Answer text'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     
