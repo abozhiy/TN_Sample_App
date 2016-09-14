@@ -1,9 +1,46 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   
+
+  describe 'PATCH #vote' do    
+
+    context 'Not-authenticated user' do
+
+      it 'cannot vote for question' do
+        expect { patch :vote_up, id: question, format: :js }.to_not change(question.votes, :count)
+      end
+    end
+
+    context "Authenticated user" do
+      sign_in_user
+
+      it 'cannot vote for own question' do
+        expect { patch :vote_up, id: question, user: user, format: :js }.to_not change(question.votes, :count)
+      end
+
+      it 'can increase question votes count by 1' do
+        expect { patch :vote_up, id: question, format: :js }.to change(question.votes, :count).by(1)
+      end
+
+      it 'can decrease question votes count by 1' do
+        expect { patch :vote_down, id: question, format: :js }.to change(question.votes, :count).by(-1)
+      end
+    end
+  end
+
+  describe 'DELETE #vote' do
+    sign_in_user
+
+    it 'can cancel own question vote' do
+      expect { delete :vote_cancel, id: question, format: :js }.to change(Vote, :count).by(-1)
+    end
+  end
+
+
   describe "GET #index" do
 
     let(:questions) { create_list(:question, 2, user: user) }

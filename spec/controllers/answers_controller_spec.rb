@@ -7,6 +7,41 @@ RSpec.describe AnswersController, type: :controller do
   let!(:answer) { create(:answer, question: question, user: user) }
 
 
+  describe 'PATCH #vote' do    
+
+    context 'Not-authenticated user' do
+
+      it 'cannot vote for answer' do
+        expect { patch :vote_up, id: answer, question_id: question, format: :js }.to_not change(answer.votes, :count)
+      end
+    end
+
+    context "Authenticated user" do
+      sign_in_user
+
+      it 'cannot vote for own answer' do
+        expect { patch :vote_up, id: answer, question_id: question, user: user, format: :js }.to_not change(answer.votes, :count)
+      end
+
+      it 'can increase answer votes count by 1' do
+        expect { patch :vote_up, id: answer, question_id: question, format: :js }.to change(answer.votes, :count).by(1)
+      end
+
+      it 'can decrease answer votes count by 1' do
+        expect { patch :vote_down, id: answer, question_id: question, format: :js }.to change(answer.votes, :count).by(-1)
+      end
+    end
+  end
+
+  describe 'DELETE #vote' do
+    sign_in_user
+
+    it 'can cancel own answer vote' do
+      expect { delete :vote_cancel, id: answer, question_id: question, format: :js }.to change(Vote, :count).by(-1)
+    end
+  end
+
+
   describe "POST #create" do
     sign_in_user
 
@@ -95,6 +130,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  
   describe 'DELETE #destroy' do
     sign_in_user
 
