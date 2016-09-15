@@ -17,7 +17,7 @@ feature 'Vote for answer', %q{
     within ".answer-#{answer.id}" do
       expect(page).to_not have_content '+'
       expect(page).to_not have_content '-'
-      expect(page).to have_content 'Rating answer:'
+      expect(page).to have_content 'Rating:'
     end
   end
 
@@ -57,7 +57,7 @@ feature 'Vote for answer', %q{
       within ".answer-#{answer.id}" do
         expect(page).to_not have_content '+'
         expect(page).to_not have_content '-'
-        expect(page).to have_content 'Rating answer:'
+        expect(page).to have_content 'Rating:'
       end
     end
 

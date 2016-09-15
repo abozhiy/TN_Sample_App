@@ -2,6 +2,9 @@ div class="question-#{question.id}"
   h1 = question.title
   h3 = question.body
   
+  p id="votes_count" #{'Rating:'}
+    - if user_signed_in? && !current_user.author_of?(question)
+      = render 'voting/voting'
       
   - if signed_in? && current_user.author_of?(question)
     | &emsp;

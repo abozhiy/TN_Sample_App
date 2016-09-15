@@ -7,6 +7,9 @@
     i= answer.user.email
     br/
 
+    p id="votes_count" #{'Rating:'}
+      - if user_signed_in? && !current_user.author_of?(answer)
+        = render 'voting/voting'
 
     - if user_signed_in? && current_user.author_of?(answer)
   
