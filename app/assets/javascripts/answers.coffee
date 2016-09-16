@@ -9,6 +9,10 @@ ready = ->
     answer_id = $(this).data('answerId');
     $('form#edit-answer-' + answer_id).show("slow");
 
+  $('.vote_up_answer-link').bind 'ajax:success', (e, data, status, xhr) ->
+    vote = $.parseJSON(xhr.responseText);
+    $('.rating-answer-<%= @answer.id %>').replaceWith(@votes.rating);
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)

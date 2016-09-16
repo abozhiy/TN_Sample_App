@@ -12,7 +12,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'Not-authenticated user' do
 
       it 'cannot vote for answer' do
-        expect { patch :vote_up, id: answer, question_id: question, format: :js }.to_not change(answer.votes, :count)
+        expect { patch :vote_up, id: answer, question_id: question, format: :json }.to_not change(answer.votes, :count)
       end
     end
 
@@ -20,15 +20,15 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       it 'cannot vote for own answer' do
-        expect { patch :vote_up, id: answer, question_id: question, user: user, format: :js }.to_not change(answer.votes, :count)
+        expect { patch :vote_up, id: answer, question_id: question, user: user, format: :json }.to_not change(answer.votes, :count)
       end
 
       it 'can increase answer votes count by 1' do
-        expect { patch :vote_up, id: answer, question_id: question, format: :js }.to change(answer.votes, :count).by(1)
+        expect { patch :vote_up, id: answer, question_id: question, format: :json }.to change(answer.votes, :count).by(1)
       end
 
       it 'can decrease answer votes count by 1' do
-        expect { patch :vote_down, id: answer, question_id: question, format: :js }.to change(answer.votes, :count).by(-1)
+        expect { patch :vote_down, id: answer, question_id: question, format: :json }.to change(answer.votes, :count).by(-1)
       end
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     it 'can cancel own answer vote' do
-      expect { delete :vote_cancel, id: answer, question_id: question, format: :js }.to change(Vote, :count).by(-1)
+      expect { delete :vote_cancel, id: answer, question_id: question, format: :json }.to change(Vote, :count).by(-1)
     end
   end
 
@@ -125,6 +125,7 @@ RSpec.describe AnswersController, type: :controller do
       end
       
       it 'render best template' do
+        patch :best, id: answer2, question_id: question, format: :js
         expect(response).to render_template :best
       end
     end

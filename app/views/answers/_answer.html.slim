@@ -1,19 +1,27 @@
 - if answer.persisted?
   div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
-    hr align="left" width="15%" /
-    li= answer.body
-    i= answer.created_at
+    p2= answer.body
     br/
-    i= answer.user.email
+    i Created: "#{answer.created_at}"
     br/
-
-    p id="votes_count" #{'Rating:'}
+    i User: "#{answer.user.email}"
+    
+    
+    br/
+    .voting-for-answer
+      span class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
       - if user_signed_in? && !current_user.author_of?(answer)
-        = render 'voting/voting'
+        | &emsp;
+        span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
+        | &emsp;
+        span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true
 
+        - if current_user.voted?(answer)
+          | &emsp;
+          span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true
+
+    br/
     - if user_signed_in? && current_user.author_of?(answer)
-  
-      | &emsp;
       span= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
       span= link_to 'Delete', answer, method: :delete, remote: true
@@ -39,3 +47,5 @@
           li= link_to attachment.file.filename, attachment.file.url
           - if current_user && current_user.author_of?(answer)
             = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
+
+    hr align="left" width="15%" /        

@@ -1,8 +1,0 @@
-.voting
-  | &emsp;
-  span= link_to '+', vote_up_votable_path(votable), method: :patch, remote: true
-  | &emsp;
-  span= link_to '-', vote_down_votable_path(votable), method: :patch, remote: true
-
-    - if current_user.voted?(votable)
-      i= link_to 'Cancel', vote_cancel_votable_path(votable), method: :delete, remote: true

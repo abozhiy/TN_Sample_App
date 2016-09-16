@@ -6,11 +6,15 @@ module Votable
     has_many :votes, as: :votable, dependent: :destroy
   end
 
-  def set_vote_up
-    self.votes.update(rating: 1)
+  def votes_count
+    votes.sum(:rating)
   end
 
-  def set_vote_down
-    self.votes.update(rating: -1)
+  def set_vote_up(user)
+    self.votes.create(user: user, rating: 1)
+  end
+
+  def set_vote_down(user)
+    self.votes.create(user: user, rating: -1)
   end
 end

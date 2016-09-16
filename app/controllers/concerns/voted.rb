@@ -3,19 +3,19 @@ module Voted
   extend ActiveSupport::Concern
   
   included do
-    before_action :authenticate_user!, only: [:vote_up, :vote_down, :vote_cancel]
     before_action :set_votable, only: [:vote_up, :vote_down, :vote_cancel]
   end
  
   def vote_up
     if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
-      @votable.set_vote_up
+      @votable.set_vote_up(current_user)
+      render json: @votable
     end
   end
 
   def vote_down
     if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
-      @votable.set_vote_down
+      @votable.set_vote_down(current_user)
     end
   end
 
