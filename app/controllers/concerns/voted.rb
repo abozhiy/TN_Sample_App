@@ -9,13 +9,14 @@ module Voted
   def vote_up
     if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
       @votable.set_vote_up(current_user)
-      render json: @votable
+      render json: { id: @votable.id, type: @votable.type, rating: @votable.rating }
     end
   end
 
   def vote_down
     if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
       @votable.set_vote_down(current_user)
+      render json: { id: @votable.id, type: @votable.type, rating: @votable.rating }
     end
   end
 
@@ -23,6 +24,7 @@ module Voted
     if current_user.voted?(@votable)
       @vote.destroy
       flash[:notice] = "Your vote successfuly canceled."
+      render json: { id: @votable.id, type: @votable.type, rating: @votable.rating }
     end
   end
 

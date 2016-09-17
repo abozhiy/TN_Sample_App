@@ -2,17 +2,17 @@ div class="question-#{question.id}"
   h1 = question.title
   h3 = question.body
   
-  .voting-for-question
-    span Rating: #{question.votes_count}
+  div class="voting-for-question-#{question.id}"
+    span class="rating-question" Rating: #{question.votes_count}
     - if user_signed_in? && !current_user.author_of?(question)
       | &emsp;
-      span= link_to '+', vote_up_question_path(question), method: :patch, remote: true
+      i= link_to '+', vote_up_question_path(question), method: :patch, remote: true
       | &emsp;
-      span= link_to '-', vote_down_question_path(question), method: :patch, remote: true
+      i= link_to '-', vote_down_question_path(question), method: :patch, remote: true
 
       - if current_user.voted?(question)
         | &emsp;
-        span= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true
+        i= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true
 
       
   - if signed_in? && current_user.author_of?(question)

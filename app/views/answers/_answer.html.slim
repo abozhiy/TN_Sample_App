@@ -2,23 +2,23 @@
   div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
     p2= answer.body
     br/
-    i Created: "#{answer.created_at}"
+    i When: "#{answer.created_at}"
     br/
-    i User: "#{answer.user.email}"
+    i Who: "#{answer.user.email}"
     
     
     br/
-    .voting-for-answer
-      span class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
+    div class="voting-for-answer-#{answer.id}"
+      span class="rating-answer" Rating: #{answer.votes_count}
       - if user_signed_in? && !current_user.author_of?(answer)
         | &emsp;
         span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
         | &emsp;
-        span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true
+        span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
 
         - if current_user.voted?(answer)
           | &emsp;
-          span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true
+          span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: 'vote_cancel_answer-link'
 
     br/
     - if user_signed_in? && current_user.author_of?(answer)
