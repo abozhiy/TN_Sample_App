@@ -15,10 +15,9 @@
         span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
         | &emsp;
         span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
+      | &emsp;
+      span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote"
 
-        - if current_user.voted?(answer)
-          | &emsp;
-          span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: 'vote_cancel_answer-link'
 
     br/
     - if user_signed_in? && current_user.author_of?(answer)

@@ -9,17 +9,18 @@ ready = ->
     question_id = $(this).data('questionId');
     $('form#edit-question-' + question_id).show();
 
+
   $('.vote_up_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
     $('.rating-question').replaceWith('Rating: ' + votes_count);
+    $('.voting-for-question-' + vote.id '#cancel_vote').toggleClass('vote_cancel_question-link');
+
   
   $('.vote_down_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
     $('.rating-question').replaceWith('Rating: ' + votes_count);
+    $('.voting-for-question-' + vote.id '#cancel_vote').toggleClass('vote_cancel_question-link');
 
-  $('.vote_cancel_question-link').bind 'ajax:success', (e, data, status, xhr) ->
-    vote = $.parseJSON(xhr.responseText);
-    $('.rating-question').replaceWith('Rating: ' + votes_count);
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

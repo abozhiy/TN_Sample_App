@@ -9,10 +9,8 @@ div class="question-#{question.id}"
       i= link_to '+', vote_up_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_question-link'
       | &emsp;
       i= link_to '-', vote_down_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_question-link'
-
-      - if current_user.voted?(question)
-        | &emsp;
-        i= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: 'vote_cancel_question-link'
+    | &emsp;
+    i= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(question) ? 'vote_cancel_question-link' : 'hidden'}", id: "cancel_vote"
 
       
   - if signed_in? && current_user.author_of?(question)
