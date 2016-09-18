@@ -8,17 +8,35 @@ feature 'Vote for question', %q{
 
   let(:user) { create(:user) }
   let(:another_user) { create(:user) }
-  let!(:question) { create(:question, user: user) }
+  let!(:question) { create(:question, user: another_user) }
 
   scenario 'Not-authenticated user' do
     visit question_path(question)
 
-    within ".question" do
-      expect(page).to_not have_content '+'
-      expect(page).to_not have_content '-'
-      expect(page).to have_content 'Rating:'
+    within ".voting-for-question-#{question.id}" do
+      expect(page).to_not have_link '+'
+      expect(page).to_not have_link '-'
+
+      within ".rating-question" do
+        expect(page).to have_content 'Rating: 0'
+      end
     end
   end
+
+  scenario 'cannot vote for own question' do
+    sign_in(another_user)
+    visit question_path(question)
+
+    within ".voting-for-question-#{question.id}" do
+      expect(page).to_not have_link '+'
+      expect(page).to_not have_link '-'
+
+      within ".rating-question" do
+        expect(page).to have_content 'Rating: 0'
+      end
+    end
+  end
+
 
   describe 'Authenticated user' do
 
@@ -29,48 +47,62 @@ feature 'Vote for question', %q{
 
     scenario 'can vote for favorite question', js: true do
 
-      within ".question" do
-        expect(page).to have_content 'Rating: 0'
+      within ".voting-for-question-#{question.id}" do
+
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 0'
+        end
+
         click_on '+'
-        expect(page).to have_content 'Rating: 1'
+
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 1'
+        end
       end
     end
     
 
     scenario 'can cancel own vote and revote', js: true do
 
-      within ".question" do
-        expect(page).to have_content 'Rating: 0'
+      within ".voting-for-question-#{question.id}" do
+
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 0'
+        end
+
         click_on '+'
-        expect(page).to have_content 'Rating: 1'
+        
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 1'
+        end
+
         click_on 'Cancel'
-        expect(page).to have_content 'Rating: 0'
+
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 0'
+        end
       end
     end
-
-    scenario 'cannot vote for own question', js: true do
-      
-      click_on 'Ask question'
-      fill_in 'Type title...', with: 'Test question'
-      fill_in 'Ask your question...', with: 'text text'
-      click_on 'Create'
-
-      within ".question" do
-        expect(page).to_not have_content '+'
-        expect(page).to_not have_content '-'
-        expect(page).to have_content 'Rating:'
-      end
-    end
-
 
     scenario 'can vote for question onse', js: true do
 
-      within ".question" do
-        expect(page).to have_content 'Rating: 0'
+      within ".voting-for-question-#{question.id}" do
+
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 0'
+        end
+
         click_on '+'
-        expect(page).to have_content 'Rating: 1'
+
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 1'
+        end
+
         click_on '+'
-        expect(page).to have_content 'Rating: 1'
+
+        within ".rating-question" do
+          expect(page).to have_content 'Rating: 1'
+        end
       end
     end
   end

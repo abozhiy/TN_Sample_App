@@ -20,15 +20,21 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       it 'cannot vote for own answer' do
-        expect { patch :vote_up, id: answer, question_id: question, user: user, format: :json }.to_not change(answer.votes, :count)
+        patch :vote_up, id: answer, question_id: question, user: user, format: :json
+        answer.reload
+        expect(answer.votes).to eq answer.votes(rating: 0)
       end
 
-      it 'can increase answer votes count by 1' do
-        expect { patch :vote_up, id: answer, question_id: question, format: :json }.to change(answer.votes, :count).by(1)
+      it 'can set answer rating to eq 1' do
+        patch :vote_up, id: answer, question_id: question, format: :json
+        answer.reload
+        expect(answer.votes).to eq answer.votes(rating: 1)
       end
 
-      it 'can decrease answer votes count by 1' do
-        expect { patch :vote_down, id: answer, question_id: question, format: :json }.to change(answer.votes, :count).by(-1)
+      it 'can set answer rating to eq -1' do
+        patch :vote_down, id: answer, question_id: question, format: :json
+        answer.reload
+        expect(answer.votes).to eq answer.votes(rating: -1)
       end
     end
   end
@@ -37,7 +43,9 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     it 'can cancel own answer vote' do
-      expect { delete :vote_cancel, id: answer, question_id: question, format: :json }.to change(Vote, :count).by(-1)
+      delete :vote_cancel, id: answer, question_id: question, format: :json
+      answer.reload
+      expect(answer.votes).to eq answer.votes(rating: 0)
     end
   end
 

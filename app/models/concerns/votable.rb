@@ -17,4 +17,8 @@ module Votable
   def set_vote_down(user)
     self.votes.create(user: user, rating: -1)
   end
+
+  def set_vote_cancel(user)
+    self.votes.where(user: user).delete_all
+  end
 end

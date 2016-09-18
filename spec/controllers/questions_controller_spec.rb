@@ -11,7 +11,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Not-authenticated user' do
 
       it 'cannot vote for question' do
-        expect { patch :vote_up, id: question, format: :js }.to_not change(question.votes, :count)
+        expect { patch :vote_up, id: question, format: :json }.to_not change(question.votes, :count)
       end
     end
 
@@ -19,24 +19,32 @@ RSpec.describe QuestionsController, type: :controller do
       sign_in_user
 
       it 'cannot vote for own question' do
-        expect { patch :vote_up, id: question, user: user, format: :js }.to_not change(question.votes, :count)
+        patch :vote_up, id: question, user: user, format: :json
+        question.reload
+        expect(question.votes).to eq question.votes(rating: 0)
       end
 
-      it 'can increase question votes count by 1' do
-        expect { patch :vote_up, id: question, format: :js }.to change(question.votes, :count).by(1)
+      it 'can set question rating to eq 1' do
+        patch :vote_up, id: question, format: :json
+        question.reload
+        expect(question.votes).to eq question.votes(rating: 1)
       end
 
-      it 'can decrease question votes count by 1' do
-        expect { patch :vote_down, id: question, format: :js }.to change(question.votes, :count).by(-1)
+      it 'can set question rating to eq -1' do
+        patch :vote_down, id: question, format: :json
+        question.reload
+        expect(question.votes).to eq question.votes(rating: -1)
       end
     end
   end
 
-  describe 'DELETE #vote' do
+  describe 'DELETE #vote' do 
     sign_in_user
 
     it 'can cancel own question vote' do
-      expect { delete :vote_cancel, id: question, format: :js }.to change(Vote, :count).by(-1)
+      delete :vote_cancel, id: question, format: :json
+      question.reload
+      expect(question.votes).to eq question.votes(rating: 0)
     end
   end
 

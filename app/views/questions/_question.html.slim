@@ -6,13 +6,13 @@ div class="question-#{question.id}"
     span class="rating-question" Rating: #{question.votes_count}
     - if user_signed_in? && !current_user.author_of?(question)
       | &emsp;
-      i= link_to '+', vote_up_question_path(question), method: :patch, remote: true
+      i= link_to '+', vote_up_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_question-link'
       | &emsp;
-      i= link_to '-', vote_down_question_path(question), method: :patch, remote: true
+      i= link_to '-', vote_down_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_question-link'
 
       - if current_user.voted?(question)
         | &emsp;
-        i= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true
+        i= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: 'vote_cancel_question-link'
 
       
   - if signed_in? && current_user.author_of?(question)

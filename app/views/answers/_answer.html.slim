@@ -9,7 +9,7 @@
     
     br/
     div class="voting-for-answer-#{answer.id}"
-      span class="rating-answer" Rating: #{answer.votes_count}
+      span class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
       - if user_signed_in? && !current_user.author_of?(answer)
         | &emsp;
         span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
