@@ -10,7 +10,7 @@ module Voted
     unless current_user.author_of?(@votable) 
       unless current_user.voted?(@votable)
         @votable.set_vote_up(current_user)
-        render json: { votes_count: @votable.votes_count }
+        render json: { votes_count: @votable.votes_count, id: @votable.id  }
       end
     end
   end
@@ -19,7 +19,7 @@ module Voted
     unless current_user.author_of?(@votable) 
       unless current_user.voted?(@votable)
         @votable.set_vote_down(current_user)
-        render json: { votes_count: @votable.votes_count }
+        render json: { votes_count: @votable.votes_count, id: @votable.id  }
       end
     end
   end
@@ -27,7 +27,7 @@ module Voted
   def vote_cancel
     if current_user.voted?(@votable)
       @votable.set_vote_cancel(current_user)
-      render json: { votes_count: @votable.votes_count }
+      render json: { votes_count: @votable.votes_count, id: @votable.id  }
     end
   end
 

@@ -11,15 +11,22 @@ ready = ->
 
   $('.vote_up_answer-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
-    $('.rating-answer-').replaceWith('Rating: ' + votes_count);
+    $('.rating-answer-' + vote.id).replaceWith('Rating: ' + vote.votes_count);
+    
 
   $('.vote_down_answer-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
-    $('.rating-answer-').replaceWith('Rating: ' + votes_count);
+    $('.rating-answer-' + vote.id).replaceWith('Rating: ' + vote.votes_count);
+
 
   $('.vote_cancel_answer-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
-    $('.rating-answer-').replaceWith('Rating: ' + votes_count);
+    $('.rating-answer-' + vote.id).replaceWith('Rating: ' + vote.votes_count);
+    if(vote.votes_count != 0)
+      $('.vote_cancel_answer-link', vote.id).show();
+    else
+      $('.vote_cancel_answer-link', vote.id).hide();
+
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

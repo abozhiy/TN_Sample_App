@@ -47,7 +47,7 @@ feature 'Vote for answer', %q{
       visit question_path(question)
     end
 
-    scenario 'can vote for favorite answer', js: true do
+    scenario 'can vote for favorite answer', json: true do
       
       within ".voting-for-answer-#{answer.id}" do
 
