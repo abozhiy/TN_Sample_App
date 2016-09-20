@@ -17,7 +17,7 @@ feature 'Vote for question', %q{
       expect(page).to_not have_link '+'
       expect(page).to_not have_link '-'
 
-      within ".rating-question" do
+      within ".rating-question-#{question.id}" do
         expect(page).to have_content 'Rating: 0'
       end
     end
@@ -31,7 +31,7 @@ feature 'Vote for question', %q{
       expect(page).to_not have_link '+'
       expect(page).to_not have_link '-'
 
-      within ".rating-question" do
+      within ".rating-question-#{question.id}" do
         expect(page).to have_content 'Rating: 0'
       end
     end
@@ -49,7 +49,7 @@ feature 'Vote for question', %q{
 
       within ".voting-for-question-#{question.id}" do
 
-        within ".rating-question" do
+        within ".rating-question-#{question.id}" do
           expect(page).to have_content 'Rating: 0'
         end
 
@@ -63,7 +63,7 @@ feature 'Vote for question', %q{
 
       within ".voting-for-question-#{question.id}" do
 
-        within ".rating-question" do
+        within ".rating-question-#{question.id}" do
           expect(page).to have_content 'Rating: 0'
         end
 
@@ -78,7 +78,7 @@ feature 'Vote for question', %q{
 
       within ".voting-for-question-#{question.id}" do
 
-        within ".rating-question" do
+        within ".rating-question-#{question.id}" do
           expect(page).to have_content 'Rating: 0'
         end
 
