@@ -3,14 +3,14 @@ div class="question-#{question.id}"
   h3 = question.body
   
   div class="voting-for-question-#{question.id}"
-    span class="rating-question" Rating: #{question.votes_count}
+    span class="rating-question-#{question.id}" Rating: #{question.votes_count}
     - if user_signed_in? && !current_user.author_of?(question)
       | &emsp;
-      i= link_to '+', vote_up_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_question-link'
+      span= link_to '+', vote_up_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_question-link'
       | &emsp;
-      i= link_to '-', vote_down_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_question-link'
-    | &emsp;
-    i= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(question) ? 'vote_cancel_question-link' : 'hidden'}", id: "cancel_vote"
+      span= link_to '-', vote_down_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_question-link'
+      | &emsp;
+      span= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(question) ? 'vote_cancel_question-link' : 'hidden'}", id: "cancel_vote"
 
       
   - if signed_in? && current_user.author_of?(question)

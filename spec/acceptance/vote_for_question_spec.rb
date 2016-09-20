@@ -54,10 +54,7 @@ feature 'Vote for question', %q{
         end
 
         click_on '+'
-
-        within ".rating-question" do
-          expect(page).to have_content 'Rating: 1'
-        end
+        expect(page).to have_content 'Rating: 1'
       end
     end
     
@@ -71,16 +68,9 @@ feature 'Vote for question', %q{
         end
 
         click_on '+'
-        
-        within ".rating-question" do
-          expect(page).to have_content 'Rating: 1'
-        end
-
+        expect(page).to have_content 'Rating: 1'
         click_on 'Cancel'
-
-        within ".rating-question" do
-          expect(page).to have_content 'Rating: 0'
-        end
+        expect(page).to have_content 'Rating: 0'
       end
     end
 
@@ -93,16 +83,9 @@ feature 'Vote for question', %q{
         end
 
         click_on '+'
-
-        within ".rating-question" do
-          expect(page).to have_content 'Rating: 1'
-        end
-
+        expect(page).to have_content 'Rating: 1'
         click_on '+'
-
-        within ".rating-question" do
-          expect(page).to have_content 'Rating: 1'
-        end
+        expect(page).to have_content 'Rating: 1'
       end
     end
   end

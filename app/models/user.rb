@@ -10,6 +10,6 @@ class User < ApplicationRecord
   end
 
   def voted?(object)
-    object.votes.where(user: self).exists?
+    votes.where(votable: object).exists?
   end
 end

@@ -47,7 +47,7 @@ feature 'Vote for answer', %q{
       visit question_path(question)
     end
 
-    scenario 'can vote for favorite answer', json: true do
+    scenario 'can vote for favorite answer', js: true do
       
       within ".voting-for-answer-#{answer.id}" do
 
@@ -56,10 +56,7 @@ feature 'Vote for answer', %q{
         end
         
         click_on '+'
-          
-        within ".rating-answer-#{answer.id}" do
-          expect(page).to have_content 'Rating: 1'
-        end
+        expect(page).to have_content 'Rating: 1'
       end
     end
     
@@ -72,16 +69,9 @@ feature 'Vote for answer', %q{
         end
 
         click_on '+'
-
-        within ".rating-answer-#{answer.id}" do
-          expect(page).to have_content 'Rating: 1'
-        end
-
+        expect(page).to have_content 'Rating: 1'
         click_on 'Cancel'
-
-        within ".rating-answer-#{answer.id}" do
-          expect(page).to have_content 'Rating: 0'
-        end
+        expect(page).to have_content 'Rating: 0'
       end
     end
 
@@ -94,16 +84,9 @@ feature 'Vote for answer', %q{
         end
 
         click_on '+'
-
-        within ".rating-answer-#{answer.id}" do
-          expect(page).to have_content 'Rating: 1'
-        end
-
+        expect(page).to have_content 'Rating: 1'
         click_on '+'
-
-        within ".rating-answer-#{answer.id}" do
-          expect(page).to have_content 'Rating: 1'
-        end
+        expect(page).to have_content 'Rating: 1'
       end
     end
   end

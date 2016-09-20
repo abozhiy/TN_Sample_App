@@ -15,8 +15,9 @@
         span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
         | &emsp;
         span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
-      | &emsp;
-      span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote"
+        div class="cancel-vote-#{answer.id}"
+          | &emsp;
+          span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote"
 
 
     br/
@@ -43,7 +44,8 @@
     .answer-attachments
       - answer.attachments.each do |attachment|
         div class="attachment-#{attachment.id}"
-          li= link_to attachment.file.filename, attachment.file.url
+          small 
+            li= link_to attachment.file.filename, attachment.file.url
           - if current_user && current_user.author_of?(answer)
             = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
 
