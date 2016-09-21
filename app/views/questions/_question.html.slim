@@ -10,7 +10,7 @@ div class="question-#{question.id}"
       | &emsp;
       span= link_to '-', vote_down_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_question-link'
       | &emsp;
-      span= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(question) ? 'vote_cancel_question-link' : 'hidden'}", id: "cancel_vote"
+      span= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(question) ? 'vote_cancel_question-link' : 'hidden'}", id: "cancel_vote-#{question.id}"
 
       
   - if signed_in? && current_user.author_of?(question)

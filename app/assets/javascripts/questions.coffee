@@ -13,19 +13,22 @@ ready = ->
   $('.vote_up_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
     $('.rating-question-' + vote.id).replaceWith('Rating: ' + vote.votes_count);
-    $('.voting-for-question-' + vote.id + '#cancel_vote').toggleClass('vote_cancel_question-link');
+    $('#cancel_vote-' + vote.id + '.hidden').toggleClass('hidden');
+    $('#cancel_vote-' + vote.id).addClass('vote_cancel_question-link');
 
   
   $('.vote_down_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
     $('.rating-question-' + vote.id).replaceWith('Rating: ' + vote.votes_count);
-    $('.voting-for-question-' + vote.id + '#cancel_vote').toggleClass('vote_cancel_question-link');
+    $('#cancel_vote-' + vote.id + '.hidden').toggleClass('hidden');
+    $('#cancel_vote-' + vote.id).addClass('vote_cancel_question-link');
 
   
   $('.vote_cancel_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
     $('.rating-question-' + vote.id).replaceWith('Rating: ' + vote.votes_count);
-    $('.voting-for-question-' + vote.id + '#cancel_vote').toggleClass('hidden');
+    $('#cancel_vote-' + vote.id + '.vote_cancel_question-link').toggleClass('vote_cancel_question-link');
+    $('#cancel_vote-' + vote.id).addClass('hidden');
 
 
 $(document).ready(ready)
