@@ -7,26 +7,22 @@ module Voted
   end
  
   def vote_up
-    unless current_user.author_of?(@votable) 
-      unless current_user.voted?(@votable)
-        @votable.set_vote_up(current_user)
-        render json: { votes_count: @votable.votes_count, id: @votable.id  }
-      end
+    if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
+      @votable.vote_up(current_user)
+      render json: { votes_count: @votable.votes_count, id: @votable.id  }
     end
   end
 
   def vote_down
-    unless current_user.author_of?(@votable) 
-      unless current_user.voted?(@votable)
-        @votable.set_vote_down(current_user)
-        render json: { votes_count: @votable.votes_count, id: @votable.id  }
-      end
+    if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
+      @votable.vote_down(current_user)
+      render json: { votes_count: @votable.votes_count, id: @votable.id  }
     end
   end
 
   def vote_cancel
     if current_user.voted?(@votable)
-      @votable.set_vote_cancel(current_user)
+      @votable.vote_cancel(current_user)
       render json: { votes_count: @votable.votes_count, id: @votable.id  }
     end
   end

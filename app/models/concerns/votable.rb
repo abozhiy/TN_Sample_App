@@ -10,15 +10,16 @@ module Votable
     votes.sum(:rating)
   end
 
-  def set_vote_up(user)
+  def vote_up(user)
     self.votes.create(user: user, rating: 1)
   end
 
-  def set_vote_down(user)
+  def vote_down(user)
     self.votes.create(user: user, rating: -1)
   end
 
-  def set_vote_cancel(user)
+  def vote_cancel(user)
     self.votes.where(user: user).delete_all
   end
 end
+ 
