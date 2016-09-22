@@ -13,7 +13,9 @@ gem 'bootstrap-will_paginate'
 gem 'jquery-turbolinks'
 gem 'carrierwave'
 gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7d'
-gem "cocoon"
+gem 'cocoon'
+gem 'private_pub'
+gem 'thin' 
 
 # gem 'therubyracer', platforms: :ruby
 
