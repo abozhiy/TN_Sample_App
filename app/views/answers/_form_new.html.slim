@@ -2,6 +2,7 @@
   .answer-errors
   = f.text_area :body, placeholder: "Answer the question..."
   br/
-  = render 'attachments/attachment_form', f: f
+  #attachments
+    = render 'attachments/attachment_form', f: f
   = f.submit "Post", class: "btn btn-large btn-primary"
   br/

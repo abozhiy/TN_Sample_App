@@ -2,6 +2,16 @@ div class="question-#{question.id}"
   h1 = question.title
   h3 = question.body
   
+  div class="voting-for-question-#{question.id}"
+    span class="rating-question-#{question.id}" Rating: #{question.votes_count}
+    - if user_signed_in? && !current_user.author_of?(question)
+      | &emsp;
+      span= link_to '+', vote_up_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_question-link'
+      | &emsp;
+      span= link_to '-', vote_down_question_path(question), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_question-link'
+      | &emsp;
+      span= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(question) ? 'vote_cancel_question-link' : 'hidden'}", id: "cancel_vote-#{question.id}"
+
       
   - if signed_in? && current_user.author_of?(question)
     | &emsp;
@@ -19,7 +29,8 @@ div class="question-#{question.id}"
     p= f.text_area :body
     p= render 'attachments/attachment_form', f: f
     p= f.submit "Edit", class: "btn btn-sm btn-primary"
-
+  
+  br/
   .question-attachments
     - question.attachments.each do |attachment|
       div class="attachment-#{attachment.id}"

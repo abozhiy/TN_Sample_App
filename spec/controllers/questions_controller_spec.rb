@@ -1,9 +1,54 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   
+
+  describe 'PATCH #vote' do    
+
+    context 'Not-authenticated user' do
+
+      it 'cannot vote for question' do
+        expect { patch :vote_up, id: question, format: :json }.to_not change(question.votes, :count)
+      end
+    end
+
+    context "Authenticated user" do
+      sign_in_user
+
+      it 'cannot vote for own question' do
+        patch :vote_up, id: question, user: user, format: :json
+        question.reload
+        expect(question.votes).to eq question.votes(rating: 0)
+      end
+
+      it 'can set question rating to eq 1' do
+        patch :vote_up, id: question, format: :json
+        question.reload
+        expect(question.votes).to eq question.votes(rating: 1)
+      end
+
+      it 'can set question rating to eq -1' do
+        patch :vote_down, id: question, format: :json
+        question.reload
+        expect(question.votes).to eq question.votes(rating: -1)
+      end
+    end
+  end
+
+  describe 'DELETE #vote' do 
+    sign_in_user
+
+    it 'can cancel own question vote' do
+      delete :vote_cancel, id: question, format: :json
+      question.reload
+      expect(question.votes).to eq question.votes(rating: 0)
+    end
+  end
+
+
   describe "GET #index" do
 
     let(:questions) { create_list(:question, 2, user: user) }

@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :update, :destroy]
+  
+  before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :update, :destroy]
+  include Voted
 
   def index
     @questions = Question.all

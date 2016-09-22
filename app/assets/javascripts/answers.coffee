@@ -9,6 +9,25 @@ ready = ->
     answer_id = $(this).data('answerId');
     $('form#edit-answer-' + answer_id).show("slow");
 
+
+  $('.vote_up_answer-link').bind 'ajax:success', (e, data, status, xhr) ->
+    vote = $.parseJSON(xhr.responseText);
+    $('.rating-answer-' + vote.id).html('Rating: ' + vote.votes_count);
+    $('#cancel_vote-' + vote.id + '.hidden').toggleClass('hidden').addClass('vote_cancel_answer-link');
+  
+
+  $('.vote_down_answer-link').bind 'ajax:success', (e, data, status, xhr) ->
+    vote = $.parseJSON(xhr.responseText);
+    $('.rating-answer-' + vote.id).html('Rating: ' + vote.votes_count);
+    $('#cancel_vote-' + vote.id + '.hidden').toggleClass('hidden').addClass('vote_cancel_answer-link');
+    
+
+  $('.vote_cancel_answer-link').bind 'ajax:success', (e, data, status, xhr) ->
+    vote = $.parseJSON(xhr.responseText);
+    $('.rating-answer-' + vote.id).html('Rating: ' + vote.votes_count);
+    $('#cancel_vote-' + vote.id + '.vote_cancel_answer-link').toggleClass('vote_cancel_answer-link').addClass('hidden');
+
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)

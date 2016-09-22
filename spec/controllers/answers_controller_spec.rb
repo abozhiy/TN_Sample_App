@@ -7,6 +7,49 @@ RSpec.describe AnswersController, type: :controller do
   let!(:answer) { create(:answer, question: question, user: user) }
 
 
+  describe 'PATCH #vote' do    
+
+    context 'Not-authenticated user' do
+
+      it 'cannot vote for answer' do
+        expect { patch :vote_up, id: answer, question_id: question, format: :json }.to_not change(answer.votes, :count)
+      end
+    end
+
+    context "Authenticated user" do
+      sign_in_user
+
+      it 'cannot vote for own answer' do
+        patch :vote_up, id: answer, question_id: question, user: user, format: :json
+        answer.reload
+        expect(answer.votes).to eq answer.votes(rating: 0)
+      end
+
+      it 'can set answer rating to eq 1' do
+        patch :vote_up, id: answer, question_id: question, format: :json
+        answer.reload
+        expect(answer.votes).to eq answer.votes(rating: 1)
+      end
+
+      it 'can set answer rating to eq -1' do
+        patch :vote_down, id: answer, question_id: question, format: :json
+        answer.reload
+        expect(answer.votes).to eq answer.votes(rating: -1)
+      end
+    end
+  end
+
+  describe 'DELETE #vote' do
+    sign_in_user
+
+    it 'can cancel own answer vote' do
+      delete :vote_cancel, id: answer, question_id: question, format: :json
+      answer.reload
+      expect(answer.votes).to eq answer.votes(rating: 0)
+    end
+  end
+
+
   describe "POST #create" do
     sign_in_user
 
@@ -90,11 +133,13 @@ RSpec.describe AnswersController, type: :controller do
       end
       
       it 'render best template' do
+        patch :best, id: answer2, question_id: question, format: :js
         expect(response).to render_template :best
       end
     end
   end
 
+  
   describe 'DELETE #destroy' do
     sign_in_user
 
