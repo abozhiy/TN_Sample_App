@@ -28,6 +28,11 @@ ready = ->
     $('#cancel_vote-' + vote.id + '.vote_cancel_question-link').toggleClass('vote_cancel_question-link').addClass('hidden');
 
 
+  PrivatePub.subscribe '/questions', (data, channel) ->
+    question = $.parseJSON(data['question']);
+    $('.all-questions').append('<h4><a href="/questions/' + question.id + '">' + question.title + '</a></h4>');
+
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)
