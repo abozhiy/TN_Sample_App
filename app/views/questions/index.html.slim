@@ -1,8 +1,21 @@
 .center.hero-unit
   h1 All questions
+  br/
 
 .all-questions
   - @questions.each do |question|
     h4= link_to question.title, question
+    span Rating: #{question.votes_count}
+    br/
+    small When: "#{question.created_at}"
+    br/
+    small Who: "#{question.user.email}"
+    - if user_signed_in? && current_user.author_of?(question)
+      br/
+      small= link_to 'Delete', question, method: :delete
+  
+    hr align="left" width="15%" /
 
 = subscribe_to "/questions"
+
+  
