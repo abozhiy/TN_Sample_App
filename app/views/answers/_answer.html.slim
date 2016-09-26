@@ -6,6 +6,7 @@
     br/
     small Who: "#{answer.user.email}"
     br/
+
     
     div class="voting-for-answer-#{answer.id}"
       small class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
@@ -18,7 +19,6 @@
         span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote-#{answer.id}"
     
     
-    
     .answer-attachments 
       br/
       - answer.attachments.each do |attachment|
@@ -28,18 +28,47 @@
           - if current_user && current_user.author_of?(answer)
             small= link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
 
+
     br/
     - if user_signed_in? && current_user.author_of?(answer)
       small= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
       small= link_to 'Delete', answer, method: :delete, remote: true
     
-    - if user_signed_in? && !answer.best?
+    - if user_signed_in? && current_user.author_of?(answer.question) && !answer.best?
       | &emsp;
       small= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
     
+    - if user_signed_in?
+      | &emsp;
+      | &emsp;
+      small= link_to 'Leave comment', '', class: "comment-answer-link", data: { answer_id: answer.id }
+      br/
     
     
+    br/
+    .comments-answer
+      - answer.comments.each do |comment|
+        div class="comment-#{comment.id}"  
+          i= comment.body
+          - if user_signed_in? && current_user.author_of?(comment)
+            small
+              small
+                br/
+                | &emsp;
+                i= link_to 'Edit', '', class: 'edit-comment-link', data: { comment_id: comment.id } 
+                | &emsp;
+                i= link_to 'Delete', comment, method: :delete, remote: true
+
+            = form_for comment, remote: true, html: { id: "edit-comment-#{comment.id}" } do |f|
+              = f.text_area :body
+              br/
+              = f.submit "Edit", class: "btn btn-xs btn-primary"
+              br/
+      br/
+      = render 'comments/new_form', commentable: answer, comment: answer.comments.build
+        
+
     p
       = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
         small

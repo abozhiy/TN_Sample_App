@@ -17,6 +17,12 @@ div class="question-#{question.id}"
     small= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id } 
     | &emsp;
     small= link_to 'Delete', question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
+
+  - if user_signed_in?
+    | &emsp;
+    | &emsp;
+    small= link_to 'Leave comment', '', class: "comment-question-link", data: { question_id: question.id }
+    br/
     
 
   = form_for [ question ], remote: true, html: { id: "edit-question-#{question.id}" } do |f|
@@ -36,4 +42,26 @@ div class="question-#{question.id}"
         li= link_to attachment.file.filename, attachment.file.url
         - if current_user && current_user.author_of?(question)
           = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
+
+  
+  .comments-question
+    - question.comments.each do |comment|
+      div class="comment-#{comment.id}"
+        i= comment.body
+        - if user_signed_in? && current_user.author_of?(comment)
+          small
+            small
+              br/
+              | &emsp;
+              i= link_to 'Edit', '', class: 'edit-comment-link', data: { comment_id: comment.id } 
+              | &emsp;
+              i= link_to 'Delete', comment, method: :delete, remote: true
+
+          = form_for comment, remote: true, html: { id: "edit-comment-#{comment.id}" } do |f|
+            = f.text_area :body
+            br/
+            = f.submit "Edit", class: "btn btn-xs btn-primary"
+            br/
+    br/
+    = render 'comments/new_form', commentable: question, comment: question.comments.build
   

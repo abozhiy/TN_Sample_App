@@ -57,9 +57,10 @@ describe "POST #create" do
 
 
     describe 'Question comment' do
+      
 
       it "assigns the requested comment to @comment" do
-        patch :update, id: question_comment, commentable_id: question, comment: attributes_for(:comment), format: :js
+        patch :update, id: question_comment, comment: attributes_for(:comment), format: :js
         expect(assigns(:question_comment)).to eq question_comment
       end
 
@@ -95,7 +96,7 @@ describe "POST #create" do
       context 'Authenticated user' do
               
         it "can delete own comment" do
-          expect { delete :destroy, id: question_comment }.to change(Comment, :count).by(-1)
+          expect { delete :destroy, id: question_comment, format: :js }.to change(Comment, :count).by(-1)
         end
       end
 
@@ -103,7 +104,7 @@ describe "POST #create" do
         let!(:question_comment2) { create(:comment, commentable: question, user: another_user) }
 
         it 'cannot delete other comment' do
-          expect { delete :destroy, id: question_comment2 }.to_not change(Comment, :count)
+          expect { delete :destroy, id: question_comment2, format: :js }.to_not change(Comment, :count)
         end
       end
     end
@@ -114,7 +115,7 @@ describe "POST #create" do
       context 'Authenticated user' do
               
         it "can delete own comment" do
-          expect { delete :destroy, id: answer_comment }.to change(Comment, :count).by(-1)
+          expect { delete :destroy, id: answer_comment, format: :js }.to change(Comment, :count).by(-1)
         end
       end
 
@@ -122,7 +123,7 @@ describe "POST #create" do
         let!(:answer_comment2) { create(:comment, commentable: answer, user: another_user) }
 
         it 'cannot delete other comment' do
-          expect { delete :destroy, id: answer_comment2 }.to_not change(Comment, :count)
+          expect { delete :destroy, id: answer_comment2, format: :js }.to_not change(Comment, :count)
         end
       end
     end

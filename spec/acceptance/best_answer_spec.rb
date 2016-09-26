@@ -43,7 +43,7 @@ feature "Best answer", %q{
       within ".answer-#{answer2.id}" do
         click_on 'Best!'
       end
-      # save_and_open_page
+      
       within ".best-answer" do
         expect(page).to have_content(answer2.body)
         expect(page).to_not have_content(answer1.body)
@@ -55,6 +55,7 @@ feature "Best answer", %q{
     sign_in(another_user)
 
     visit question_path(question)
+
     within ".answers" do
       expect(page).to_not have_link "Best!"
     end

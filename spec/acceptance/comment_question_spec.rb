@@ -16,7 +16,7 @@ feature 'Comment question', %q{
       visit question_path(question)
     end
 
-    let!(:comment) { create(:comment, question: question, user: user) }
+    let!(:comment) { create(:comment, commentable_type: question, user: user) }
     
     scenario 'cannot leave a comment' do
 

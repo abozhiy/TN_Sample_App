@@ -3,7 +3,7 @@ FactoryGirl.define do
     body "MyText"
     user_id 1
     commentable_id 1
-    sequence(:commentable_type) { "question" || "answer" }
+    commentable_type "string"
   end
 
   factory :invalid_comment, class: "Comment" do

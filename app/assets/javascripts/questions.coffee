@@ -9,6 +9,12 @@ ready = ->
     question_id = $(this).data('questionId');
     $('form#edit-question-' + question_id).show();
 
+  $('.comment-question-link').click (e) ->
+    e.preventDefault();
+    $(this).hide();
+    question_id = $(this).data('questionId');
+    $('form#comment-question-' + question_id).show();
+
 
   $('.vote_up_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);

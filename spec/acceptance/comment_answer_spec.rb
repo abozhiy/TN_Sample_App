@@ -18,17 +18,18 @@ feature 'Comment answer', %q{
       visit question_path(question)
     end
 
-    let!(:comment) { create(:comment, answer: answer, question: question, user: user) }
+    let!(:comment) { create(:comment, commentable: answer, user: user) }
     
     scenario 'cannot leave a comment' do
 
-      within '.answers' do
+      within ".answer-#{answer.id}" do
 
         expect(page).to_not have_link 'Leave comment'
+      end
 
-        within '.comment-answer-#{answer.id}' do
-          expect(page).to have_content comment.body
-        end
+
+      within ".comment-body-#{comment.id}" do
+        expect(page).to have_content comment.body
       end
     end
   end
@@ -43,26 +44,33 @@ feature 'Comment answer', %q{
 
     scenario 'tries to leave a comment' do
 
-      within '.answers' do
+      within ".answer-#{answer.id}" do
         click_on 'Leave comment'
+      end
+      
+      within ".answer-comments" do
         fill_in 'Leave your comment...', with: 'Comment text'
         click_on 'Comment'
-
-        within '.comment-answer-#{answer.id}' do
-          expect(page).to have_content 'Comment text'
-          expect(current_path).to eq question_path(question)
-        end
       end
+      
+      save_and_open_page
+
+      
+      expect(page).to have_content 'Comment text'
+      expect(current_path).to eq question_path(question)
     end
     
 
     scenario 'tries to leave a comment with empty body' do
       
-      within '.answers' do
+      within ".answer-#{answer.id}" do
         click_on 'Leave comment'
-        click_on 'Comment'
 
-        expect(page).to have_content "Body can't be blank"
+        within ".answer-comments" do
+          click_on 'Comment'
+
+          expect(page).to have_content "Body can't be blank"
+        end
       end
     end
   end

@@ -1,0 +1,6 @@
+= form_for [commentable, comment], remote: true, html: { id: "comment-#{commentable.class.to_s.downcase}-#{commentable.id}" } do |f|
+  .comment-errors
+  = f.text_area :body, placeholder: "Leave your comment..."
+  br/
+  = f.submit "Comment", class: "btn btn-xs btn-primary"
+  br/

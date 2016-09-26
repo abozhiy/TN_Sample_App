@@ -4,12 +4,20 @@ class CommentsController < ApplicationController
   before_action :load_commentable, only: [:create]
   
   def create
-    @comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id))
+    @comment = @commentable.comments.build(comment_params.merge(user_id: current_user.id))
+    respond_to do |format|
+      if @comment.save
+        format.json { render json: @comment }
+      else
+        format.json { render json: @comment.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
     if current_user.author_of?(@comment)
       @comment.update(comment_params)
+      render json: { body: @comment.body, id: @comment.id  }
     end
   end
 
@@ -29,15 +37,9 @@ class CommentsController < ApplicationController
       params.require(:comment).permit(:body)
     end
 
-    def commentable_type
-      params[:commentable_type]
-    end
-
-    def commentable
-      commentable_type.classify.constantize
-    end
 
     def load_commentable
-      @commentable = commentable.find(params["#{commentable_type}_id"])
+      parent, id = request.path.split('/')[1, 2]
+      @commentable = parent.singularize.classify.constantize.find(id)
     end
 end
