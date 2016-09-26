@@ -12,11 +12,12 @@ ready = ->
 
   $('form.new_comment').bind 'ajax:success', (e, data, status, xhr) ->
     comment = $.parseJSON(xhr.responseText);
-    $('.comments-' + comment.commentable_type.toLowerCase() + comment.id).append('<i>' + comment.body + '</i>')
+    $('.comments-' + comment.commentable_type.toLowerCase() + comment.commentable_id).append('<i>' + comment.body + '</i>')
   .bind 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
       $('.comment-errors').append(value)
+
 
   $('form.edit-comment').bind 'ajax:success', (e, data, status, xhr) ->
     comment = $.parseJSON(xhr.responseText);

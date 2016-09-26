@@ -47,14 +47,14 @@
     
     
     br/
-    .comments-answer
+    div class="comments-answer-#{answer.id}"
       - answer.comments.each do |comment|
         div class="comment-#{comment.id}"  
           i= comment.body
-          - if user_signed_in? && current_user.author_of?(comment)
-            small
+          .comment-links
+            - if user_signed_in? && current_user.author_of?(comment)
+            small  
               small
-                br/
                 | &emsp;
                 i= link_to 'Edit', '', class: 'edit-comment-link', data: { comment_id: comment.id } 
                 | &emsp;
@@ -65,8 +65,8 @@
               br/
               = f.submit "Edit", class: "btn btn-xs btn-primary"
               br/
-      br/
-      = render 'comments/new_form', commentable: answer, comment: answer.comments.build
+    br/
+    = render 'comments/new_form', commentable: answer, comment: answer.comments.build
         
 
     p
