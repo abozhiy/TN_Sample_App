@@ -53,6 +53,7 @@
     br/
     = render 'comments/new_form', commentable: answer, comment: answer.comments.build
     
+    = subscribe_to "/answers/#{@answer.id}/comments"
 
 
     p

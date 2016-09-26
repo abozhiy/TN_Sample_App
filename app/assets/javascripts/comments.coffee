@@ -12,7 +12,8 @@ ready = ->
 
   $('form.new_comment').bind 'ajax:success', (e, data, status, xhr) ->
     comment = $.parseJSON(xhr.responseText);
-    console.log($('.comments-' + comment.commentable_type.toLowerCase() + '-' + comment.commentable_id).append('<i>' + comment.body + '</i>') + '.comment-links')
+    $('.comments-' + comment.commentable_type.toLowerCase() + '-' + comment.commentable_id).append('<i>' + comment.body + '</i>');
+    $('form.new_comment').hide();
   .bind 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
