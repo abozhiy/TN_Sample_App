@@ -44,24 +44,11 @@ div class="question-#{question.id}"
           = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
 
   
-  .comments-question
-    - question.comments.each do |comment|
-      div class="comment-#{comment.id}"
-        i= comment.body
-        - if user_signed_in? && current_user.author_of?(comment)
-          small
-            small
-              br/
-              | &emsp;
-              i= link_to 'Edit', '', class: 'edit-comment-link', data: { comment_id: comment.id } 
-              | &emsp;
-              i= link_to 'Delete', comment, method: :delete, remote: true
+  br/
+  div class="comments-question-#{question.id}"
+    = render 'comments/comment', commentable: question, comment: question.comments
 
-          = form_for comment, remote: true, html: { id: "edit-comment-#{comment.id}" } do |f|
-            = f.text_area :body
-            br/
-            = f.submit "Edit", class: "btn btn-xs btn-primary"
-            br/
-    br/
-    = render 'comments/new_form', commentable: question, comment: question.comments.build
+  br/
+  = render 'comments/new_form', commentable: question, comment: question.comments.build
+
   
