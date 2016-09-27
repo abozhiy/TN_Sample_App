@@ -7,9 +7,12 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.build(comment_params.merge(user_id: current_user.id))
     respond_to do |format|
       if @comment.save
-        format.json { render json: @comment }
+        format.js do
+          PrivatePub.publish_to "/comments", comment: @comment.to_json
+          render nothing: true
+        end
       else
-        format.json { render json: @comment.errors.full_messages, status: :unprocessable_entity }
+        format.js
       end
     end
   end

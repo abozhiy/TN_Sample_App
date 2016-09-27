@@ -51,4 +51,6 @@ div class="question-#{question.id}"
   br/
   = render 'comments/new_form', commentable: question, comment: question.comments.build
 
+  = subscribe_to "/questions/#{@question.id}/comments"
+
   

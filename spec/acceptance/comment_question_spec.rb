@@ -16,17 +16,11 @@ feature 'Comment question', %q{
       visit question_path(question)
     end
 
-    let!(:comment) { create(:comment, commentable_type: question, user: user) }
-    
     scenario 'cannot leave a comment' do
 
       within '.question' do
 
         expect(page).to_not have_link 'Leave comment'
-
-        within '.comment-question-#{question.id}' do
-          expect(page).to have_content comment.body
-        end
       end
     end
   end
@@ -39,22 +33,20 @@ feature 'Comment question', %q{
       visit question_path(question)
     end
 
-    scenario 'tries to leave a comment' do
+    scenario 'tries to leave a comment', js: true do
 
       within '.question' do
         click_on 'Leave comment'
         fill_in 'Leave your comment...', with: 'Comment text'
         click_on 'Comment'
-
-        within '.comment-question-#{question.id}' do
-          expect(page).to have_content 'Comment text'
-          expect(current_path).to eq question_path(question)
-        end
       end
+
+      expect(page).to have_content 'Comment text'
+      expect(current_path).to eq question_path(question)
     end
     
 
-    scenario 'tries to leave a comment with empty body' do
+    scenario 'tries to leave a comment with empty body', js: true do
       
       within '.question' do
         click_on 'Leave comment'

@@ -2,7 +2,7 @@
   div class="comment-#{comment.id}"  
     i= comment.body
     .comment-links
-    - if user_signed_in? && current_user.author_of?(comment)
+      - if user_signed_in? && current_user.author_of?(comment)
       small  
         small
           | &emsp;

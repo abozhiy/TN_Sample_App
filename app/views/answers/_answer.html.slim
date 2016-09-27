@@ -53,8 +53,7 @@
     br/
     = render 'comments/new_form', commentable: answer, comment: answer.comments.build
     
-    = subscribe_to "/answers/#{@answer.id}/comments"
-
+    = subscribe_to "/answers/#{@answer.id}/comments"    
 
     p
       = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
@@ -65,4 +64,4 @@
         br/
         = f.submit "Done", class: "btn btn-xs btn-primary"
 
-    hr align="left" width="25%" /        
+    hr align="left" width="25%" /
