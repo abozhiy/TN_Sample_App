@@ -1,0 +1,17 @@
+- commentable.comments.each do |comment|
+  div class="comment-#{comment.id}"  
+    i= comment.body
+    .comment-links
+      - if user_signed_in? && current_user.author_of?(comment)
+      small  
+        small
+          | &emsp;
+          i= link_to 'Edit', '', class: 'edit-comment-link', data: { comment_id: comment.id } 
+          | &emsp;
+          i= link_to 'Delete', comment, method: :delete, remote: true
+
+    = form_for comment, remote: true, html: { id: "edit-comment-#{comment.id}" } do |f|
+      = f.text_area :body
+      br/
+      = f.submit "Edit", class: "btn btn-xs btn-primary"
+      br/

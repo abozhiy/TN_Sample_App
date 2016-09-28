@@ -69,7 +69,6 @@ h3 {
 h4 {
   font-size: 1.5em;
   letter-spacing: 0,7px;
-  margin-left: 20px;
   margin-bottom: 15px;
   text-align: left;
   font-weight: normal;
@@ -119,39 +118,6 @@ p2 {
   }
 }
 
-/* FOOTER */
-
-footer {
-  margin-top: 45px;
-  padding-top: 5px;
-  border-top: 1px solid #D3D3D3;
-  color: #D3D3D3;
-}
-
-/* sidebar */
-
-aside {
-  section {
-    padding: 10px 0;
-    border-top: 1px solid #D3D3D3;
-    &:first-child {
-      border: 0;
-      padding-top: 0;
-    }
-    span {
-      display: block;
-      margin-bottom: 3px;
-      line-height: 1;
-    }
-    h1 {
-      font-size: 1.4em;
-      text-align: left;
-      letter-spacing: -1px;
-      margin-bottom: 3px;
-      margin-top: 0px;
-    }
-  }
-}
 
 /* errors */
 
@@ -171,6 +137,28 @@ aside {
   font-weight: 200;
 }
 
+.comment-errors {
+  margin-right: 10px;
+  font-size: 0.9em;
+  color: #FF0000;
+  text-transform: none;
+  font-weight: 200;
+}
+
 .answers {
-  list-style: none;
+  list-style: circle;
+}
+
+.leftstr, .rightstr {
+    float: left; /* Обтекание справа */ 
+    width: 50%; /* Ширина текстового блока */ 
+   }
+   .rightstr {
+    text-align: right; /* Выравнивание по правому краю */ 
+   }
+
+.answer-comments {
+  span {
+    margin-left: 20px;
+  }
 }

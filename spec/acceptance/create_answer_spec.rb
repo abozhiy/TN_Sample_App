@@ -35,6 +35,4 @@ feature "Create answer", %q{
       expect(page).to have_content "Body can't be blank"
     end
   end
-
-  
 end

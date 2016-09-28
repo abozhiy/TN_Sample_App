@@ -3,7 +3,7 @@ module Voted
   extend ActiveSupport::Concern
   
   included do
-    before_action :set_votable, only: [:vote_up, :vote_down, :vote_cancel]
+    before_action :load_votable, only: [:vote_up, :vote_down, :vote_cancel]
   end
  
   def vote_up
@@ -33,7 +33,7 @@ module Voted
       controller_name.classify.constantize
     end
  
-    def set_votable
+    def load_votable
       @votable = model_klass.find(params[:id])
     end
 end

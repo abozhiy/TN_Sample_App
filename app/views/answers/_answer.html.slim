@@ -2,14 +2,14 @@
   div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
     p2= answer.body
     br/
-    i When: "#{answer.created_at}"
+    small When: "#{answer.created_at}"
     br/
-    i Who: "#{answer.user.email}"
-    
-    
+    small Who: "#{answer.user.email}"
     br/
+
+    
     div class="voting-for-answer-#{answer.id}"
-      span class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
+      small class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
       - if user_signed_in? && !current_user.author_of?(answer)
         | &emsp;
         span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
@@ -17,20 +17,43 @@
         span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
         | &emsp;
         span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote-#{answer.id}"
+    
+    
+    .answer-attachments 
+      br/
+      - answer.attachments.each do |attachment|
+        div class="attachment-#{attachment.id}"
+          small 
+            li= link_to attachment.file.filename, attachment.file.url
+          - if current_user && current_user.author_of?(answer)
+            small= link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
 
 
     br/
     - if user_signed_in? && current_user.author_of?(answer)
-      span= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
+      small= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
-      span= link_to 'Delete', answer, method: :delete, remote: true
+      small= link_to 'Delete', answer, method: :delete, remote: true
     
     - if user_signed_in? && current_user.author_of?(answer.question) && !answer.best?
       | &emsp;
-      span= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
+      small= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
+    
+    - if user_signed_in?
+      | &emsp;
+      | &emsp;
+      small= link_to 'Leave comment', '', class: "comment-answer-link", data: { answer_id: answer.id }
+      br/
     
     
-    
+    br/
+    div class="comments-answer-#{answer.id}"
+      = render 'comments/comments', commentable: answer, comment: answer.comments
+
+    br/
+    = render 'comments/new_form', commentable: answer, comment: answer.comments.build
+       
+
     p
       = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
         small
@@ -40,12 +63,4 @@
         br/
         = f.submit "Done", class: "btn btn-xs btn-primary"
 
-    .answer-attachments
-      - answer.attachments.each do |attachment|
-        div class="attachment-#{attachment.id}"
-          small 
-            li= link_to attachment.file.filename, attachment.file.url
-          - if current_user && current_user.author_of?(answer)
-            = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
-
-    hr align="left" width="15%" /        
+    hr align="left" width="25%" /
