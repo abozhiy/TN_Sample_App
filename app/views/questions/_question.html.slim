@@ -46,11 +46,10 @@ div class="question-#{question.id}"
   
   br/
   div class="comments-question-#{question.id}"
-    = render 'comments/comment', commentable: question, comment: question.comments
+    = render 'comments/comments', commentable: question, comment: question.comments
 
   br/
   = render 'comments/new_form', commentable: question, comment: question.comments.build
 
-  = subscribe_to "/questions/#{@question.id}/comments"
 
   

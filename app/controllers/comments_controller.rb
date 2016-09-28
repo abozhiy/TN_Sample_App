@@ -5,15 +5,11 @@ class CommentsController < ApplicationController
   
   def create
     @comment = @commentable.comments.build(comment_params.merge(user_id: current_user.id))
-    respond_to do |format|
-      if @comment.save
-        format.js do
-          PrivatePub.publish_to "/comments", comment: @comment.to_json
-          render nothing: true
-        end
-      else
-        format.js
-      end
+    if @comment.save
+      PrivatePub.publish_to channel, comment: @comment.to_json
+      render nothing: true
+    else
+      render nothing: false
     end
   end
 
@@ -44,5 +40,14 @@ class CommentsController < ApplicationController
     def load_commentable
       parent, id = request.path.split('/')[1, 2]
       @commentable = parent.singularize.classify.constantize.find(id)
+    end
+
+    def channel
+      if @commentable.is_a? Question
+        id = @commentable.id
+      else
+        id = @commentable.question.id
+      end
+      "/questions/#{id}/comments"
     end
 end

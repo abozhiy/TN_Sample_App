@@ -3,7 +3,7 @@
     = render @question
   hr/
       
-  .answers
+  .answers data={question_id: "#{@question.id}"}
     h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }
     = render @question.answers
 
@@ -12,4 +12,4 @@
       = render 'answers/form_new', question: @question
 
   = subscribe_to "/questions/#{@question.id}/answers"
-  = subscribe_to "/comments"
+  = subscribe_to "/questions/#{@question.id}/comments"

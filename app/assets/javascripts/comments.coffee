@@ -10,7 +10,9 @@ ready = ->
     $('form#edit-comment-' + comment_id).show("slow");
   
 
-  PrivatePub.subscribe '/comments', (data, channel) ->
+  question_id = $('.answers').data('questionId');
+  channel = '/questions/' + question_id + '/comments'
+  PrivatePub.subscribe channel, (data, channel) ->
     comment = $.parseJSON(data['comment']);
     $('.comments-' + comment.commentable_type.toLowerCase() + '-' + comment.commentable_id).append('<i>' + comment.body + '</i>').addClass('.comment-links');
     $('form.new_comment > #comment_body').val('');

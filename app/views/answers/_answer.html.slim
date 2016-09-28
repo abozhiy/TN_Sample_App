@@ -48,12 +48,11 @@
     
     br/
     div class="comments-answer-#{answer.id}"
-      = render 'comments/comment', commentable: answer, comment: answer.comments
+      = render 'comments/comments', commentable: answer, comment: answer.comments
 
     br/
     = render 'comments/new_form', commentable: answer, comment: answer.comments.build
-    
-    = subscribe_to "/answers/#{@answer.id}/comments"    
+       
 
     p
       = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
