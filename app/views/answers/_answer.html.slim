@@ -1,12 +1,13 @@
 - if answer.persisted?
   div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
-    p2= answer.body
+    small Message (id_#{answer.id}): 
+    
+    p2 &nbsp;#{answer.body}.
     br/
-    small When: "#{answer.created_at}"
+    small When: &nbsp;#{answer.created_at}
     br/
-    small Who: "#{answer.user.email}"
+    small Who: &nbsp;#{answer.user.email}
     br/
-
     
     div class="voting-for-answer-#{answer.id}"
       small class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
@@ -17,16 +18,6 @@
         span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
         | &emsp;
         span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote-#{answer.id}"
-    
-    
-    .answer-attachments 
-      br/
-      - answer.attachments.each do |attachment|
-        div class="attachment-#{attachment.id}"
-          small 
-            li= link_to attachment.file.filename, attachment.file.url
-          - if current_user && current_user.author_of?(answer)
-            small= link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
 
 
     br/
@@ -45,11 +36,17 @@
       small= link_to 'Leave comment', '', class: "comment-answer-link", data: { answer_id: answer.id }
       br/
     
+
+    .answer-attachments 
+      br/
+      = render 'attachments/attachments', attachable: answer, attachment: answer.attachments
+
     
     br/
     div class="comments-answer-#{answer.id}"
-      = render 'comments/comments', commentable: answer, comment: answer.comments
-
+      - if answer.comments.any?
+        small Comments:
+        = render 'comments/comments', commentable: answer, comment: answer.comments
     br/
     = render 'comments/new_form', commentable: answer, comment: answer.comments.build
        

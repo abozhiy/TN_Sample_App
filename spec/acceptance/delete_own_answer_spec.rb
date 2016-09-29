@@ -30,7 +30,7 @@ feature 'Delete own answer', %q{
         click_link "Delete"
       end
 
-      expect(page).to have_content "Your answer successfuly deleted."
+      expect(page).to have_content "Answer was successfully destroyed."
       expect(current_path).to eq question_path(question)
       expect(page).to_not have_content(answer.body)
     end

@@ -1,16 +1,14 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_comment, only: [:update, :destroy]
-  before_action :load_commentable, only: [:create]
+  before_action :load_commentable, only: :create
+  after_action :publish_comment, only: :create
+
+  respond_to :js
+  respond_to :json, only: [:create, :update]
   
   def create
-    @comment = @commentable.comments.build(comment_params.merge(user_id: current_user.id))
-    if @comment.save
-      PrivatePub.publish_to channel, comment: @comment.to_json
-      render nothing: true
-    else
-      render nothing: false
-    end
+    respond_with(@comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id)))
   end
 
   def update
@@ -22,7 +20,7 @@ class CommentsController < ApplicationController
 
   def destroy
     if current_user.author_of?(@comment)
-      @comment.destroy
+      respond_with(@comment.destroy)
     end
   end
 
@@ -34,6 +32,10 @@ class CommentsController < ApplicationController
 
     def comment_params
       params.require(:comment).permit(:body)
+    end
+
+    def publish_comment
+      PrivatePub.publish_to(channel, comment: @comment.to_json) if @comment.valid?
     end
 
 

@@ -15,7 +15,7 @@ feature 'Delete own question', %q{
     visit question_path(question)
     click_on "Delete"
 
-    expect(page).to have_content "Your question successfuly deleted."
+    expect(page).to have_content "Question was successfully destroyed."
     expect(current_path).to eq questions_path
     expect(page).to_not have_content(question.title)
   end

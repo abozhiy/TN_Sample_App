@@ -35,19 +35,17 @@ div class="question-#{question.id}"
     p= render 'attachments/attachment_form', f: f
     p= f.submit "Edit", class: "btn btn-sm btn-primary"
   
+
   br/
   .question-attachments
-    - question.attachments.each do |attachment|
-      div class="attachment-#{attachment.id}"
-        li= link_to attachment.file.filename, attachment.file.url
-        - if current_user && current_user.author_of?(question)
-          = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
+    = render 'attachments/attachments', attachable: question, attachment: question.attachments
 
   
   br/
   div class="comments-question-#{question.id}"
-    = render 'comments/comments', commentable: question, comment: question.comments
-
+    - if question.comments.any?
+      small Comments:
+      = render 'comments/comments', commentable: question, comment: question.comments
   br/
   = render 'comments/new_form', commentable: question, comment: question.comments.build
 

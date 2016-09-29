@@ -15,7 +15,8 @@ gem 'carrierwave'
 gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7d'
 gem 'cocoon'
 gem 'private_pub'
-gem 'thin' 
+gem 'thin'
+gem 'responders', '~> 2.0'
 
 # gem 'therubyracer', platforms: :ruby
 
