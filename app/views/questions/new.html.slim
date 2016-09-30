@@ -3,12 +3,5 @@
     .span6.offset1
     section
       h1 Create question
-      = form_for @question, remote: true do |f|
-        p= f.text_field :title, placeholder: "Type title..."
-        p= f.text_area :body, placeholder: "Ask your question..."
-        .question-errors
-        
-        p= render 'attachments/attachment_form', f: f
-
-        p= f.submit "Create", class: "btn btn-large btn-primary"
+      = render 'form_new', question: @question, attachment: @question.attachments.build
 

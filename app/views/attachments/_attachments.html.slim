@@ -1,0 +1,5 @@
+- attachable.attachments.each do |attachment|
+      div class="attachment-#{attachment.id}"
+        li= link_to attachment.file.filename, attachment.file.url
+        - if current_user && current_user.author_of?(attachable)
+          = link_to "Remove file", attachment_path(attachment), method: :delete, remote: true

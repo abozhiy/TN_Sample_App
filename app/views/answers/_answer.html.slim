@@ -1,12 +1,13 @@
 - if answer.persisted?
   div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
-    p2= answer.body
+    small Message (id_#{answer.id}): 
     br/
-    small When: "#{answer.created_at}"
+    p2 &shy;&nbsp;#{answer.body}.
     br/
-    small Who: "#{answer.user.email}"
+    small When: &nbsp;#{answer.created_at}
     br/
-
+    small Who: &nbsp;#{answer.user.email}
+    br/
     
     div class="voting-for-answer-#{answer.id}"
       small class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
@@ -17,19 +18,8 @@
         span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
         | &emsp;
         span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote-#{answer.id}"
-    
-    
-    .answer-attachments 
-      br/
-      - answer.attachments.each do |attachment|
-        div class="attachment-#{attachment.id}"
-          small 
-            li= link_to attachment.file.filename, attachment.file.url
-          - if current_user && current_user.author_of?(answer)
-            small= link_to "Remove file", attachment_path(attachment), method: :delete, remote: true
 
 
-    br/
     - if user_signed_in? && current_user.author_of?(answer)
       small= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
@@ -43,17 +33,8 @@
       | &emsp;
       | &emsp;
       small= link_to 'Leave comment', '', class: "comment-answer-link", data: { answer_id: answer.id }
-      br/
-    
-    
-    br/
-    div class="comments-answer-#{answer.id}"
-      = render 'comments/comments', commentable: answer, comment: answer.comments
 
-    br/
-    = render 'comments/new_form', commentable: answer, comment: answer.comments.build
-       
-
+    
     p
       = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
         small
@@ -63,4 +44,22 @@
         br/
         = f.submit "Done", class: "btn btn-xs btn-primary"
 
-    hr align="left" width="25%" /
+
+    br/
+    div class="comments-answer-#{answer.id}"
+      - if answer.comments.any?
+        small Comments:
+        br/
+        br/
+
+        = render 'comments/comments', commentable: answer, comment: answer.comments
+    br/
+    = render 'comments/new_form', commentable: answer, comment: answer.comments.build
+
+
+    .answer-attachments 
+      br/
+      = render 'attachments/attachments', attachable: answer, attachment: answer.attachments
+
+
+    hr align="left" width="40%" /

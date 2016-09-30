@@ -32,7 +32,7 @@ feature 'Edit own question', %q{
       fill_in "Body", with: 'text text'
       click_on 'Edit'
 
-      expect(page).to have_content "Your question successfuly updated."
+      expect(page).to have_content "Question was successfully updated."
       expect(page).to have_content "Test question"
       expect(page).to have_content "text text"
       expect(current_path).to eq question_path(question)

@@ -4,12 +4,12 @@
   hr/
       
   .answers data={question_id: "#{@question.id}"}
-    h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }
+    h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }:
     = render @question.answers
 
   .new-answer
     - if user_signed_in?
-      = render 'answers/form_new', question: @question
+      = render 'answers/form_new', question: @question, attachment: @answer.attachments.build
 
   = subscribe_to "/questions/#{@question.id}/answers"
   = subscribe_to "/questions/#{@question.id}/comments"

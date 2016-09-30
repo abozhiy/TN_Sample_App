@@ -40,11 +40,10 @@ feature 'Answer editing', %q{
         fill_in 'Edit your answer:', with: 'edited answer'
         click_on 'Done'
         # save_and_open_page
-
-        expect(page).to_not have_content answer.body
-        expect(page).to have_content "edited answer"
-        expect(page).to_not have_selector 'textarea'
       end
+      
+      expect(page).to_not have_content answer.body
+      expect(page).to have_content "edited answer"
     end
 
     scenario 'try to edit answer of another user' do

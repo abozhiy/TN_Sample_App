@@ -3,35 +3,33 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: [:create]
   before_action :load_answer, only: [:update, :destroy, :best]
+  before_action :answer_question, only: [:update, :best]
   include Voted
 
+  respond_to :js
+
   def create
-    @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
-    flash[:notice] = "Your answer successfuly created."
+    respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
   end
 
   def update
-    @question = @answer.question
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
-      flash[:notice] = "Your answer successfuly updated."
+      respond_with @answer.question
     else
       flash[:notice] = "Your cannot edit alien answer!"
     end
-    redirect_to @answer.question
   end
 
   def destroy
     if current_user.author_of?(@answer)
-      @answer.destroy
-      flash[:notice] = "Your answer successfuly deleted."
+      respond_with(@answer.destroy)
     else
       flash[:notice] = "Your cannot delete alien answer!"
     end
   end
 
   def best
-    @question = @answer.question
     if current_user.author_of?(@answer.question)
       @answer.set_best
       @answers = @question.answers
@@ -47,6 +45,10 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def answer_question
+    @question = @answer.question
   end
 
   def answer_params
