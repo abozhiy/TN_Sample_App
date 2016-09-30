@@ -15,11 +15,10 @@ class AnswersController < ApplicationController
   def update
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
-      flash[:notice] = "Your answer successfuly updated."
+      respond_with @answer.question
     else
       flash[:notice] = "Your cannot edit alien answer!"
     end
-    redirect_to @answer.question
   end
 
   def destroy

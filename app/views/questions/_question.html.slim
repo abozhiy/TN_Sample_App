@@ -45,6 +45,8 @@ div class="question-#{question.id}"
   div class="comments-question-#{question.id}"
     - if question.comments.any?
       small Comments:
+      br/
+      br/
       = render 'comments/comments', commentable: question, comment: question.comments
   br/
   = render 'comments/new_form', commentable: question, comment: question.comments.build

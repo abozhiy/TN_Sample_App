@@ -15,12 +15,10 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = @question.answers
-    @answer.attachments.build
     respond_with @question
   end
 
   def new
-    @question.attachments.build
     respond_with(@question = Question.new)
   end
 

@@ -98,7 +98,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it "redirect to question" do
       patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-      expect(response).to redirect_to question
+      expect(response.status).to eq(200)
     end
   end
 
