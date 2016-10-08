@@ -1,0 +1,5 @@
+= form_for user, url: confirmation_users_path do |f|
+  = f.text_field :email, placeholder: "Enter your email"
+  br/
+  br/
+  = f.submit "Continue", class: "btn btn-sm btn-primary"

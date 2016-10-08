@@ -3,7 +3,14 @@ Rails.application.routes.draw do
   
   root to: "questions#index"
   resources :attachments, only: [:destroy]
-  
+
+  resources :users do
+    collection do
+      get :confirm_form
+      post :confirmation
+    end
+  end
+   
   
   concern :votable do
     member do
