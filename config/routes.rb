@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   
   root to: "questions#index"
   resources :attachments, only: [:destroy]
-  
+
+  resources :users do
+    collection do
+      get :confirm_form
+      post :confirmation
+    end
+  end
+   
   
   concern :votable do
     member do
