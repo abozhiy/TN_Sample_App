@@ -8,14 +8,14 @@ module Voted
  
   def vote_up
     if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
-      @votable.vote_up(current_user)
+      @votable.vote_up(current_user) if @votable.votes_count < 1
       render json: { votes_count: @votable.votes_count, id: @votable.id  }
     end
   end
 
   def vote_down
     if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
-      @votable.vote_down(current_user)
+      @votable.vote_down(current_user) if @votable.votes_count > -1
       render json: { votes_count: @votable.votes_count, id: @votable.id  }
     end
   end
