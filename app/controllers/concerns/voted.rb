@@ -1,30 +1,26 @@
 module Voted
   
   extend ActiveSupport::Concern
+
   
   included do
     before_action :load_votable, only: [:vote_up, :vote_down, :vote_cancel]
+    authorize_resource
   end
  
   def vote_up
-    if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
-      @votable.vote_up(current_user) if @votable.votes_count < 1
-      render json: { votes_count: @votable.votes_count, id: @votable.id  }
-    end
+    @votable.vote_up(current_user) if @votable.votes_count < 1
+    render json: { votes_count: @votable.votes_count, id: @votable.id  }
   end
 
   def vote_down
-    if !current_user.author_of?(@votable) && !current_user.voted?(@votable)
-      @votable.vote_down(current_user) if @votable.votes_count > -1
-      render json: { votes_count: @votable.votes_count, id: @votable.id  }
-    end
+    @votable.vote_down(current_user) if @votable.votes_count > -1
+    render json: { votes_count: @votable.votes_count, id: @votable.id  }
   end
 
   def vote_cancel
-    if current_user.voted?(@votable)
-      @votable.vote_cancel(current_user)
-      render json: { votes_count: @votable.votes_count, id: @votable.id  }
-    end
+    @votable.vote_cancel(current_user)
+    render json: { votes_count: @votable.votes_count, id: @votable.id  }
   end
 
   private

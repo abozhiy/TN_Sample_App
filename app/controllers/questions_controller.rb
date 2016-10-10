@@ -1,5 +1,4 @@
 class QuestionsController < ApplicationController
-  
   before_action :authenticate_user!, except: [:show, :index]
   before_action :load_question, only: [:show, :update, :destroy]
   before_action :build_answer, only: :show
@@ -8,6 +7,8 @@ class QuestionsController < ApplicationController
 
   respond_to :js
   respond_to :json, only: :create
+
+  authorize_resource
 
   def index
     respond_with(@questions = Question.all)
@@ -27,20 +28,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(@question)
-      @question.update(question_params)
-      respond_with @question
-    else
-      flash[:notice] = "You cannot update alien questions."
-    end
+    @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      respond_with(@question.destroy)
-    else
-      redirect_to @question, notice: "You cannot delete alien questions."
-    end
+    respond_with(@question.destroy)
   end
 
 

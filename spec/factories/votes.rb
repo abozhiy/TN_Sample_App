@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :vote do
-    rating 
-    user_id 
-    votable_id 
+    rating 0
+    user_id 1
+    votable_id 1 
   end
 end

@@ -8,32 +8,24 @@ class AnswersController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   def create
     respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
   end
 
   def update
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-      respond_with @answer.question
-    else
-      flash[:notice] = "Your cannot edit alien answer!"
-    end
+    @answer.update(answer_params)
+    respond_with @answer.question
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      respond_with(@answer.destroy)
-    else
-      flash[:notice] = "Your cannot delete alien answer!"
-    end
+    respond_with(@answer.destroy)
   end
 
   def best
-    if current_user.author_of?(@answer.question)
-      @answer.set_best
-      @answers = @question.answers
-    end
+    @answer.set_best
+    @answers = @question.answers
   end
 
 

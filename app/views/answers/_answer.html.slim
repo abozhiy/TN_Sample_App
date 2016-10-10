@@ -20,16 +20,17 @@
         span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote-#{answer.id}"
 
 
-    - if user_signed_in? && current_user.author_of?(answer)
+    - if can?(:update, answer)
       small= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
       | &emsp;
+    - if can?(:destroy, answer)
       small= link_to 'Delete', answer, method: :delete, remote: true
     
-    - if user_signed_in? && current_user.author_of?(answer.question) && !answer.best?
+    - if can?(:best, answer)
       | &emsp;
       small= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
     
-    - if user_signed_in?
+    - if can?(:create, Comment)
       | &emsp;
       | &emsp;
       small= link_to 'Leave comment', '', class: "comment-answer-link", data: { answer_id: answer.id }
