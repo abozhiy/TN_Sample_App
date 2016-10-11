@@ -21,3 +21,13 @@
 //= require_tree .
 
 
+$(document).ajaxError(function(e, xhr, settings) {
+  var message;
+  message = $.parseJSON(xhr.responseText);
+  return $('.alert').html(message.errors);
+});
+
+
+
+
+

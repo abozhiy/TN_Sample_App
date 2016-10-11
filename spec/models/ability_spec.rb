@@ -66,7 +66,6 @@ RSpec.describe Ability do
       it { should be_able_to :vote_up, create(:question, user: another_user), user: user }
       it { should be_able_to :vote_down, create(:question, user: another_user), user: user }
 
-      it { should be_able_to :vote_cancel, create(:vote, votable: question, user: user), user: user }
     end
       
     context 'votes for answer' do
@@ -76,7 +75,6 @@ RSpec.describe Ability do
       it { should be_able_to :vote_up, create(:answer, question: question, user: another_user), user: user }
       it { should be_able_to :vote_down, create(:answer, question: question, user: another_user), user: user }
 
-      it { should be_able_to :vote_cancel, create(:vote, votable: answer, user: user), user: user }
     end
 
     context 'best answer' do

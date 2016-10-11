@@ -5,7 +5,7 @@ module Voted
   
   included do
     before_action :load_votable, only: [:vote_up, :vote_down, :vote_cancel]
-    authorize_resource
+    before_action :authorize, only: [:vote_up, :vote_down, :vote_cancel]
   end
  
   def vote_up
@@ -31,6 +31,10 @@ module Voted
  
     def load_votable
       @votable = model_klass.find(params[:id])
+    end
+
+    def authorize
+      authorize!(params[:action].to_sym, @votable)
     end
 end
 
