@@ -6,22 +6,20 @@ class CommentsController < ApplicationController
 
   respond_to :js
   respond_to :json, only: [:create, :update]
+
+  authorize_resource
   
   def create
     respond_with(@comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id)))
   end
 
   def update
-    if current_user.author_of?(@comment)
-      @comment.update(comment_params)
-      render json: { body: @comment.body, id: @comment.id  }
-    end
+    @comment.update(comment_params)
+    render json: { body: @comment.body, id: @comment.id  }
   end
 
   def destroy
-    if current_user.author_of?(@comment)
-      respond_with(@comment.destroy)
-    end
+    respond_with(@comment.destroy)
   end
 
   private

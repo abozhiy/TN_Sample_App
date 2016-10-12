@@ -163,11 +163,6 @@ RSpec.describe AnswersController, type: :controller do
       it 'cannot delete other answer' do
         expect { delete :destroy, id: another_answer, format: :js }.to_not change(Answer, :count)
       end
-
-      it 'renders destroy template' do
-        delete :destroy, id: another_answer, format: :js
-        expect(response).to render_template :destroy
-      end
     end
   end
 end
