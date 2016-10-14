@@ -1,8 +1,17 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
   
   root to: "questions#index"
   resources :attachments, only: [:destroy]
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles do
+        get :me, on: :collection
+      end
+    end
+  end
 
   resources :users do
     collection do
@@ -10,7 +19,6 @@ Rails.application.routes.draw do
       post :confirmation
     end
   end
-   
   
   concern :votable do
     member do
@@ -23,8 +31,6 @@ Rails.application.routes.draw do
   concern :commentable do
     resources :comments, shallow: true, only: [:create, :update, :destroy]
   end
-
- 
   
   resources :questions, concerns: [:votable, :commentable] do
     resources :answers, shallow: true, concerns: [:votable, :commentable] do

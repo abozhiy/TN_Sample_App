@@ -12,7 +12,7 @@ gem 'bootstrap-sass'
 gem 'bootstrap-will_paginate'
 gem 'jquery-turbolinks'
 gem 'carrierwave'
-gem 'remotipart', github: 'mshibuya/remotipart', ref: '88d9a7d'
+gem 'remotipart'
 gem 'cocoon'
 gem 'private_pub'
 gem 'thin'
@@ -21,6 +21,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
 
 # gem 'therubyracer', platforms: :ruby
 
@@ -55,6 +56,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'json_spec'
 end
 
 group :development do
