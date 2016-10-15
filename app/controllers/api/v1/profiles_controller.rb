@@ -1,10 +1,7 @@
-class Api::V1::ProfilesController < ApplicationController
-  before_action :doorkeeper_authorize!
+class Api::V1::ProfilesController < Api::V1::BaseController
 
-  skip_authorization_check
-
-  respond_to :json
-
+  authorize_resource class: 'User'
+  
   def me
     respond_with current_resource_owner
   end
@@ -13,11 +10,4 @@ class Api::V1::ProfilesController < ApplicationController
     @users = User.where.not(id: current_resource_owner)
     respond_with @users
   end
-
-
-  protected
-
-    def current_resource_owner
-      @current_resource_owner ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
-    end
 end
