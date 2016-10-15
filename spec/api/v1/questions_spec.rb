@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Questions API' do
-  describe 'GET #index' do
+  describe 'GET /index' do
     context 'unauthorized' do
       it 'returns 401 status if there is no access_token' do
         get '/api/v1/questions', format: :json
@@ -56,7 +56,7 @@ describe 'Questions API' do
   end
 
 
-  describe 'GET #show' do
+  describe 'GET /show' do
     let(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
 
@@ -74,7 +74,7 @@ describe 'Questions API' do
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
-      let!(:comment) { create(:comment, commentable: question, user: user) }
+      let!(:comment) { create(:comment, commentable: question) }
       let!(:attachment) { create(:attachment, attachable: question) }
 
       before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
@@ -116,7 +116,7 @@ describe 'Questions API' do
   end
 
 
-  describe 'POST #create' do
+  describe 'POST /create' do
 
     context 'unauthorized' do
       it 'returns 401 status if there is no access_token' do
@@ -135,8 +135,13 @@ describe 'Questions API' do
       let!(:question) { create(:question, user: user) }
       let(:access_token) { create(:access_token) }
 
-      it 'returns 401 status if access_token is invalid' do
+      it 'saves a new question to the database' do
         expect { post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: access_token.token }.to change(Question, :count).by(1)
+      end
+
+      it 'associates with current user' do
+        post "/api/v1/questions", question: attributes_for(:question), format: :json, access_token: access_token.token
+        expect(assigns(:question).user.id).to eq access_token.resource_owner_id
       end
     end
   end

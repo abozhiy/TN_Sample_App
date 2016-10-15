@@ -41,5 +41,8 @@ class Ability
     can :destroy, Attachment do |subject|
       user.author_of?(subject.attachable)
     end
+
+    can :me, @profile
+    can :index, @profile
   end
 end
