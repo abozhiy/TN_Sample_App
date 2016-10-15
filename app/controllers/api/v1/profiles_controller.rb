@@ -1,7 +1,6 @@
 class Api::V1::ProfilesController < Api::V1::BaseController
-  before_action :authorize, only: [:me, :index]
 
-  # authorize_resource
+  authorize_resource class: 'User'
   
   def me
     respond_with current_resource_owner
@@ -11,10 +10,4 @@ class Api::V1::ProfilesController < Api::V1::BaseController
     @users = User.where.not(id: current_resource_owner)
     respond_with @users
   end
-
-  private
-
-    def authorize
-      authorize!(params[:action].to_sym, @profile)
-    end
 end

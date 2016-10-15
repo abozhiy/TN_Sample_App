@@ -42,7 +42,7 @@ class Ability
       user.author_of?(subject.attachable)
     end
 
-    can :me, @profile
-    can :index, @profile
+    can :me, User, user_id: user.id
+    can :index, User
   end
 end
