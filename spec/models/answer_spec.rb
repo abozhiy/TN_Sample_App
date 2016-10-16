@@ -45,12 +45,4 @@ RSpec.describe Answer, type: :model do
       expect(answer1).to_not be_best
     end
   end
-
-
-  describe 'votes_count' do
-
-    it "should return a count of votes" do
-      expect(answer1.votes_count).to eq (0)
-    end
-  end
 end

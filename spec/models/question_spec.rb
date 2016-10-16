@@ -23,12 +23,4 @@ RSpec.describe Question, type: :model do
 
 
   it_behaves_like 'Votable'
-
-
-  describe 'votes_count' do
-
-    it "should return a count of votes" do
-      expect(question.votes_count).to eq (0)
-    end
-  end
 end
