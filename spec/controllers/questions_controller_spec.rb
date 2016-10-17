@@ -4,48 +4,18 @@ RSpec.describe QuestionsController, type: :controller do
 
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
-  
+  let(:object) { create(:question, user: user) }
 
-  describe 'PATCH #vote' do    
-
-    context 'Not-authenticated user' do
-
-      it 'cannot vote for question' do
-        expect { patch :vote_up, id: question, format: :json }.to_not change(question.votes, :count)
-      end
-    end
-
-    context "Authenticated user" do
-      sign_in_user
-
-      it 'cannot vote for own question' do
-        patch :vote_up, id: question, user: user, format: :json
-        question.reload
-        expect(question.votes).to eq question.votes(rating: 0)
-      end
-
-      it 'can set question rating to eq 1' do
-        patch :vote_up, id: question, format: :json
-        question.reload
-        expect(question.votes).to eq question.votes(rating: 1)
-      end
-
-      it 'can set question rating to eq -1' do
-        patch :vote_down, id: question, format: :json
-        question.reload
-        expect(question.votes).to eq question.votes(rating: -1)
-      end
-    end
+  describe 'PATCH #vote' do
+    let(:do_request_vote_up) { patch :vote_up, id: question, user: user, format: :json }
+    let(:do_request_vote_down) { patch :vote_down, id: question, format: :json }
+    it_behaves_like 'Create votes'
   end
 
   describe 'DELETE #vote' do 
     sign_in_user
-
-    it 'can cancel own question vote' do
-      delete :vote_cancel, id: question, format: :json
-      question.reload
-      expect(question.votes).to eq question.votes(rating: 0)
-    end
+    let(:do_request_vote_cancel) { delete :vote_cancel, id: question, format: :json }
+    it_behaves_like 'Delete votes'
   end
 
 
@@ -120,6 +90,13 @@ RSpec.describe QuestionsController, type: :controller do
       it "re-renders new view" do
         post :create, question: attributes_for(:invalid_question)
         expect(response).to render_template :new
+      end
+    end
+
+    context 'PrivatePub' do
+      it 'publishes new question' do
+        expect(PrivatePub).to receive(:publish_to).with('/questions', anything)
+        post :create, question: attributes_for(:question)
       end
     end
   end

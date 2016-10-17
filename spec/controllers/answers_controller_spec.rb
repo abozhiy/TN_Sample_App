@@ -5,48 +5,19 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
   let!(:answer) { create(:answer, question: question, user: user) }
+  let(:object) { create(:answer, question: question, user: user) }
 
 
-  describe 'PATCH #vote' do    
-
-    context 'Not-authenticated user' do
-
-      it 'cannot vote for answer' do
-        expect { patch :vote_up, id: answer, question_id: question, format: :json }.to_not change(answer.votes, :count)
-      end
-    end
-
-    context "Authenticated user" do
-      sign_in_user
-
-      it 'cannot vote for own answer' do
-        patch :vote_up, id: answer, question_id: question, user: user, format: :json
-        answer.reload
-        expect(answer.votes).to eq answer.votes(rating: 0)
-      end
-
-      it 'can set answer rating to eq 1' do
-        patch :vote_up, id: answer, question_id: question, format: :json
-        answer.reload
-        expect(answer.votes).to eq answer.votes(rating: 1)
-      end
-
-      it 'can set answer rating to eq -1' do
-        patch :vote_down, id: answer, question_id: question, format: :json
-        answer.reload
-        expect(answer.votes).to eq answer.votes(rating: -1)
-      end
-    end
+  describe 'PATCH #vote' do
+    let(:do_request_vote_up) { patch :vote_up, id: answer, question_id: question, user: user, format: :json }
+    let(:do_request_vote_down) { patch :vote_down, id: answer, question_id: question, format: :json }
+    it_behaves_like 'Create votes'
   end
 
   describe 'DELETE #vote' do
     sign_in_user
-
-    it 'can cancel own answer vote' do
-      delete :vote_cancel, id: answer, question_id: question, format: :json
-      answer.reload
-      expect(answer.votes).to eq answer.votes(rating: 0)
-    end
+    let(:do_request_vote_cancel) { delete :vote_cancel, id: answer, question_id: question, format: :json }
+    it_behaves_like 'Delete votes'
   end
 
 
