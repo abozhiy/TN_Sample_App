@@ -12,6 +12,7 @@ describe 'Questions API' do
       let!(:questions) { create_list(:question, 2, user: user) }
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question, user: user) }
+      let!(:size) { 2 }
 
       before { get '/api/v1/questions', format: :json, access_token: access_token.token }
 

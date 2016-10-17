@@ -14,6 +14,7 @@ describe 'Answers API' do
       let(:access_token) { create(:access_token) }
       let!(:answers) { create_list(:answer, 2, question: question, user: user) }
       let(:answer) { answers.first }
+      let!(:size) { 2 }
 
       before { get "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token }
 

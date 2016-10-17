@@ -20,7 +20,7 @@ end
 
 shared_examples_for 'API returns list of subject' do
   it 'returns list' do
-    expect(response.body).to have_json_size(2)
+    expect(response.body).to have_json_size(size)
   end
 end
 
