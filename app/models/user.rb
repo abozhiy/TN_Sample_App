@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :authorizations
+  has_many :subscriptions, dependent: :destroy
 
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
@@ -31,5 +32,17 @@ class User < ApplicationRecord
       user.authorizations.create(provider: auth[:provider], uid: auth[:uid])
     end
     user
+  end
+
+  def subscribed?(question)
+    self.subscriptions.where(question: question).exists?
+  end
+
+  def subscribe(question)
+    self.subscriptions.create(question: question)
+  end
+
+  def unscribe(question)
+    self.subscriptions.where(question: question).delete_all
   end
 end

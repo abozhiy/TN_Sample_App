@@ -6,6 +6,29 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question, user: user) }
   let(:object) { create(:question, user: user) }
 
+
+  describe 'POST #subscribe' do
+    sign_in_user
+
+    it "creates new subscription to the question" do
+      expect { post :subscribe, id: question }.to change(question.subscriptions, :count).by(1)
+    end
+
+    it 'associates with current user' do
+      expect { post :subscribe, id: question }.to change(user.subscriptions, :count).by(1)
+    end
+  end
+
+  describe 'DELETE #unscribe' do
+    sign_in_user
+    let!(:subscription) { create(:subscription, question: question, user: user) }
+
+    it "deletes subscription from the question" do
+      expect { delete :unscribe, id: question }.to change(Subscription, :count).by(-1)
+    end
+  end  
+
+
   describe 'PATCH #vote' do
     let(:do_request_vote_up) { patch :vote_up, id: question, user: user, format: :json }
     let(:do_request_vote_down) { patch :vote_down, id: question, format: :json }
