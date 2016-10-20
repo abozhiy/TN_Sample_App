@@ -36,7 +36,7 @@ ready = ->
 
   PrivatePub.subscribe '/questions', (data, channel) ->
     question = $.parseJSON(data['question']);
-    $('.all-questions').append('<h4><a href="/questions/' + question.id + '">' + question.title + '</a></h4>');
+    $('.all-questions').append('<h4><a href="/questions/' + question.id + '">' + question.title + '</a></h4>' + '<span>Rating: ' + '</span>' + '<br><small>When: ' + '"' + question.created_at + '"' + '</small>' + '<br><small>Who: ' + '</small>' + '<br><small><a rel="nofollow" data-method="delete" href="/questions/' + question.id + '">Delete</a></small>');
 
 
 $(document).ready(ready)

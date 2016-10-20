@@ -1,4 +1,4 @@
-= form_for @question, remote: true do |f|
+= form_for @question do |f|
   p= f.text_field :title, placeholder: "Type title..."
   p= f.text_area :body, placeholder: "Ask your question..."
   .question-errors

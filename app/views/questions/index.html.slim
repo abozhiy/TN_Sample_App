@@ -10,6 +10,7 @@
     small When: "#{question.created_at}"
     br/
     small Who: "#{question.user.email}"
+    
     - if can?(:destroy, Question)
       br/
       small= link_to 'Delete', question, method: :delete

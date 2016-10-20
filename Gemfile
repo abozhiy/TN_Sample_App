@@ -12,7 +12,7 @@ gem 'bootstrap-sass'
 gem 'bootstrap-will_paginate'
 gem 'jquery-turbolinks'
 gem 'carrierwave'
-gem 'remotipart'
+gem 'remotipart', '~> 1.3'
 gem 'cocoon'
 gem 'private_pub'
 gem 'thin'
@@ -26,7 +26,7 @@ gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
 gem 'sidekiq'
-gem 'sinatra', require: nil
+# gem 'sinatra', require: nil
 gem 'whenever'
 
 

@@ -23,6 +23,17 @@ div class="question-#{question.id}"
     | &emsp;
     | &emsp;
     small= link_to 'Leave comment', '', class: "comment-question-link", data: { question_id: question.id }
+    
+
+  - if user_signed_in? && !current_user.subscribed?(question)
+    | &emsp;
+    | &emsp;
+    small= link_to 'Subscribe', subscribe_question_path(question), method: :post, remote: true, class: "subscribe-question-link"
+    br/
+  - else
+    | &emsp;
+    | &emsp;
+    small= link_to 'Unscribe', unscribe_question_path(question), method: :delete, remote: true, class: "unscribe-question-link"
     br/
     
 
