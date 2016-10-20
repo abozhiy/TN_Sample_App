@@ -12,6 +12,7 @@ class Question < ApplicationRecord
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
+  scope :from_yesterday, -> { where(created_at: Date.yesterday.beginning_of_day..Date.yesterday.end_of_day) }
 
   def subscribe_for_author
     user.subscribe(self)

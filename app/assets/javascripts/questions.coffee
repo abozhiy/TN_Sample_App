@@ -16,17 +16,30 @@ ready = ->
     $('form#comment-question-' + question_id).show();
 
 
+  $('.subscribe-question-link').click (e) ->
+    question_id = $(this).data('questionId');
+    $('.subscription').html('<small><a class="unscribe-question-link" data-question-id="' + question_id + '" data-remote="true" rel="nofollow" data-method="delete" href="/questions/' + question_id + '/unscribe">Unscribe</a></small>');
+    $('.unscribe-question-link').click (e) ->
+      question_id = $(this).data('questionId');
+      $('.subscription').html('<small><a class="subscribe-question-link" data-question-id="' + question_id + '" data-remote="true" rel="nofollow" data-method="post" href="/questions/' + question_id + '/subscribe">Subscribe</a></small>').stop(true);
+
+  $('.unscribe-question-link').click (e) ->
+    question_id = $(this).data('questionId');
+    $('.subscription').html('<small><a class="subscribe-question-link" data-question-id="' + question_id + '" data-remote="true" rel="nofollow" data-method="post" href="/questions/' + question_id + '/subscribe">Subscribe</a></small>').stop(true);
+    $('.subscribe-question-link').click (e) ->
+      question_id = $(this).data('questionId');
+      $('.subscription').html('<small><a class="unscribe-question-link" data-question-id="' + question_id + '" data-remote="true" rel="nofollow" data-method="delete" href="/questions/' + question_id + '/unscribe">Unscribe</a></small>');
+
+
   $('.vote_up_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
     $('.rating-question-' + vote.id).html('Rating: ' + vote.votes_count);
     $('#cancel_vote-' + vote.id + '.hidden').toggleClass('hidden').addClass('vote_cancel_question-link');
-
   
   $('.vote_down_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);
     $('.rating-question-' + vote.id).html('Rating: ' + vote.votes_count);
     $('#cancel_vote-' + vote.id + '.hidden').toggleClass('hidden').addClass('vote_cancel_question-link');
-
   
   $('.vote_cancel_question-link').bind 'ajax:success', (e, data, status, xhr) ->
     vote = $.parseJSON(xhr.responseText);

@@ -7,6 +7,7 @@ feature "Subscribe to question", %q{
 } do
 
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:question) { create(:question, user: user) }
 
 
@@ -22,14 +23,15 @@ feature "Subscribe to question", %q{
     before do 
       sign_in(user)
       visit question_path(question)
-      click_on 'Subscribe'
     end
 
-    scenario 'Can unscribe from own question' do
+    scenario 'Can unscribe from own question', js: true do
       click_on 'Unscribe'
 
-      expect(page).to have_link 'Subscribe'
-      expect(page).to_not have_link 'Unscribe'
+      within '.subscription' do
+        expect(page).to have_link 'Subscribe'
+        expect(page).to_not have_link 'Unscribe'
+      end
     end
   end
 
@@ -37,23 +39,27 @@ feature "Subscribe to question", %q{
   describe 'Authenticated user' do
 
     before do 
-      sign_in(user)
+      sign_in(another_user)
       visit question_path(question)
     end
 
-    scenario 'Can subscribe to the question' do
+    scenario 'Can subscribe to the question', js: true do
       click_on 'Subscribe'
 
-      expect(page).to have_link 'Unscribe'
-      expect(page).to_not have_link 'Subscribe'
+      within '.subscription' do
+        expect(page).to have_link 'Unscribe'
+        expect(page).to_not have_link 'Subscribe'
+      end
     end
 
-    scenario 'Can unscribe from the question' do
+    scenario 'Can unscribe from the question', js: true do
       click_on 'Subscribe'
-      click_on 'Unscribe'
 
-      expect(page).to have_link 'Subscribe'
-      expect(page).to_not have_link 'Unscribe'
+      within '.subscription' do
+        click_on 'Unscribe'
+        expect(page).to have_link 'Subscribe'
+        expect(page).to_not have_link 'Unscribe'
+      end
     end
   end
 end
