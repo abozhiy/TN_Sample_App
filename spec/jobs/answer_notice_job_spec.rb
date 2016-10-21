@@ -8,7 +8,7 @@ RSpec.describe AnswerNoticeJob, type: :job do
   let!(:answer) { create(:answer, question: question, user: another_user) }
 
   it 'send notice to subscriber of question' do
-    expect(AnswerNoticeMailer).to receive(:new_answer_notice).with(user).and_call_original
+    expect(AnswerNoticeMailer).to receive(:new_answer_notice).with(user, answer).and_call_original
     AnswerNoticeJob.perform_now(answer)
   end
 end

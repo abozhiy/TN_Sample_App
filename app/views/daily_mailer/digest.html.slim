@@ -1,0 +1,11 @@
+p Hello! We made for you a list of all questions from yersterday:
+
+- @questions.each do |question|
+  h4= link_to question.title, question
+  span Rating: #{question.votes_count}
+  br/
+  small When: "#{question.created_at}"
+  br/
+  small Who: "#{question.user.email}"
+
+hr align="left" width="15%" /

@@ -3,15 +3,17 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
 
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:object) { create(:question, user: user) }
+  let(:question1) { create(:question, user: another_user) }
 
 
   describe 'POST #subscribe' do
     sign_in_user
-
+    
     it "creates new subscription to the question" do
-      expect { post :subscribe, id: question }.to change(question.subscriptions, :count).by(1)
+      expect { post :subscribe, id: question1 }.to change(question1.subscriptions, :count).by(1)
     end
 
     it 'associates with current user' do
@@ -21,10 +23,10 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #unscribe' do
     sign_in_user
-    let!(:subscription) { create(:subscription, question: question, user: user) }
+    let!(:subscription) { create(:subscription, question: question1, user: user) }
 
     it "deletes subscription from the question" do
-      expect { delete :unscribe, id: question }.to change(Subscription, :count).by(-1)
+      expect { delete :unscribe, id: question1 }.to change(Subscription, :count).by(-1)
     end
   end  
 

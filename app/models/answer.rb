@@ -6,7 +6,7 @@ class Answer < ApplicationRecord
   has_many :attachments, as: :attachable, dependent: :destroy
   validates :question_id, :user_id, :body, presence: true
 
-  after_create :subscribe_for_notice
+  after_create :notice_for_subscribers
 
   accepts_nested_attributes_for :attachments, reject_if: :all_blank, allow_destroy: true
 
@@ -21,7 +21,7 @@ class Answer < ApplicationRecord
     end
   end
 
-  def subscribe_for_notice
+  def notice_for_subscribers
     AnswerNoticeJob.perform_later(self)
   end
 end

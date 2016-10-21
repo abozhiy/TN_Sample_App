@@ -3,7 +3,7 @@ class AnswerNoticeJob < ApplicationJob
 
   def perform(answer)
     answer.question.subscribers.each do |subscriber|
-      AnswerNoticeMailer.new_answer_notice(subscriber).deliver_later
+      AnswerNoticeMailer.new_answer_notice(subscriber, answer).deliver_later
     end
   end
 end

@@ -13,7 +13,9 @@ RSpec.describe User, type: :model do
 
 
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let!(:question) { create(:question, user: user) }
+  let!(:question1) { create(:question, user: another_user) }
   
 
   describe 'subscribed?' do
@@ -32,7 +34,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'unscribe' do
-    let!(:subscription) { create(:subscription, question: question, user: user) }
+    let!(:subscription) { create(:subscription, question: question1, user: user) }
     
     it 'destroy the subscription' do
       expect { user.unscribe(question) }.to change(user.subscriptions, :count).by(-1)
