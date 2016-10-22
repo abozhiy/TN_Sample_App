@@ -86,5 +86,10 @@ RSpec.describe Ability do
     context 'answer attachment' do
       it { should be_able_to :destroy, create(:attachment, attachable: answer), user: user }
     end
+
+    context 'subscribe to question' do
+      it { should be_able_to :subscribe, Question }
+      it { should be_able_to :unscribe, Question }
+    end
   end
 end

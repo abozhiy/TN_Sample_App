@@ -6,14 +6,40 @@ RSpec.describe User, type: :model do
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:authorizations) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
 
 
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let!(:question) { create(:question, user: user) }
+  let!(:question1) { create(:question, user: another_user) }
   
+
+  describe 'subscribed?' do
+
+    it "should checking that user was subscribe the question" do
+      user.subscriptions.create(question: question)
+      expect(user).to be_subscribed(question)
+    end
+  end
+
+  describe 'subscribe' do
+
+    it 'creates the subscription' do
+      expect { user.subscribe(question) }.to change(user.subscriptions, :count).by(1)
+    end
+  end
+
+  describe 'unscribe' do
+    let!(:subscription) { create(:subscription, question: question1, user: user) }
+    
+    it 'destroy the subscription' do
+      expect { user.unscribe(question) }.to change(user.subscriptions, :count).by(-1)
+    end  
+  end
   
   describe 'author_of?' do
 
@@ -66,7 +92,6 @@ RSpec.describe User, type: :model do
           expect(User.find_for_oauth(auth)).to eq user
         end
       end
-
 
       context 'user does not exist' do
         let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: { email: 'any@example.ru' }) }

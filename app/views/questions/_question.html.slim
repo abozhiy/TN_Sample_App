@@ -1,6 +1,7 @@
 div class="question-#{question.id}"
   h1 = question.title
   h3 = question.body
+
   
   div class="voting-for-question-#{question.id}"
     small class="rating-question-#{question.id}" Rating: #{question.votes_count}
@@ -12,9 +13,19 @@ div class="question-#{question.id}"
       | &emsp;
       span= link_to 'Cancel', vote_cancel_question_path(question), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(question) ? 'vote_cancel_question-link' : 'hidden'}", id: "cancel_vote-#{question.id}"
 
+
+  .subscription
+    - if user_signed_in?
+      - if can?(:subscribe, question)
+        small= link_to 'Subscribe', subscribe_question_path(question), method: :post, remote: true, class: "subscribe-question-link", data: { question_id: question.id }
+        br/
+      - if can?(:unscribe, question)
+        small= link_to 'Unscribe', unscribe_question_path(question), method: :delete, remote: true, class: "unscribe-question-link", data: { question_id: question.id }
+        br/
+
       
   - if can?(:update, question)
-    small= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id } 
+    small= link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }
     | &emsp;
   - if can?(:destroy, question)
     small= link_to 'Delete', question, method: :delete, data: { confirm: "Are you sure, that you want to delete this question?" }
@@ -23,7 +34,6 @@ div class="question-#{question.id}"
     | &emsp;
     | &emsp;
     small= link_to 'Leave comment', '', class: "comment-question-link", data: { question_id: question.id }
-    br/
     
 
   = form_for [ question ], remote: true, html: { id: "edit-question-#{question.id}" } do |f|

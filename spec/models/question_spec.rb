@@ -8,6 +8,8 @@ RSpec.describe Question, type: :model do
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
   it { should have_many(:attachments).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribers).through(:subscriptions).source(:user) }
 
   it { should accept_nested_attributes_for :attachments }
   
@@ -23,4 +25,14 @@ RSpec.describe Question, type: :model do
 
 
   it_behaves_like 'Votable'
+
+
+  describe 'subscribe_for_author' do
+    subject { build(:question, user: user) }
+
+    it 'should set subscription for author after creating his own question' do
+      expect(user).to receive(:subscribe).with(subject)
+      subject.save!
+    end
+  end
 end

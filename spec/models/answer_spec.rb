@@ -45,4 +45,20 @@ RSpec.describe Answer, type: :model do
       expect(answer1).to_not be_best
     end
   end
+  
+
+  describe 'subscribe_for_notice' do
+    subject { build(:answer, question: question, user: user) }
+
+    it 'should send notice after creating' do
+      expect(AnswerNoticeJob).to receive(:perform_later)
+      subject.save!
+    end
+
+    it ' should not send notice after updating' do
+      subject.save!
+      expect(AnswerNoticeJob).to_not receive(:perform_later)
+      subject.update(body: '123')
+    end
+  end
 end

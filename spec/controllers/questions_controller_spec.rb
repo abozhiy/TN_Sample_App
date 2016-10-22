@@ -3,8 +3,33 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
 
   let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:object) { create(:question, user: user) }
+  let(:question1) { create(:question, user: another_user) }
+
+
+  describe 'POST #subscribe' do
+    sign_in_user
+    
+    it "creates new subscription to the question" do
+      expect { post :subscribe, id: question1 }.to change(question1.subscriptions, :count).by(1)
+    end
+
+    it 'associates with current user' do
+      expect { post :subscribe, id: question }.to change(user.subscriptions, :count).by(1)
+    end
+  end
+
+  describe 'DELETE #unscribe' do
+    sign_in_user
+    let!(:subscription) { create(:subscription, question: question1, user: user) }
+
+    it "deletes subscription from the question" do
+      expect { delete :unscribe, id: question1 }.to change(Subscription, :count).by(-1)
+    end
+  end  
+
 
   describe 'PATCH #vote' do
     let(:do_request_vote_up) { patch :vote_up, id: question, user: user, format: :json }

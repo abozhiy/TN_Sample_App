@@ -44,5 +44,13 @@ class Ability
 
     can :me, User, user_id: user.id
     can :index, User
+
+    can :subscribe, Question do |subject|
+      !user.subscribed?(subject)
+    end
+
+    can :unscribe, Question do |subject|
+      user.subscribed?(subject)
+    end
   end
 end
