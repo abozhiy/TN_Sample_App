@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   
   root to: "questions#index"
   resources :attachments, only: [:destroy]
+  get 'search', to: 'search#index'
 
   namespace :api do
     namespace :v1 do

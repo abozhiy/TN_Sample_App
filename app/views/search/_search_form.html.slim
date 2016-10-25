@@ -1,0 +1,26 @@
+<div class="search-form pull-right">
+  = form_tag "#", method: "get" do
+    = text_field_tag :q, nil, placeholder: "Search", class: "form-control"
+    br/
+    | &emsp;
+    = radio_button_tag :scope, 'question'
+    | &emsp;
+    = label_tag 'Look in questions?'
+    br/
+    | &emsp;
+    = radio_button_tag :scope, 'answer'
+    | &emsp;
+    = label_tag 'Look in answers?'
+    br/
+    | &emsp;
+    = radio_button_tag :scope, 'comment'
+    | &emsp;
+    = label_tag 'Look in comments?'
+    br/
+    | &emsp;
+    = radio_button_tag :scope, 'all'
+    | &emsp;
+    = label_tag 'Everywhere?'
+    br/
+    br/
+    = submit_tag "Go", class: "btn btn-sm btn-default"

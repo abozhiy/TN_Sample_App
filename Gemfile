@@ -28,6 +28,8 @@ gem 'oj_mimic_json'
 gem 'sidekiq'
 # gem 'sinatra', require: nil
 gem 'whenever'
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 
 # gem 'therubyracer', platforms: :ruby

@@ -39,11 +39,13 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros, type: :controller
 
+
   OmniAuth.config.test_mode = true
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
+
   config.use_transactional_fixtures = true
 
   # RSpec Rails can automatically mix in different behaviours to your tests
