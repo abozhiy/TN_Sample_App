@@ -1,24 +1,24 @@
 <div class="search-form pull-right">
-  = form_tag "#", method: "get" do
+  = form_tag "/search", method: "get" do
     = text_field_tag :q, nil, placeholder: "Search", class: "form-control"
     br/
     | &emsp;
-    = radio_button_tag :scope, 'question'
+    = radio_button_tag :scope, 'Question'
     | &emsp;
     = label_tag 'Look in questions?'
     br/
     | &emsp;
-    = radio_button_tag :scope, 'answer'
+    = radio_button_tag :scope, 'Answer'
     | &emsp;
     = label_tag 'Look in answers?'
     br/
     | &emsp;
-    = radio_button_tag :scope, 'comment'
+    = radio_button_tag :scope, 'Comment'
     | &emsp;
     = label_tag 'Look in comments?'
     br/
     | &emsp;
-    = radio_button_tag :scope, 'all'
+    = radio_button_tag :scope, 'All'
     | &emsp;
     = label_tag 'Everywhere?'
     br/

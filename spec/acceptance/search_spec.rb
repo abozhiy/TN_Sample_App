@@ -9,14 +9,15 @@ feature 'Search', %q{
   let(:user) { create(:user) }
   let!(:question) { create(:question, user: user) }
 
-  # before { ThinkingSphinx::Test.run }
 
   scenario 'User can search any content' do
-    visit root_path
-    fill_in 'Search', with: 'q'
-    choose :scope, option: 'question'
-    click_on 'Go'
+    ThinkingSphinx::Test.run do
+      visit root_path
+      fill_in 'Search', with: 'q'
+      choose :scope, option: 'Question'
+      click_on 'Go'
 
-    expect(current_path).to eq search_path
+      expect(current_path).to eq search_path
+    end
   end
 end

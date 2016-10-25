@@ -1,0 +1,24 @@
+h1 Search results:
+.search-result
+  - if @result.present?
+    - @result.each do |result|
+      br/
+      br/
+      br/
+      p= link_to result.title, result if result.class == Question
+    
+      - if result.class == Comment
+        p #{result.body}
+      - else
+        p= link_to result.body, result
+
+      small #{result.class}
+      br/
+      small When: "#{result.created_at}"
+      br/
+      small Who: "#{result.user.email}"
+      br/
+      hr align="left" width="40%" /
+
+  - else
+    p Sorry, no matches were found for your query.
