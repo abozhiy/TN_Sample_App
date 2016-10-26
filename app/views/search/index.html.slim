@@ -5,18 +5,21 @@ h1 Search results:
       br/
       br/
       br/
-      p= link_to result.title, result if result.class == Question
-    
-      - if result.class == Comment
-        p #{result.body}
-      - else
+      - if result.class == Question  
+        p= link_to result.title, result 
         p= link_to result.body, result
+      - elsif result.class == User
+        p #{result.email}
+      - elsif result.class == Answer || Comment 
+        p #{result.body}
 
-      small #{result.class}
+
+      small Class name: #{result.class}
       br/
-      small When: "#{result.created_at}"
+      small Created_at: "#{result.created_at}"
       br/
-      small Who: "#{result.user.email}"
+      - unless result.class == User
+        small Author: "#{result.user.email}"
       br/
       hr align="left" width="40%" /
 

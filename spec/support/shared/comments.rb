@@ -3,21 +3,21 @@ shared_examples_for 'Create comment' do
   context "Authenticated user tries to leave comment with valid attributes" do
 
     it "increase comment count by 1" do
-      expect { post :create, params, format: :js }.to change(object.comments, :count).by(1)
+      expect { post :create, params, format: :json }.to change(object.comments, :count).by(1)
     end
   end
 
   context "Authenticated user tries to leave comment with invalid attributes" do
 
     it "doesnt change comment count" do
-      expect { post :create, params, format: :js }.to_not change(Comment, :count)
+      expect { post :create, invalid_params, format: :json }.to_not change(Comment, :count)
     end
   end
 
   context 'PrivatePub' do
     it 'publishes new object' do
       expect(PrivatePub).to receive(:publish_to).with("/questions/#{object.id}/comments", anything)
-      post :create, params, format: :js
+      post :create, params, format: :json
     end
   end
 end
