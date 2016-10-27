@@ -1,15 +1,5 @@
 @import "bootstrap";
 
-/* mixins, variables, etc. */
-
-$grayMediumLight: #eaeaea;
-
-@mixin box_sizing {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 
 /* UNIVERSAL */
 
@@ -18,7 +8,7 @@ html {
 }
 
 body {
-  padding-top: 7px;
+  padding-top: 30px;
 }
 
 section {
@@ -124,6 +114,12 @@ p3 {
   }
 }
 
+#search-form {
+  float: right;
+  font-size: 0.8em;
+  padding-top: 15px;
+  margin-right: 10px;
+}
 
 /* errors */
 

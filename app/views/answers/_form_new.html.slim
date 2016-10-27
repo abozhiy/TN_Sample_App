@@ -1,8 +1,11 @@
 = form_for [ @question, @answer ], remote: true do |f|
-  .answer-errors
-  = f.text_area :body, placeholder: "Answer the question..."
+  h4 Create your answer:
   br/
-  #attachments
-    = render 'attachments/attachment_form', f: f
-  = f.submit "Post", class: "btn btn-large btn-primary"
-  br/
+  .col-xs-4
+    .answer-errors
+    = f.text_area :body, placeholder: "Answer the question...", class: "form-control"
+    br/
+    #attachments
+      = render 'attachments/attachment_form', f: f
+    = f.submit "Post", class: "btn btn-large btn-primary"
+    br/

@@ -1,8 +1,10 @@
 = form_for @question do |f|
-  p= f.text_field :title, placeholder: "Type title..."
-  p= f.text_area :body, placeholder: "Ask your question..."
-  .question-errors
-      
-  p= render 'attachments/attachment_form', f: f
+  .col-xs-4
+    p= f.text_field :title, placeholder: "Type title...", class: "form-control"
+    p= f.text_area :body, placeholder: "Ask your question...", class: "form-control"
+    .question-errors
+        
+    p= render 'attachments/attachment_form', f: f
 
-  p= f.submit "Create", class: "btn btn-large btn-primary"
+    p= f.submit "Create", class: "btn btn-large btn-primary"
+    

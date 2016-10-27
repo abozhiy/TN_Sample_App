@@ -32,7 +32,7 @@ RSpec.describe QuestionsController, type: :controller do
 
 
   describe 'PATCH #vote' do
-    let(:do_request_vote_up) { patch :vote_up, id: question, user: user, format: :json }
+    let(:do_request_vote_up) { patch :vote_up, id: question, format: :json }
     let(:do_request_vote_down) { patch :vote_down, id: question, format: :json }
     it_behaves_like 'Create votes'
   end

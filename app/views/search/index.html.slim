@@ -1,0 +1,27 @@
+h1 Search results:
+.search-result
+  - if @result.present?
+    - @result.each do |result|
+      br/
+      br/
+      br/
+      - if result.class == Question  
+        p= link_to result.title, result 
+        p= link_to result.body, result
+      - elsif result.class == User
+        p #{result.email}
+      - elsif result.class == Answer || Comment 
+        p #{result.body}
+
+
+      small Class name: #{result.class}
+      br/
+      small Created_at: "#{result.created_at}"
+      br/
+      - unless result.class == User
+        small Author: "#{result.user.email}"
+      br/
+      hr align="left" width="40%" /
+
+  - else
+    p Sorry, no matches were found for your query.

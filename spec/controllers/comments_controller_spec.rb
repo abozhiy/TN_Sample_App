@@ -15,7 +15,8 @@ RSpec.describe CommentsController, type: :controller do
     describe 'Question comment' do
 
       let!(:object) { create(:question, user: another_user) }
-      let!(:object_comment) { create(:comment, commentable: question, user: user) }
+      let!(:params) { { question_id: object.id, comment: attributes_for(:comment) } }
+      let!(:invalid_params) { { question_id: object.id, comment: attributes_for(:invalid_comment) } }
       it_behaves_like 'Create comment'
     end
 
@@ -23,7 +24,8 @@ RSpec.describe CommentsController, type: :controller do
     describe 'Answer comment' do
 
       let!(:object) { create(:answer, question: question, user: another_user) }
-      let!(:object_comment) { create(:comment, commentable: answer, user: user) }
+      let!(:params) { { answer_id: object.id, comment: attributes_for(:comment) } }
+      let!(:invalid_params) { { answer_id: object.id, comment: attributes_for(:invalid_comment) } }
       it_behaves_like 'Create comment'
     end
   end
