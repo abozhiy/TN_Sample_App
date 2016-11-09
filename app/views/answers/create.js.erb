@@ -3,10 +3,8 @@
     $('.answer-errors').html('<%= j message %>');
   <% end %>
 <% else %>
-  <% publish_to "/questions/#{@question.id}/answers" do %>
-    $('.answers').append('<%= j render @answer %>');
-    $(".notice").html("<%= flash[:notice] %>");
-    $('#answers_count').text('<%= j pluralize(@question.answers.count, 'Answer') %>');
-  <% end %>
+  $('.answers').append('<%= j render @answer %>');
+  $(".notice").html("<%= flash[:notice] %>");
+  $('#answers_count').text('<%= j pluralize(@question.answers.count, 'Answer') %>');
   $('form#new_answer.new_answer > #answer_body').val('');
 <% end %>
