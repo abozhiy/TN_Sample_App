@@ -4,7 +4,11 @@
   <% end %>
 <% else %>
   <% publish_to "/questions/#{@question.id}/answers" do %>
-    $('.answers').append('<%= j render @answer %>');
+    <% if remotipart_submitted? %>
+      $('.answers').append("<%= j "#{render @answer}" %>");
+    <% else %>  
+      $('.answers').append("<%= j render @answer %>");
+    <% end %>
     $(".notice").html("<%= flash[:notice] %>");
     $('#answers_count').text('<%= j pluralize(@question.answers.count, 'Answer') %>');
   <% end %>
