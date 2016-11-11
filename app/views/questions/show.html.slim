@@ -1,15 +1,16 @@
 .row
-  .question
-    = render @question
-  hr/
-      
-  .answers data={question_id: "#{@question.id}"}
-    h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }:
-    = render @question.answers
+  - cache @question do
+    .question
+      = render @question
+    hr/
+        
+    .answers data={question_id: "#{@question.id}"}
+      h2 id="answers_count" #{ pluralize(@question.answers.count, 'Answer') }:
+      = render @question.answers
 
-  .new-answer
-    - if user_signed_in?
-      = render 'answers/form_new', question: @question, attachment: @answer.attachments.build
+    .new-answer
+      - if user_signed_in?
+        = render 'answers/form_new', question: @question, attachment: @answer.attachments.build
       
 
   = subscribe_to "/questions/#{@question.id}/answers"

@@ -34,6 +34,7 @@ gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 gem 'unicorn'
+gem 'redis-rails'
 
 
 # gem 'therubyracer', platforms: :ruby
