@@ -1,66 +1,67 @@
 - if answer.persisted?
-  div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
-    small Message (id_#{answer.id}): 
-    br/
-    p2 &shy;&nbsp;#{answer.body}
-    br/
-    small When: &nbsp;#{answer.created_at}
-    br/
-    small Who: &nbsp;#{answer.user.email}
-    br/
-    
-    div class="voting-for-answer-#{answer.id}"
-      small class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
-      - if user_signed_in? && !current_user.author_of?(answer)
-        | &emsp;
-        span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
-        | &emsp;
-        span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
-        | &emsp;
-        span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote-#{answer.id}"
-
-
-    - if can?(:update, answer)
-      small= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
-      | &emsp;
-    - if can?(:destroy, answer)
-      small= link_to 'Delete', answer, method: :delete, remote: true
-    
-    - if can?(:best, answer)
-      | &emsp;
-      small= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
-    
-    - if can?(:create, Comment)
-      | &emsp;
-      | &emsp;
-      small= link_to 'Leave comment', '', class: "comment-answer-link", data: { answer_id: answer.id }
-
-    
-    p
-      = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
-        small
-          = f.label :body, "Edit your answer:"
-        .answer-errors
-        = f.text_area :body
-        br/
-        = f.submit "Done", class: "btn btn-xs btn-primary"
-
-
-    br/
-    div class="comments-answer-#{answer.id}"
-      - if answer.comments.any?
-        small Comments:
-        br/
-        br/
-
-        = render 'comments/comments', commentable: answer, comment: answer.comments
-    br/
-    = render 'comments/new_form', commentable: answer, comment: answer.comments.build
-
-
-    .answer-attachments 
+  - cache answer do
+    div class="answer-#{answer.id} #{answer.best ? "best-answer" : ""}"
+      small Message (id_#{answer.id}): 
       br/
-      = render 'attachments/attachments', attachable: answer, attachment: answer.attachments
+      p2 &shy;&nbsp;#{answer.body}
+      br/
+      small When: &nbsp;#{answer.created_at}
+      br/
+      small Who: &nbsp;#{answer.user.email}
+      br/
+    
+      div class="voting-for-answer-#{answer.id}"
+        small class="rating-answer-#{answer.id}" Rating: #{answer.votes_count}
+        - if user_signed_in? && !current_user.author_of?(answer)
+          | &emsp;
+          span= link_to '+', vote_up_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_up_answer-link'
+          | &emsp;
+          span= link_to '-', vote_down_answer_path(answer), method: :patch, remote: true, data: { type: :json }, class: 'vote_down_answer-link'
+          | &emsp;
+          span= link_to 'Cancel', vote_cancel_answer_path(answer), method: :delete, remote: true, data: { type: :json }, class: "#{current_user.voted?(answer) ? 'vote_cancel_answer-link' : 'hidden'}", id: "cancel_vote-#{answer.id}"
 
 
-    hr align="left" width="40%" /
+      - if can?(:update, answer)
+        small= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id } 
+        | &emsp;
+      - if can?(:destroy, answer)
+        small= link_to 'Delete', answer, method: :delete, remote: true
+      
+      - if can?(:best, answer)
+        | &emsp;
+        small= link_to 'Best!', best_answer_path(answer), method: :patch, data: { answer_id: answer.id }, remote: true
+      
+      - if can?(:create, Comment)
+        | &emsp;
+        | &emsp;
+        small= link_to 'Leave comment', '', class: "comment-answer-link", data: { answer_id: answer.id }
+
+      
+      p
+        = form_for [ answer ], remote: true, html: { id: "edit-answer-#{answer.id}" } do |f|
+          small
+            = f.label :body, "Edit your answer:"
+          .answer-errors
+          = f.text_area :body
+          br/
+          = f.submit "Done", class: "btn btn-xs btn-primary"
+
+
+      br/
+      div class="comments-answer-#{answer.id}"
+        - if answer.comments.any?
+          small Comments:
+          br/
+          br/
+
+          = render 'comments/comments', commentable: answer, comment: answer.comments
+      br/
+      = render 'comments/new_form', commentable: answer, comment: answer.comments.build
+
+
+      .answer-attachments 
+        br/
+        = render 'attachments/attachments', attachable: answer, attachment: answer.attachments
+
+
+      hr align="left" width="40%" /
